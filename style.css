@@ -1,0 +1,193 @@
+/*
+Theme Name: Blocksy Child
+Template: blocksy
+*/
+
+/* ============================================================
+   TOKENS / VARIABLES
+   ============================================================ */
+:root {
+    --color-primary:        var(--theme-palette-color-1); /* #C2926D */
+    --color-accent:         var(--theme-palette-color-2); /* #2D2926 */
+    --color-surface:        var(--theme-palette-color-3); /* #E8E1D7 */
+    --color-text:           var(--theme-palette-color-4); /* #2F2F2D */
+    --color-bg:             var(--theme-palette-color-5); /* #F5F5F5 */
+    --color-link:           var(--theme-palette-color-6); /* #8B5E3C */
+    --color-border:         var(--theme-palette-color-7); /* #D4C9BC */
+    --color-border-strong:  var(--theme-palette-color-8); /* #A89880 */
+    --color-muted:          var(--theme-palette-color-9); /* #7A7570 */
+    --color-success:        var(--theme-palette-color-10); /* #5C7A5E */
+    --color-error:          var(--theme-palette-color-11); /* #A0522D */
+    
+    /* === SPACING === */
+    --space-xs:   0.5rem;   /* 8px  */
+    --space-sm:   1rem;     /* 16px */
+    --space-md:   1.5rem;   /* 24px */
+    --space-lg:   3rem;     /* 48px */
+    --space-xl:   4rem;     /* 64px */
+    
+    /* === BORDER RADIUS === */
+    --radius-sm:  4px;
+    --radius-md:  8px;
+    --radius-lg:  16px;
+    --radius-full: 9999px;  /* for pills/tags */
+
+    /* === BORDERS === */
+    --border:        1px solid var(--color-border);
+    --border-strong: 1px solid var(--color-border-strong);
+
+    /* === SHADOWS === */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+
+    /* === TRANSITIONS === */
+    --transition: 150ms ease;
+    
+    /* Miscelanious */
+    --wp--custom--carousel-block--navigation-size: 24px;
+}
+
+/* ============================================================
+   2. GLOBAL / BASE
+   things that apply site-wide, not pattern-specific
+   ============================================================ */
+   
+    .pos-absolute {
+        position: absolute !important;
+    }
+    
+    .__inset-0 {
+        inset: 0;
+    }
+    
+    
+    .wp-block-cb-carousel-v2[data-cb-pagination=true] .swiper-horizontal {
+        margin-bottom: 0px !important;
+    }
+        
+    .swiper-button-next, .swiper-button-prev {
+        color: var(--color-surface) !important;
+        background-color: var(--color-primary) !important;
+        padding: 20px;
+        border-radius: var(--radius-full);
+        box-shadow: var(--shadow-sm);
+        user-select: none;
+    }
+    
+    .swiper-button-next:hover, .swiper-button-prev:hover {
+        color: var(--color-primary) !important;
+        background-color: var(--color-accent) !important;
+    }
+    
+    @media only screen and (max-width: 640px) {
+        .swiper-button-next {
+            right: -10px !important;
+        }
+        
+        .swiper-button-prev {
+            left: -10px !important;
+        }
+    }
+    
+
+/* ============================================================
+   3. PATTERNS
+   ============================================================ */
+    
+    /* === Tourist Attractions Section === */
+    
+    .ct-map-icon img {
+    	vertical-align: middle;
+    }
+    
+    [data-footer*="type-1"] .ct-footer [data-row*="top"] > div {
+    	width: 100% !important
+    }
+    
+    .activities-card:hover .info {
+    	transform: translatey(0);
+    	opacity: 1;
+    }
+    
+    .activities-card::after {
+    	position: absolute;
+    	width: 100%;
+    	height: 100%;
+    	content: "";
+    	background-color: rgba(0, 0, 0, 0.4);
+    	z-index: 0;
+    	display: block;
+    	inset: 0;
+    	transform: translatey(+100%);
+    	transition: transform 0.3s ease-in-out;
+    }
+    
+    .activities-card:hover::after {
+    	background-color: rgba(0, 0, 0, 0.6);
+    	transform: translatey(0%);
+    	inset: 0;
+    }
+    
+    .activities-card {
+    	overflow: hidden;
+    }
+    
+    .activities-card .info {
+    	z-index: 1;
+    	transform: translatey(+100%);
+    	opacity: 0;
+    	transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    }
+    
+    @media only screen and (max-width: 767px) {
+        .wp-block-uagb-container.uagb-block-4eb0a9d7 {
+            display: none;
+        }
+    }
+
+    /* === Facilities Section === */
+    
+    .facilities-section .facilities-section__item .facilities-section__item-icon {
+        position: relative;
+        box-shadow: 0 0 0 3px var(--color-primary), 0 0 0 4px var(--color-bg), 0 0 0 8px var(--color-primary), 0 0 0 12px var(--color-bg), 0 0 0 13px var(--color-primary);
+        transition: transform 0.2s ease;
+    }
+    
+    .facilities-section__item:hover .facilities-section__item-icon {
+        transform: translateY(-20px);
+    }
+    
+    /*
+    .facilities-section .facilities-section__item .facilities-section__item-icon::before {
+        content: "";
+        position: absolute;
+        width: 112px;
+        height: 112px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: var(--color-surface);
+        z-index: -1;
+    }
+    
+    .facilities-section .facilities-section__item .facilities-section__item-icon::after {
+        content: "";
+        position: absolute;
+        width: 104px;
+        height: 104px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: transparent;
+        border: 1.3px solid var(--color-surface);
+        z-index: -1;
+    }
+    */
+
+/* ============================================================
+   4. UTILITIES
+   one-off helper classes if needed
+   ============================================================ */
