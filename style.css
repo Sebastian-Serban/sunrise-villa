@@ -157,35 +157,6 @@ Template: blocksy
     .facilities-section__item:hover .facilities-section__item-icon {
         transform: translateY(-20px);
     }
-    
-    /*
-    .facilities-section .facilities-section__item .facilities-section__item-icon::before {
-        content: "";
-        position: absolute;
-        width: 112px;
-        height: 112px;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        background: var(--color-surface);
-        z-index: -1;
-    }
-    
-    .facilities-section .facilities-section__item .facilities-section__item-icon::after {
-        content: "";
-        position: absolute;
-        width: 104px;
-        height: 104px;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        background: transparent;
-        border: 1.3px solid var(--color-surface);
-        z-index: -1;
-    }
-    */
 
 /* ============================================================
    4. UTILITIES
