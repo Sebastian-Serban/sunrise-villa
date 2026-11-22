@@ -4,10 +4,12 @@
  * Composes the sections in order, with <Sweep> dividers between grounds.
  * Remaining sections (spaces, facilities, seasons, ...) live in the design canvas.
  */
-import Base from '../layouts/Base.astro';
-import Header from './Header.astro';
-import Hero from './sections/Hero.astro';
-import Rooms from './sections/Rooms.astro';
+import Base from "../layouts/Base.astro";
+import Header from "./Header.astro";
+import Hero from "./sections/Hero.astro";
+import Rooms from "./sections/Rooms.astro";
+import Facilities from "./sections/Facilities.astro";
+import Sweep from "./Sweep.astro";
 ---
 
 <Base>
@@ -15,5 +17,8 @@ import Rooms from './sections/Rooms.astro';
 	<main>
 		<Hero />
 		<Rooms />
+		<Sweep from="surface" to="tan" shape="rise" line />
+		<Facilities />
+		<Sweep from="tan" to="surface" shape="fall" />
 	</main>
 </Base>
