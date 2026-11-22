@@ -21,7 +21,8 @@ npm run lint      # ESLint incl. accessibility rules for .astro templates
 ```
 src/
   assets/            images (optimised at build time) and the logo SVG
-  components/        Header, Sweep (curved section divider), HomePage, ...
+  components/        Header, Sweep (curved section divider), HomePage (composes the page)
+    sections/        one component per homepage section: Hero, Rooms, ...
   content/           rooms/ and attractions/ as JSON, one file per item
   content.config.ts  schemas for the content above
   i18n/ui.ts         UI strings (RO, EN, DE), contact constants, getLang()
