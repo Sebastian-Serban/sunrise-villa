@@ -1,0 +1,101 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { getLang, useTranslations } from '../../i18n/ui';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const rooms = (await getCollection('rooms')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section id="camere" class="section rooms">
+	<div class="wrap">
+		<p class="label">{t('rooms.label')}</p>
+		<h2 class="serif h2">{t('rooms.title')}</h2>
+		<p class="lead muted rooms__lead">{t('rooms.lead')}</p>
+		<div class="rooms__grid">
+			{rooms.map(({ data }) => (
+				<article class="room">
+					<Image
+						src={data.image}
+						alt={data.imageAlt[lang]}
+						widths={[480, 800, 1200]}
+						sizes="(max-width: 720px) 100vw, 50vw"
+						class="room__img"
+					/>
+					<div class="room__body">
+						<h3 class="serif h3">{data.name[lang]}</h3>
+						<ul class="room__chips">
+							<li>{data.beds[lang]}</li>
+							<li>
+								{data.maxPersons} {t('rooms.persons')}
+							</li>
+							<li>{data.sizeM2} m²</li>
+						</ul>
+						<p class="muted">{data.description[lang]}</p>
+					</div>
+				</article>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.rooms__lead {
+		margin-top: var(--space-6);
+	}
+	.rooms__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 40px;
+		margin-top: 72px;
+	}
+	.room {
+		background: var(--surface-raised);
+	}
+	.room:nth-child(even) {
+		margin-top: 96px;
+	}
+	.room__img {
+		width: 100%;
+		aspect-ratio: 5 / 4;
+		object-fit: cover;
+	}
+	.room__body {
+		padding: 36px 40px 40px;
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+	.room__body p {
+		margin: 0;
+	}
+	.room__chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.room__chips li {
+		background: var(--sand);
+		padding: 8px 12px;
+		font-size: var(--text-small);
+		line-height: 20px;
+		border-radius: var(--radius-sm);
+	}
+
+	@media (max-width: 720px) {
+		.rooms__grid {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 28px;
+		}
+		.room:nth-child(even) {
+			margin-top: 0;
+		}
+		.room__body {
+			padding: 28px 24px 32px;
+		}
+	}
+</style>
