@@ -11,6 +11,8 @@
 		"build": "astro check && astro build",
 		"preview": "astro preview",
 		"check": "astro check",
+		"sync": "astro sync",
+		"postinstall": "astro sync",
 		"format": "prettier --write ."
 	},
 	"dependencies": {
