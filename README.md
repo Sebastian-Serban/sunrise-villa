@@ -23,9 +23,9 @@ src/
   components/        Header, Sweep (curved section divider), HomePage, ...
   content/           rooms/ and attractions/ as JSON, one file per item
   content.config.ts  schemas for the content above
-  i18n/ui.ts         UI strings (RO, EN, DE), contact constants, path helpers
+  i18n/ui.ts         UI strings (RO, EN, DE), contact constants, getLang()
   layouts/Base.astro <html> shell: meta, hreflang, fonts, stroke draw-in
-  pages/             index.astro (RO at /), [lang]/index.astro (/en/, /de/)
+  pages/             index.astro (RO at /), en/ and de/ mirror it
   styles/            tokens.css (design system), global.css
 docs/sunrise-villa.md  project knowledge base: client, property, decisions
 legacy/                old WordPress child-theme CSS, reference only
@@ -34,8 +34,13 @@ legacy/                old WordPress child-theme CSS, reference only
 ## Languages
 
 Romanian is the default and lives at `/`. English and German live at `/en/` and `/de/`.
-UI strings are in `src/i18n/ui.ts`. Content files carry `{ ro, en, de }` for every text field, and the
-build fails if a language is missing.
+Routing uses Astro's built-in i18n: components read the language from `Astro.currentLocale` and
+build links with `getRelativeLocaleUrl` / `getAbsoluteLocaleUrl` from `astro:i18n`. A new page is
+added once in `src/pages/` and mirrored in `en/` and `de/` as a one-line wrapper.
+
+UI strings are in `src/i18n/ui.ts` (the pattern from Astro's i18n recipe). Structured content (rooms,
+attractions) carries `{ ro, en, de }` per text field so facts like size and price exist once; the
+build fails if a language is missing. Long-form pages would use one file per language instead.
 
 ## Editing content
 

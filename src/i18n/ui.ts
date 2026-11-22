@@ -110,12 +110,7 @@ export function useTranslations(lang: Lang) {
 	return (key: UiKey): string => ui[lang][key] ?? ui[defaultLang][key];
 }
 
-/** Path for a page in a given language: '/' + optional prefix. */
-export function localizePath(path: string, lang: Lang): string {
-	const clean = path.startsWith('/') ? path : `/${path}`;
-	return lang === defaultLang ? clean : `/${lang}${clean === '/' ? '/' : clean}`;
-}
-
-export function isLang(value: string | undefined): value is Lang {
-	return !!value && value in languages;
+/** Narrow Astro.currentLocale (string | undefined) to a site language. */
+export function getLang(locale: string | undefined): Lang {
+	return locale && locale in languages ? (locale as Lang) : defaultLang;
 }
