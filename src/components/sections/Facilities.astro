@@ -1,0 +1,114 @@
+---
+import { BOOKING_URL, getLang, useTranslations } from "../../i18n/ui";
+import AppIcon, { type AppIconName } from "../AppIcon.astro";
+
+const t = useTranslations(getLang(Astro.currentLocale));
+
+type facility = { icon: AppIconName; label: string; description: string };
+
+const facilites: facility[] = [
+	{
+		icon: "WavesHorizontal",
+		label: t("facilities.pool.title"),
+		description: t("facilities.pool.text"),
+	},
+	{
+		icon: "Flame",
+		label: t("facilities.garden.text"),
+		description: t("facilities.garden.text"),
+	},
+	{
+		icon: "SquareLetterP",
+		label: t("facilities.parking.title"),
+		description: t("facilities.parking.text"),
+	},
+	{
+		icon: "Wifi",
+		label: t("facilities.wifi.title"),
+		description: t("facilities.wifi.text"),
+	},
+	{
+		icon: "Plane",
+		label: t("facilities.transfer.title"),
+		description: t("facilities.transfer.text"),
+	},
+	{
+		icon: "Coffee",
+		label: t("facilities.breakfast.title"),
+		description: t("facilities.breakfast.text"),
+	},
+];
+---
+
+<section id="facilities" class="section bg-tan" style={{ paddingTop: "72px" }}>
+	<div class="wrap">
+		<div class="facilities">
+			<div class="facilities__head">
+				<p class="label">{t("facilities.label")}</p>
+				<h2 class="serif h2">{t("facilities.title")}</h2>
+				<p class="lead" style={{ paddingTop: "24px" }}>
+					{t("facilities.lead")}
+				</p>
+				<div style={{ marginTop: "36px" }}>
+					<a class="btn btn--primary" href={BOOKING_URL}>
+						{t("cta.bookOnBooking")}
+					</a>
+				</div>
+			</div>
+			<ul class="facilities__grid">
+				{facilites.map(({ description, icon, label }) => (
+					<li>
+						<AppIcon name={icon} size="lg" />
+						<strong>{label}</strong>
+						<span>{description}</span>
+					</li>
+				))}
+			</ul>
+		</div>
+	</div>
+</section>
+
+<style>
+	.facilities {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		column-gap: 32px;
+		align-items: start;
+	}
+
+	.facilities__grid {
+		grid-column: 6 / span 7;
+		grid-column-start: 6;
+		grid-column-end: span 7;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 48px 40px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.facilities__grid strong {
+		font-family: "Fraunces", Georgia, serif;
+		font-weight: 400;
+		font-size: 26px;
+		line-height: 32px;
+	}
+
+	.facilities__grid span {
+		font-size: 16px;
+		line-height: 24px;
+	}
+
+	.facilities__grid li {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.facilities__head {
+		grid-column: 1 / span 4;
+		position: sticky;
+		top: 40px;
+	}
+</style>
