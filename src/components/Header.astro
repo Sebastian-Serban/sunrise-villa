@@ -1,17 +1,19 @@
 ---
 import Logo from '../assets/logo.svg';
-import { BOOKING_URL, languages, localizePath, useTranslations, type Lang } from '../i18n/ui';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { BOOKING_URL, getLang, languages, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
-	lang: Lang;
+	/** Path without the language prefix, used for the language switch. */
 	path?: string;
 	/** Light text over a photo (hero) vs dark text on a light ground. */
 	overPhoto?: boolean;
 }
 
-const { lang, path = '/', overPhoto = true } = Astro.props;
+const { path = '', overPhoto = true } = Astro.props;
+const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
-const home = localizePath('/', lang);
+const home = getRelativeLocaleUrl(lang);
 const links = [
 	{ href: `${home}#camere`, label: t('nav.rooms') },
 	{ href: `${home}#spatii`, label: t('nav.spaces') },
@@ -34,7 +36,7 @@ const links = [
 			<div class="header__lang">
 				{(Object.keys(languages) as Lang[]).map((l) => (
 					<a
-						href={localizePath(path, l)}
+						href={getRelativeLocaleUrl(l, path)}
 						hreflang={l}
 						lang={l}
 						aria-current={l === lang ? 'true' : undefined}

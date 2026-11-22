@@ -10,19 +10,15 @@ import Base from '../layouts/Base.astro';
 import Header from './Header.astro';
 import Sweep from './Sweep.astro';
 import hero from '../assets/hero.jpg';
-import { BOOKING_URL, useTranslations, type Lang } from '../i18n/ui';
+import { BOOKING_URL, getLang, useTranslations } from '../i18n/ui';
 
-interface Props {
-	lang: Lang;
-}
-
-const { lang } = Astro.props;
+const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 const rooms = (await getCollection('rooms')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Base lang={lang} path="/">
-	<Header lang={lang} />
+<Base>
+	<Header />
 	<main>
 		<section class="hero">
 			<Image
