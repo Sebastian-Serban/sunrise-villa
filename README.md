@@ -13,6 +13,7 @@ npm install
 npm run dev       # http://localhost:4321
 npm run build     # type-check + static build into dist/
 npm run preview   # serve dist/ locally
+npm run lint      # ESLint incl. accessibility rules for .astro templates
 ```
 
 ## Structure
