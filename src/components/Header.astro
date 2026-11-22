@@ -1,7 +1,8 @@
 ---
-import Logo from '../assets/logo.svg';
-import { getRelativeLocaleUrl } from 'astro:i18n';
-import { BOOKING_URL, getLang, languages, useTranslations, type Lang } from '../i18n/ui';
+import Logo from "../assets/logo.svg";
+import AppIcon from "./AppIcon.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { BOOKING_URL, getLang, languages, useTranslations, type Lang } from "../i18n/ui";
 
 interface Props {
 	/** Path without the language prefix, used for the language switch. */
@@ -10,24 +11,24 @@ interface Props {
 	overPhoto?: boolean;
 }
 
-const { path = '', overPhoto = true } = Astro.props;
+const { path = "", overPhoto = true } = Astro.props;
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 const home = getRelativeLocaleUrl(lang);
 const links = [
-	{ href: `${home}#camere`, label: t('nav.rooms') },
-	{ href: `${home}#spatii`, label: t('nav.spaces') },
-	{ href: `${home}#imprejurimi`, label: t('nav.area') },
-	{ href: `${home}#contact`, label: t('nav.contact') },
+	{ href: `${home}#camere`, label: t("nav.rooms") },
+	{ href: `${home}#spatii`, label: t("nav.spaces") },
+	{ href: `${home}#imprejurimi`, label: t("nav.area") },
+	{ href: `${home}#contact`, label: t("nav.contact") },
 ];
 ---
 
-<header class:list={['header', { 'header--over-photo': overPhoto }]}>
+<header class:list={["header", { "header--over-photo": overPhoto }]}>
 	<div class="wrap header__inner">
 		<a href={home} class="header__logo" aria-label="Sunrise Villa">
 			<Logo width={96} height={96} aria-hidden="true" />
 		</a>
-		<nav class="header__nav" aria-label={t('nav.menu')}>
+		<nav class="header__nav" aria-label={t("nav.menu")}>
 			{links.map((link) => (
 				<a href={link.href}>{link.label}</a>
 			))}
@@ -39,15 +40,19 @@ const links = [
 						href={getRelativeLocaleUrl(l, path)}
 						hreflang={l}
 						lang={l}
-						aria-current={l === lang ? 'true' : undefined}
+						aria-current={l === lang ? "true" : undefined}
 					>
 						{l.toUpperCase()}
 					</a>
 				))}
 			</div>
 			<a class="btn btn--tan header__book" href={BOOKING_URL}>
-				{t('cta.book')}
+				{t("cta.book")}
 			</a>
+			<button class="header__menu" type="button" data-open-menu aria-controls="mobile-menu">
+				<AppIcon name="Menu" />
+				{t("nav.menu")}
+			</button>
 		</div>
 	</div>
 </header>
@@ -110,6 +115,9 @@ const links = [
 		padding-inline: 18px;
 		font-size: 15px;
 	}
+	.header__menu {
+		display: none;
+	}
 	@media (max-width: 900px) {
 		.header__nav,
 		.header__lang {
@@ -121,6 +129,26 @@ const links = [
 		.header__logo :global(svg) {
 			width: 64px;
 			height: 64px;
+		}
+	}
+	@media (max-width: 720px) {
+		.header__book {
+			display: none;
+		}
+		.header__menu {
+			display: inline-flex;
+			align-items: center;
+			gap: var(--space-2);
+			height: 44px;
+			padding: 0 14px;
+			border: 1px solid rgb(247 243 238 / 0.5);
+			border-radius: var(--radius-sm);
+			background: rgb(45 41 38 / 0.55);
+			color: var(--on-dark);
+			font: inherit;
+			font-size: var(--text-small);
+			font-weight: 600;
+			cursor: pointer;
 		}
 	}
 </style>

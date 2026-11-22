@@ -1,18 +1,19 @@
 ---
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
-import { getLang, useTranslations } from '../../i18n/ui';
+import { Image } from "astro:assets";
+import AppIcon from "../AppIcon.astro";
+import { getCollection } from "astro:content";
+import { getLang, useTranslations } from "../../i18n/ui";
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
-const rooms = (await getCollection('rooms')).sort((a, b) => a.data.order - b.data.order);
+const rooms = (await getCollection("rooms")).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <section id="camere" class="section rooms">
 	<div class="wrap">
-		<p class="label">{t('rooms.label')}</p>
-		<h2 class="serif h2">{t('rooms.title')}</h2>
-		<p class="lead muted rooms__lead">{t('rooms.lead')}</p>
+		<p class="label">{t("rooms.label")}</p>
+		<h2 class="serif h2">{t("rooms.title")}</h2>
+		<p class="lead muted rooms__lead">{t("rooms.lead")}</p>
 		<div class="rooms__grid">
 			{rooms.map(({ data }) => (
 				<article class="room">
@@ -26,11 +27,18 @@ const rooms = (await getCollection('rooms')).sort((a, b) => a.data.order - b.dat
 					<div class="room__body">
 						<h3 class="serif h3">{data.name[lang]}</h3>
 						<ul class="room__chips">
-							<li>{data.beds[lang]}</li>
 							<li>
-								{data.maxPersons} {t('rooms.persons')}
+								<AppIcon name="BedDouble" />
+								{data.beds[lang]}
 							</li>
-							<li>{data.sizeM2} m²</li>
+							<li>
+								<AppIcon name="Users" />
+								{data.maxPersons} {t("rooms.persons")}
+							</li>
+							<li>
+								<AppIcon name="Ruler" />
+								{data.sizeM2} m²
+							</li>
 						</ul>
 						<p class="muted">{data.description[lang]}</p>
 					</div>
@@ -79,6 +87,9 @@ const rooms = (await getCollection('rooms')).sort((a, b) => a.data.order - b.dat
 		list-style: none;
 	}
 	.room__chips li {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
 		background: var(--sand);
 		padding: 8px 12px;
 		font-size: var(--text-small);

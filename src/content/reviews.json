@@ -1,0 +1,31 @@
+[
+	{
+		"id": "popoiu-ionel",
+		"order": 1,
+		"author": "Popoiu Ionel",
+		"featured": true,
+		"source": "booking",
+		"text": "O pensiune construită și mobilată cu gust. Nu kitsch. Curățenie exemplară."
+	},
+	{
+		"id": "mihai",
+		"order": 2,
+		"author": "Mihai",
+		"source": "booking",
+		"text": "Cazarea este ideală pentru cupluri, pentru liniște și relaxare, fără trafic, fără gălăgie. Despre cameră… impecabil."
+	},
+	{
+		"id": "paul-iancu",
+		"order": 3,
+		"author": "Paul Iancu",
+		"source": "booking",
+		"text": "Patul este foarte confortabil, cu o saltea care n-ar fi deplasată într-un hotel de cinci stele. Locația este foarte liniștită."
+	},
+	{
+		"id": "petru-varga",
+		"order": 4,
+		"author": "R. Petru Varga",
+		"source": "booking",
+		"text": "Un loc extraordinar, foarte foarte curat și îngrijit. Proprietarii sunt oameni fantastici, mereu dispuși să ajute."
+	}
+]

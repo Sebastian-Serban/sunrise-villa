@@ -22,8 +22,8 @@ npm run lint      # ESLint incl. accessibility rules for .astro templates
 src/
   assets/            images (optimised at build time) and the logo SVG
   components/        Header, Sweep (curved section divider), HomePage (composes the page)
-    sections/        one component per homepage section: Hero, Rooms, ...
-  content/           rooms/ and attractions/ as JSON, one file per item
+    sections/        one component per homepage section: Hero, Rooms, Spaces, ...
+  content/           rooms/, attractions/ (one JSON per item), reviews.json, faq.json
   content.config.ts  schemas for the content above
   i18n/ui.ts         UI strings (RO, EN, DE), contact constants, getLang()
   layouts/Base.astro <html> shell: meta, hreflang, fonts, stroke draw-in
@@ -58,3 +58,18 @@ square radii). The curved dividers and the cursive line in `Sweep.astro` are the
 Their shapes are placeholders until the hand-drawn set exists.
 
 Fonts are self-hosted via Fontsource, so no requests go to Google (GDPR).
+
+## Contact form
+
+`public/contact.php` is copied to the site root and handles the form on ClausWeb's PHP: honeypot,
+validation, `mail()` to contact@ with Reply-To set to the guest, then a redirect back to
+`?sent=1` or `?error=1`. It only runs on the real hosting, not in `npm run dev`.
+
+## Before launch
+
+- `BOOKING_PROPERTY_URL` in `src/i18n/ui.ts`: the full Booking.com hotel URL. Until it's set, the
+  booking bar ignores the chosen dates and opens the share link.
+- Privacy policy page, linked from the footer (GDPR).
+- Replace the photos in `src/assets/` with the originals.
+- Videos live in `public/video/` (about 26 MB). If the repo gets heavy, move them to the hosting
+  and keep them out of git.

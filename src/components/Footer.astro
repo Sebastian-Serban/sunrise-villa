@@ -1,0 +1,297 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import Logo from "../assets/logo.svg";
+import {
+	ADDRESS,
+	DIRECTIONS_URL,
+	EMAIL,
+	MAPS_URL,
+	PHONE,
+	PHONE_HREF,
+	getLang,
+	useTranslations,
+} from "../i18n/ui";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const home = getRelativeLocaleUrl(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="footer bg-espresso">
+	<div class="wrap footer__grid">
+		<div class="footer__main">
+			<a href={home} class="footer__logo" aria-label="Sunrise Villa">
+				<Logo width={150} height={150} aria-hidden="true" />
+			</a>
+			<p class="footer__tagline">{t("footer.tagline")}</p>
+			<div class="footer__cols">
+				<nav aria-label={t("footer.pages")}>
+					<h3>{t("footer.pages")}</h3>
+					<ul>
+						<li>
+							<a href={`${home}#camere`}>{t("nav.rooms")}</a>
+						</li>
+						<li>
+							<a href={`${home}#spatii`}>{t("nav.gallery")}</a>
+						</li>
+						<li>
+							<a href={`${home}#imprejurimi`}>{t("nav.area")}</a>
+						</li>
+						<li>
+							<a href={`${home}#contact`}>{t("nav.contact")}</a>
+						</li>
+					</ul>
+				</nav>
+				<div>
+					<h3>{t("footer.contact")}</h3>
+					<ul>
+						<li>
+							<a href={PHONE_HREF}>{PHONE}</a>
+						</li>
+						<li>
+							<a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+						</li>
+						<li>{ADDRESS}</li>
+					</ul>
+				</div>
+				<div>
+					<h3>{t("footer.rules")}</h3>
+					<ul>
+						<li>{t("footer.rules.checkin")}</li>
+						<li>{t("footer.rules.checkout")}</li>
+						<li>{t("footer.rules.pets")}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="footer__map">
+			<!-- Schematic, not a real map: shows direction and distance without loading Google (no cookies). -->
+			<svg
+				viewBox="0 0 600 380"
+				preserveAspectRatio="xMidYMid slice"
+				role="img"
+				aria-label={t("footer.map.label")}
+			>
+				<rect width="600" height="380" fill="var(--espresso-raised)"></rect>
+				<g fill="none" stroke="var(--line-dark)" stroke-width="1">
+					<path d="M0 300 C 120 280, 200 300, 300 270 S 500 240, 600 250"></path>
+					<path d="M60 380 C 90 300, 150 240, 230 210 S 380 120, 430 0"></path>
+					<path d="M0 120 C 140 140, 260 110, 360 150 S 520 200, 600 190"></path>
+					<path d="M330 380 C 350 320, 380 280, 450 250 S 560 200, 600 120"></path>
+				</g>
+				<path
+					d="M120 380 C 170 300, 230 250, 300 205 C 360 168, 400 90, 430 -10"
+					fill="none"
+					stroke="var(--ink-muted)"
+					stroke-width="5"
+					stroke-linecap="round"
+				></path>
+				<g
+					fill="none"
+					stroke="var(--tan)"
+					stroke-linecap="round"
+					stroke-dasharray="2 7"
+					stroke-width="1.5"
+					opacity="0.7"
+				>
+					<circle cx="250" cy="250" r="110"></circle>
+					<circle cx="250" cy="250" r="235"></circle>
+				</g>
+				<g class="map__text">
+					<text x="352" y="246" class="map__muted">
+						2 km
+					</text>
+					<text x="470" y="210" class="map__muted">
+						8 km
+					</text>
+					<circle cx="318" cy="168" r="6" fill="var(--on-dark)"></circle>
+					<text x="330" y="164" class="map__strong">
+						{t("map.center")}
+					</text>
+					<text x="330" y="182" class="map__muted">
+						{t("map.center.sub")}
+					</text>
+					<circle cx="408" cy="40" r="6" fill="var(--on-dark)"></circle>
+					<text x="420" y="36" class="map__strong">
+						{t("map.oradea")}
+					</text>
+					<text x="420" y="54" class="map__muted">
+						{t("map.oradea.sub")}
+					</text>
+					<circle cx="120" cy="150" r="5" fill="var(--on-dark-muted)"></circle>
+					<text x="132" y="155" class="map__muted">
+						Băile 1 Mai
+					</text>
+				</g>
+				<g transform="translate(250 250)">
+					<circle r="26" fill="var(--tan)" opacity="0.25"></circle>
+					<path
+						d="M0 -2 C -14 -2, -14 -26, 0 -26 C 14 -26, 14 -2, 0 -2 Z M0 -2 L0 10"
+						fill="var(--tan)"
+						stroke="var(--tan)"
+						stroke-width="2"
+						stroke-linejoin="round"
+					></path>
+					<circle cy="-14" r="4.5" fill="var(--espresso)"></circle>
+				</g>
+				<text x="250" y="292" text-anchor="middle" class="map__name">
+					Sunrise Villa
+				</text>
+			</svg>
+			<div class="footer__map-actions">
+				<a class="btn btn--tan" href={MAPS_URL}>
+					{t("footer.map.open")}
+				</a>
+				<a class="btn btn--ghost-dark" href={DIRECTIONS_URL}>
+					{t("footer.map.directions")}
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="wrap footer__bottom">
+		<span>© {year} Sunrise Villa</span>
+		<!-- TODO: link the privacy policy here once the page exists (needed before launch, GDPR) -->
+		<a href="https://anpc.ro/">ANPC</a>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		padding-top: var(--space-24);
+	}
+	.footer__grid {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		column-gap: var(--gutter);
+		row-gap: var(--space-12);
+		align-items: start;
+	}
+	.footer__main {
+		grid-column: 1 / span 6;
+	}
+	.footer__logo {
+		display: inline-block;
+		color: var(--tan);
+		line-height: 0;
+	}
+	.footer__tagline {
+		margin: var(--space-4) 0 0;
+		max-width: 26em;
+		font-size: var(--text-small);
+		line-height: 22px;
+		color: var(--on-dark-muted);
+	}
+	.footer__cols {
+		display: grid;
+		grid-template-columns: repeat(3, auto);
+		justify-content: start;
+		gap: var(--space-6) var(--space-12);
+		margin-top: var(--space-12);
+	}
+	.footer__cols h3 {
+		margin: 0 0 var(--space-3);
+		font-size: var(--text-label);
+		line-height: 20px;
+		font-weight: 600;
+		color: var(--tan);
+	}
+	.footer__cols ul {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-size: var(--text-small);
+		line-height: 22px;
+		color: var(--on-dark-muted);
+	}
+	.footer a {
+		color: var(--on-dark);
+		text-decoration: none;
+	}
+	.footer a:not(.btn):hover {
+		color: var(--tan);
+	}
+	.footer__map {
+		grid-column: 7 / span 6;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+	.footer__map svg {
+		width: 100%;
+		height: 380px;
+	}
+	.map__text text {
+		font-family: var(--font-sans);
+		font-size: 12px;
+	}
+	.map__muted {
+		fill: var(--on-dark-muted);
+	}
+	.map__strong {
+		fill: var(--on-dark);
+		font-size: 14px !important;
+		font-weight: 600;
+	}
+	.map__name {
+		fill: var(--on-dark);
+		font-family: var(--font-display);
+		font-size: 22px;
+	}
+	.footer__map-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+	}
+	.footer__bottom {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: var(--space-4);
+		margin-top: 72px;
+		padding-block: var(--space-6) 40px;
+		border-top: 1px solid var(--line-dark);
+		font-size: var(--text-label);
+		color: var(--on-dark-muted);
+	}
+	.footer__bottom a {
+		color: var(--on-dark-muted);
+		text-decoration: underline;
+	}
+
+	@media (max-width: 1000px) {
+		.footer__main,
+		.footer__map {
+			grid-column: 1 / -1;
+		}
+	}
+	@media (max-width: 720px) {
+		.footer {
+			padding-top: var(--space-16);
+			/* room for the sticky dock */
+			padding-bottom: 80px;
+		}
+		.footer__logo :global(svg) {
+			width: 120px;
+			height: 120px;
+		}
+		.footer__cols {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			column-gap: var(--space-6);
+		}
+		.footer__map svg {
+			height: 260px;
+		}
+		.footer__map-actions {
+			flex-direction: column;
+		}
+		.footer__bottom {
+			margin-top: 40px;
+		}
+	}
+</style>
