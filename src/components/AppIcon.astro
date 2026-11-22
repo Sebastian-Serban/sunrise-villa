@@ -1,0 +1,34 @@
+---
+import { icons, QuestionMark, type AstroComponent, type LucideProps } from "@lucide/astro";
+import { isExportSpecifier } from "typescript";
+
+type AppIconSize = "md" | "lg";
+
+type AppIconSizeProps = Pick<LucideProps, "width" | "height" | "stroke-width">;
+
+export type AppIconName = keyof typeof icons;
+
+export interface Props extends LucideProps {
+	name: AppIconName;
+	size?: AppIconSize;
+}
+
+const { name, color, size, ...rest } = Astro.props;
+
+const sizeConfig = {
+	md: { "stroke-width": 1.5, width: 20, height: 20 },
+	lg: { "stroke-width": 1.25, width: 34, height: 34 },
+} as const satisfies Record<AppIconSize, AppIconSizeProps>;
+
+const Icon: AstroComponent = icons?.[name] ?? QuestionMark;
+
+const props: LucideProps = {
+	color: name in icons ? color : "red",
+	stroke: "currentColor",
+	id: "app-icon",
+	...sizeConfig[size ?? "md"],
+	...rest,
+};
+---
+
+<Icon {...props} />
