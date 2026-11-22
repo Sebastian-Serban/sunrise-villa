@@ -1,0 +1,117 @@
+---
+import { Image } from "astro:assets";
+import summer from "../../assets/seasons/summer.jpg";
+import winter from "../../assets/seasons/winter.jpg";
+import { getLang, useTranslations } from "../../i18n/ui";
+
+const t = useTranslations(getLang(Astro.currentLocale));
+const seasons = [
+	{
+		image: summer,
+		tag: t("seasons.summer.tag"),
+		title: t("seasons.summer.title"),
+		text: t("seasons.summer.text"),
+		alt: t("seasons.summer.alt"),
+	},
+	{
+		image: winter,
+		tag: t("seasons.winter.tag"),
+		title: t("seasons.winter.title"),
+		text: t("seasons.winter.text"),
+		alt: t("seasons.winter.alt"),
+	},
+];
+---
+
+<section class="section seasons">
+	<div class="wrap">
+		<div class="seasons__head">
+			<div>
+				<p class="label">{t("seasons.label")}</p>
+				<h2 class="serif h2">{t("seasons.title")}</h2>
+			</div>
+			<p class="lead muted">{t("seasons.lead")}</p>
+		</div>
+		<div class="seasons__grid">
+			{seasons.map((s) => (
+				<article class="season">
+					<Image
+						class="season__img"
+						src={s.image}
+						alt={s.alt}
+						widths={[480, 800, 1200]}
+						sizes="(max-width: 720px) 100vw, 50vw"
+					/>
+					<div class="season__body">
+						<span class="season__tag">{s.tag}</span>
+						<h3 class="serif h3">{s.title}</h3>
+						<p class="muted">{s.text}</p>
+					</div>
+				</article>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.seasons {
+		padding-top: var(--space-12);
+		padding-bottom: var(--space-6);
+	}
+	.seasons__head {
+		display: grid;
+		grid-template-columns: 7fr 4fr;
+		gap: var(--gutter);
+		align-items: end;
+		margin-bottom: var(--space-12);
+	}
+	.seasons__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 40px;
+	}
+	.season:nth-child(even) {
+		margin-top: var(--space-24);
+	}
+	.season__img {
+		width: 100%;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
+	}
+	.season__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		padding-top: 28px;
+		max-width: 34em;
+	}
+	.season__body p {
+		margin: 0;
+	}
+	.season__tag {
+		align-self: flex-start;
+		padding: 4px 12px;
+		border-radius: var(--radius-sm);
+		background: var(--tan);
+		color: var(--espresso);
+		font-size: var(--text-label);
+		line-height: 20px;
+		font-weight: 600;
+	}
+	@media (max-width: 720px) {
+		.seasons__head,
+		.seasons__grid {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		.seasons__head {
+			gap: var(--space-3);
+			margin-bottom: var(--space-8);
+		}
+		.seasons__grid {
+			gap: var(--space-12);
+		}
+		.season:nth-child(even) {
+			margin-top: 0;
+		}
+	}
+</style>

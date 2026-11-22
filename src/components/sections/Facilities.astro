@@ -1,114 +1,130 @@
 ---
-import { BOOKING_URL, getLang, useTranslations } from "../../i18n/ui";
 import AppIcon, { type AppIconName } from "../AppIcon.astro";
+import { BOOKING_URL, getLang, useTranslations } from "../../i18n/ui";
 
 const t = useTranslations(getLang(Astro.currentLocale));
 
-type facility = { icon: AppIconName; label: string; description: string };
+type FacilityKey = "pool" | "garden" | "parking" | "wifi" | "transfer" | "breakfast";
 
-const facilites: facility[] = [
-	{
-		icon: "WavesHorizontal",
-		label: t("facilities.pool.title"),
-		description: t("facilities.pool.text"),
-	},
-	{
-		icon: "Flame",
-		label: t("facilities.garden.text"),
-		description: t("facilities.garden.text"),
-	},
-	{
-		icon: "SquareLetterP",
-		label: t("facilities.parking.title"),
-		description: t("facilities.parking.text"),
-	},
-	{
-		icon: "Wifi",
-		label: t("facilities.wifi.title"),
-		description: t("facilities.wifi.text"),
-	},
-	{
-		icon: "Plane",
-		label: t("facilities.transfer.title"),
-		description: t("facilities.transfer.text"),
-	},
-	{
-		icon: "Coffee",
-		label: t("facilities.breakfast.title"),
-		description: t("facilities.breakfast.text"),
-	},
+const facilities: { icon: AppIconName; key: FacilityKey }[] = [
+	{ icon: "WavesHorizontal", key: "pool" },
+	{ icon: "Flame", key: "garden" },
+	{ icon: "SquareLetterP", key: "parking" },
+	{ icon: "Wifi", key: "wifi" },
+	{ icon: "Plane", key: "transfer" },
+	{ icon: "Coffee", key: "breakfast" },
 ];
+const items = facilities.map(({ icon, key }) => ({
+	icon,
+	title: t(`facilities.${key}.title` as const),
+	text: t(`facilities.${key}.text` as const),
+}));
 ---
 
-<section id="facilities" class="section bg-tan" style={{ paddingTop: "72px" }}>
-	<div class="wrap">
-		<div class="facilities">
-			<div class="facilities__head">
-				<p class="label">{t("facilities.label")}</p>
-				<h2 class="serif h2">{t("facilities.title")}</h2>
-				<p class="lead" style={{ paddingTop: "24px" }}>
-					{t("facilities.lead")}
-				</p>
-				<div style={{ marginTop: "36px" }}>
-					<a class="btn btn--primary" href={BOOKING_URL}>
-						{t("cta.bookOnBooking")}
-					</a>
-				</div>
-			</div>
-			<ul class="facilities__grid">
-				{facilites.map(({ description, icon, label }) => (
-					<li>
-						<AppIcon name={icon} size="lg" />
-						<strong>{label}</strong>
-						<span>{description}</span>
-					</li>
-				))}
-			</ul>
+<section id="facilitati" class="section bg-tan facilities">
+	<div class="wrap facilities__layout">
+		<div class="facilities__head">
+			<p class="label">{t("facilities.label")}</p>
+			<h2 class="serif h2">{t("facilities.title")}</h2>
+			<p class="lead facilities__lead">{t("facilities.lead")}</p>
+			<a class="btn btn--primary facilities__cta" href={BOOKING_URL}>
+				{t("cta.bookOnBooking")}
+			</a>
 		</div>
+		<ul class="facilities__list">
+			{items.map(({ icon, title, text }) => (
+				<li class="facility">
+					<AppIcon name={icon} size="lg" />
+					<strong class="serif facility__title">{title}</strong>
+					<span class="facility__text">{text}</span>
+				</li>
+			))}
+		</ul>
 	</div>
 </section>
 
 <style>
 	.facilities {
+		padding-top: var(--space-16);
+	}
+	.facilities__layout {
 		display: grid;
 		grid-template-columns: repeat(12, minmax(0, 1fr));
-		column-gap: 32px;
+		column-gap: var(--gutter);
 		align-items: start;
 	}
-
-	.facilities__grid {
+	.facilities__head {
+		grid-column: 1 / span 4;
+		position: sticky;
+		top: var(--space-12);
+	}
+	.facilities__lead {
+		margin-top: var(--space-6);
+	}
+	.facilities__cta {
+		margin-top: 36px;
+	}
+	.facilities__list {
 		grid-column: 6 / span 7;
-		grid-column-start: 6;
-		grid-column-end: span 7;
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 48px 40px;
+		gap: var(--space-12) 40px;
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
-
-	.facilities__grid strong {
-		font-family: "Fraunces", Georgia, serif;
-		font-weight: 400;
+	.facility {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+	}
+	.facility__title {
 		font-size: 26px;
 		line-height: 32px;
 	}
-
-	.facilities__grid span {
+	.facility__text {
 		font-size: 16px;
 		line-height: 24px;
 	}
 
-	.facilities__grid li {
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
+	@media (max-width: 1000px) {
+		.facilities__head,
+		.facilities__list {
+			grid-column: 1 / -1;
+		}
+		.facilities__head {
+			position: static;
+			margin-bottom: var(--space-12);
+		}
 	}
-
-	.facilities__head {
-		grid-column: 1 / span 4;
-		position: sticky;
-		top: 40px;
+	@media (max-width: 720px) {
+		.facilities {
+			padding-top: var(--space-8);
+		}
+		.facilities__list {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 0;
+		}
+		.facility {
+			display: grid;
+			grid-template-columns: auto 1fr;
+			column-gap: var(--space-4);
+			row-gap: 2px;
+			padding: var(--space-4) 0;
+			border-top: 1px solid rgb(45 41 38 / 0.25);
+		}
+		.facility :global(.app-icon) {
+			grid-row: span 2;
+			width: 28px;
+			height: 28px;
+		}
+		.facility__title {
+			font-size: 21px;
+			line-height: 26px;
+		}
+		.facility__text {
+			font-size: var(--text-small);
+			line-height: 22px;
+		}
 	}
 </style>

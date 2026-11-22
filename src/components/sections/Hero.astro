@@ -1,15 +1,18 @@
 ---
-import { Image } from 'astro:assets';
-import Sweep from '../Sweep.astro';
-import hero from '../../assets/hero.jpg';
-import { BOOKING_URL, getLang, useTranslations } from '../../i18n/ui';
+import { getImage, Image } from "astro:assets";
+import BookingBar from "../BookingBar.astro";
+import Sweep from "../Sweep.astro";
+import hero from "../../assets/hero.jpg";
+import { getLang, useTranslations } from "../../i18n/ui";
 
 const t = useTranslations(getLang(Astro.currentLocale));
+// The video's poster is the hero photo, so the first frame matches before playback starts.
+const poster = await getImage({ src: hero, width: 1920, format: "webp" });
 ---
 
 <section class="hero">
 	<Image
-		class="hero__bg"
+		class="hero__media"
 		src={hero}
 		alt=""
 		widths={[800, 1280, 1920, 2400]}
@@ -17,20 +20,28 @@ const t = useTranslations(getLang(Astro.currentLocale));
 		loading="eager"
 		fetchpriority="high"
 	/>
+	<video
+		class="hero__media hero__video"
+		autoplay
+		muted
+		loop
+		playsinline
+		preload="metadata"
+		poster={poster.src}
+		aria-hidden="true"
+	>
+		<source src="/video/hero-1080.mp4" type="video/mp4" media="(min-width: 1100px)" />
+		<source src="/video/hero.mp4" type="video/mp4" />
+	</video>
 	<div class="hero__scrim"></div>
 	<div class="wrap hero__content">
-		<p class="label hero__kicker">{t('hero.kicker')}</p>
+		<p class="label hero__kicker">{t("hero.kicker")}</p>
 		<h1 class="serif h1 hero__title">
-			{t('hero.title.before')} <em>{t('hero.title.accent')}</em>
+			{t("hero.title.before")} <em>{t("hero.title.accent")}</em>
 		</h1>
-		<p class="lead hero__lead">{t('hero.lead')}</p>
-		<div class="hero__actions">
-			<a class="btn btn--tan" href={BOOKING_URL}>
-				{t('cta.bookOnBooking')}
-			</a>
-			<a class="btn btn--ghost-dark" href="#camere">
-				{t('cta.seeRooms')}
-			</a>
+		<p class="lead hero__lead">{t("hero.lead")}</p>
+		<div class="hero__booking">
+			<BookingBar />
 		</div>
 	</div>
 	<div class="hero__sweep">
@@ -41,18 +52,23 @@ const t = useTranslations(getLang(Astro.currentLocale));
 <style>
 	.hero {
 		position: relative;
-		min-height: 940px;
+		min-height: 960px;
 		display: flex;
 		align-items: flex-end;
 		color: var(--on-dark);
 		background: var(--espresso);
 	}
-	.hero__bg {
+	.hero__media {
 		position: absolute;
 		inset: 0;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.hero__video {
+			display: none;
+		}
 	}
 	.hero__scrim {
 		position: absolute;
@@ -63,7 +79,8 @@ const t = useTranslations(getLang(Astro.currentLocale));
 		position: relative;
 		z-index: 2;
 		width: 100%;
-		padding-bottom: 250px;
+		padding-top: 160px;
+		padding-bottom: 240px;
 	}
 	.hero__kicker {
 		color: var(--sand);
@@ -77,11 +94,8 @@ const t = useTranslations(getLang(Astro.currentLocale));
 	.hero__lead {
 		margin-top: 28px;
 	}
-	.hero__actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-4);
-		margin-top: 36px;
+	.hero__booking {
+		margin-top: 40px;
 	}
 	/* The sweep sits on top of the photo's bottom edge */
 	.hero__sweep {
@@ -92,10 +106,17 @@ const t = useTranslations(getLang(Astro.currentLocale));
 
 	@media (max-width: 720px) {
 		.hero {
-			min-height: 780px;
+			min-height: 0;
 		}
 		.hero__content {
-			padding-bottom: 160px;
+			padding-top: 120px;
+			padding-bottom: 130px;
+		}
+		.hero__lead {
+			margin-top: 18px;
+		}
+		.hero__booking {
+			margin-top: 28px;
 		}
 	}
 </style>

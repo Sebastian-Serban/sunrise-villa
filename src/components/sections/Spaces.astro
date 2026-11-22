@@ -1,0 +1,216 @@
+---
+import { getImage, Image } from "astro:assets";
+import pool from "../../assets/spaces/pool-aerial.jpg";
+import garden from "../../assets/spaces/gazebo.jpg";
+import dining from "../../assets/spaces/dining.jpg";
+import villa from "../../assets/gallery/villa.jpg";
+import attic from "../../assets/gallery/attic.jpg";
+import grill from "../../assets/gallery/grill.jpg";
+import lounge from "../../assets/gallery/lounge.jpg";
+import drone from "../../assets/gallery/drone.jpg";
+import bath from "../../assets/gallery/bath.jpg";
+import tourPoster from "../../assets/tour-poster.jpg";
+import { getLang, useTranslations } from "../../i18n/ui";
+
+const t = useTranslations(getLang(Astro.currentLocale));
+
+const spaces = [
+	{ key: "pool", image: pool, featured: true },
+	{ key: "garden", image: garden },
+	{ key: "dining", image: dining },
+] as const;
+
+const gallery = [
+	{ key: "villa", image: villa },
+	{ key: "attic", image: attic },
+	{ key: "grill", image: grill },
+	{ key: "lounge", image: lounge },
+	{ key: "drone", image: drone },
+	{ key: "bath", image: bath },
+] as const;
+
+const poster = await getImage({ src: tourPoster, width: 1280, format: "webp" });
+---
+
+<section id="spatii" class="section bg-sand spaces">
+	<div class="wrap">
+		<p class="label">{t("spaces.label")}</p>
+		<h2 class="serif h2">{t("spaces.title")}</h2>
+
+		<div class="spaces__grid">
+			{spaces.map(({ key, image, ...rest }) => (
+				<figure class:list={["space", { "space--featured": "featured" in rest }]}>
+					<Image
+						class="space__img"
+						src={image}
+						alt={t(`spaces.${key}.alt` as const)}
+						widths={[480, 800, 1200, 1600]}
+						sizes={
+							"featured" in rest
+								? "(max-width: 720px) 100vw, 58vw"
+								: "(max-width: 720px) 100vw, 42vw"
+						}
+					/>
+					<figcaption class="space__caption">
+						<strong class="serif">{t(`spaces.${key}.title` as const)}</strong>
+						<span>{t(`spaces.${key}.text` as const)}</span>
+					</figcaption>
+				</figure>
+			))}
+		</div>
+
+		<p class="label spaces__sub">{t("gallery.label")}</p>
+	</div>
+	<ul class="gallery">
+		{gallery.map(({ key, image }) => (
+			<li>
+				<Image
+					class="gallery__img"
+					src={image}
+					alt={t(`gallery.${key}` as const)}
+					widths={[300, 600]}
+					sizes="300px"
+				/>
+			</li>
+		))}
+	</ul>
+
+	<div class="wrap">
+		<div class="tour">
+			<div class="tour__head">
+				<p class="label" style="margin: 0">
+					{t("tour.label")}
+				</p>
+				<span class="muted">{t("tour.meta")}</span>
+			</div>
+			{/* The tour is music over b-roll, no speech, so there is nothing to caption. */}
+			{/* eslint-disable-next-line astro/jsx-a11y/media-has-caption */}
+			<video class="tour__video" controls preload="none" playsinline poster={poster.src}>
+				<source src="/video/tour.mp4" type="video/mp4" />
+			</video>
+		</div>
+	</div>
+</section>
+
+<style>
+	.spaces__grid {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		gap: var(--space-6);
+		margin-top: var(--space-16);
+	}
+	.space {
+		position: relative;
+		margin: 0;
+		grid-column: 8 / span 5;
+		height: 348px;
+		overflow: hidden;
+		background: var(--photo-placeholder);
+	}
+	.space--featured {
+		grid-column: 1 / span 7;
+		grid-row: span 2;
+		height: 720px;
+	}
+	.space__img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.space__caption {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		max-width: 85%;
+		padding: 18px 24px;
+		background: var(--espresso);
+		color: var(--on-dark);
+	}
+	.space__caption strong {
+		display: block;
+		font-size: 26px;
+		line-height: 32px;
+	}
+	.space__caption span {
+		display: block;
+		margin-top: 2px;
+		font-size: var(--text-small);
+		line-height: 22px;
+		color: var(--on-dark-muted);
+	}
+
+	.spaces__sub {
+		margin: var(--space-24) 0 var(--space-6);
+	}
+	.gallery {
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: 300px;
+		gap: var(--space-4);
+		margin: 0;
+		padding: 0 max(var(--page-pad), calc((100vw - var(--content-max)) / 2)) var(--space-3);
+		list-style: none;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: max(var(--page-pad), calc((100vw - var(--content-max)) / 2));
+	}
+	.gallery li {
+		scroll-snap-align: start;
+	}
+	.gallery__img {
+		width: 100%;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+	}
+
+	.tour {
+		margin-top: var(--space-24);
+	}
+	.tour__head {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: var(--space-4);
+		margin-bottom: 20px;
+		font-size: var(--text-small);
+	}
+	.tour__video {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		background: var(--espresso);
+		object-fit: cover;
+	}
+
+	@media (max-width: 720px) {
+		.spaces__grid {
+			display: flex;
+			flex-direction: column;
+			gap: var(--space-3);
+			margin-top: var(--space-8);
+		}
+		.space {
+			height: 240px;
+		}
+		.space--featured {
+			height: 360px;
+		}
+		.space__caption {
+			padding: 12px 16px;
+		}
+		.space__caption strong {
+			font-size: 21px;
+			line-height: 26px;
+		}
+		.spaces__sub {
+			margin-top: var(--space-12);
+		}
+		.gallery {
+			grid-auto-columns: 230px;
+		}
+		.tour {
+			margin-top: var(--space-12);
+		}
+	}
+</style>

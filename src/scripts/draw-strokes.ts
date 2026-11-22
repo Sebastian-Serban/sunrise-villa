@@ -28,19 +28,19 @@ function screenLength(path: SVGPathElement): number {
 }
 
 function arm(container: Element) {
-	container.querySelectorAll<SVGPathElement>('.ink-line').forEach((path) => {
-		path.style.setProperty('--len', `${screenLength(path)}px`);
+	container.querySelectorAll<SVGPathElement>(".ink-line").forEach((path) => {
+		path.style.setProperty("--len", `${screenLength(path)}px`);
 	});
-	container.classList.add('is-armed');
+	container.classList.add("is-armed");
 	// Commit the undrawn state now; otherwise a line already in view gets
 	// .is-drawn in the same frame and jumps to the end without animating.
 	container.getBoundingClientRect();
 }
 
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const containers = [...document.querySelectorAll('[data-draw]')];
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const containers = [...document.querySelectorAll("[data-draw]")];
 
-if (!reducedMotion && 'IntersectionObserver' in window) {
+if (!reducedMotion && "IntersectionObserver" in window) {
 	containers.forEach(arm);
 
 	const observer = new IntersectionObserver(
@@ -48,7 +48,7 @@ if (!reducedMotion && 'IntersectionObserver' in window) {
 			for (const entry of entries) {
 				if (!entry.isIntersecting) continue;
 				const target = entry.target;
-				requestAnimationFrame(() => target.classList.add('is-drawn'));
+				requestAnimationFrame(() => target.classList.add("is-drawn"));
 				observer.unobserve(entry.target);
 			}
 		},
@@ -57,22 +57,22 @@ if (!reducedMotion && 'IntersectionObserver' in window) {
 	containers.forEach((el) => observer.observe(el));
 
 	// Once drawn, drop the dash pattern so later resizes can't cut the line short.
-	document.addEventListener('transitionend', (event) => {
+	document.addEventListener("transitionend", (event) => {
 		const target = event.target;
-		if (!(target instanceof SVGPathElement) || !target.classList.contains('ink-line')) return;
-		const container = target.closest('[data-draw]');
-		if (container?.classList.contains('is-drawn')) container.classList.add('is-done');
+		if (!(target instanceof SVGPathElement) || !target.classList.contains("ink-line")) return;
+		const container = target.closest("[data-draw]");
+		if (container?.classList.contains("is-drawn")) container.classList.add("is-done");
 	});
 
 	// Re-measure strokes that haven't been drawn yet when the layout width changes.
 	let lastWidth = window.innerWidth;
 	let timer: number | undefined;
-	window.addEventListener('resize', () => {
+	window.addEventListener("resize", () => {
 		if (window.innerWidth === lastWidth) return;
 		lastWidth = window.innerWidth;
 		clearTimeout(timer);
 		timer = window.setTimeout(() => {
-			containers.filter((el) => !el.classList.contains('is-drawn')).forEach(arm);
+			containers.filter((el) => !el.classList.contains("is-drawn")).forEach(arm);
 		}, 150);
 	});
 }

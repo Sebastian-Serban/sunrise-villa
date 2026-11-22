@@ -26,8 +26,8 @@
 	--error: #a0522d;
 
 	/* Type */
-	--font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
-	--font-sans: 'Instrument Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
+	--font-sans: "Instrument Sans Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
 
 	--text-display-xl: 96px;
 	--text-display-l: 64px;

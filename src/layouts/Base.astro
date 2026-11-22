@@ -1,7 +1,7 @@
 ---
-import '../styles/global.css';
-import { getAbsoluteLocaleUrl } from 'astro:i18n';
-import { getLang, languages, useTranslations, type Lang } from '../i18n/ui';
+import "../styles/global.css";
+import { getAbsoluteLocaleUrl } from "astro:i18n";
+import { getLang, languages, useTranslations, type Lang } from "../i18n/ui";
 
 interface Props {
 	/** Path without the language prefix, e.g. '' for home or 'camere'. Used for hreflang links. */
@@ -10,11 +10,11 @@ interface Props {
 	description?: string;
 }
 
-const { path = '', title, description } = Astro.props;
+const { path = "", title, description } = Astro.props;
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
-const pageTitle = title ?? t('meta.title');
-const pageDescription = description ?? t('meta.description');
+const pageTitle = title ?? t("meta.title");
+const pageDescription = description ?? t("meta.description");
 const canonical = getAbsoluteLocaleUrl(lang, path);
 ---
 
@@ -29,7 +29,7 @@ const canonical = getAbsoluteLocaleUrl(lang, path);
 		{(Object.keys(languages) as Lang[]).map((l) => (
 			<link rel="alternate" hreflang={l} href={getAbsoluteLocaleUrl(l, path)} />
 		))}
-		<link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl('ro', path)} />
+		<link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl("ro", path)} />
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={pageDescription} />
@@ -39,7 +39,7 @@ const canonical = getAbsoluteLocaleUrl(lang, path);
 	<body>
 		<slot />
 		<script>
-			import '../scripts/draw-strokes';
+			import "../scripts/draw-strokes";
 		</script>
 	</body>
 </html>
