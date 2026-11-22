@@ -1,0 +1,26 @@
+{
+	"order": 2,
+	"name": {
+		"ro": "Cameră twin",
+		"en": "Twin room",
+		"de": "Zweibettzimmer"
+	},
+	"beds": {
+		"ro": "2 paturi separate",
+		"en": "2 single beds",
+		"de": "2 Einzelbetten"
+	},
+	"description": {
+		"ro": "Pentru prieteni, colegi sau părinte cu copil. Aceleași dotări, două paturi.",
+		"en": "For friends, colleagues or a parent with a child. Same amenities, two beds.",
+		"de": "Für Freunde, Kollegen oder Elternteil mit Kind. Gleiche Ausstattung, zwei Betten."
+	},
+	"sizeM2": 20,
+	"maxPersons": 2,
+	"image": "../../assets/rooms/room-twin.jpg",
+	"imageAlt": {
+		"ro": "Cameră twin cu două paturi separate",
+		"en": "Twin room with two single beds",
+		"de": "Zweibettzimmer mit zwei Einzelbetten"
+	}
+}

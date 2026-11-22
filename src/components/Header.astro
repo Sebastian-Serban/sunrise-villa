@@ -1,0 +1,124 @@
+---
+import Logo from '../assets/logo.svg';
+import { BOOKING_URL, languages, localizePath, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+	lang: Lang;
+	path?: string;
+	/** Light text over a photo (hero) vs dark text on a light ground. */
+	overPhoto?: boolean;
+}
+
+const { lang, path = '/', overPhoto = true } = Astro.props;
+const t = useTranslations(lang);
+const home = localizePath('/', lang);
+const links = [
+	{ href: `${home}#camere`, label: t('nav.rooms') },
+	{ href: `${home}#spatii`, label: t('nav.spaces') },
+	{ href: `${home}#imprejurimi`, label: t('nav.area') },
+	{ href: `${home}#contact`, label: t('nav.contact') },
+];
+---
+
+<header class:list={['header', { 'header--over-photo': overPhoto }]}>
+	<div class="wrap header__inner">
+		<a href={home} class="header__logo" aria-label="Sunrise Villa">
+			<Logo width={96} height={96} aria-hidden="true" />
+		</a>
+		<nav class="header__nav" aria-label={t('nav.menu')}>
+			{links.map((link) => (
+				<a href={link.href}>{link.label}</a>
+			))}
+		</nav>
+		<div class="header__end">
+			<div class="header__lang">
+				{(Object.keys(languages) as Lang[]).map((l) => (
+					<a
+						href={localizePath(path, l)}
+						hreflang={l}
+						lang={l}
+						aria-current={l === lang ? 'true' : undefined}
+					>
+						{l.toUpperCase()}
+					</a>
+				))}
+			</div>
+			<a class="btn btn--tan header__book" href={BOOKING_URL}>
+				{t('cta.book')}
+			</a>
+		</div>
+	</div>
+</header>
+
+<style>
+	.header {
+		position: absolute;
+		inset: 0 0 auto;
+		z-index: 10;
+		color: var(--ink);
+	}
+	.header--over-photo {
+		color: var(--on-dark);
+	}
+	.header__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-6);
+		height: 140px;
+	}
+	.header__logo {
+		color: inherit;
+		line-height: 0;
+	}
+	.header__nav {
+		display: flex;
+		gap: 36px;
+	}
+	.header__nav a,
+	.header__lang a {
+		color: inherit;
+		text-decoration: none;
+		font-weight: 500;
+	}
+	.header__nav a:hover {
+		color: var(--tan);
+	}
+	.header__end {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+	.header__lang {
+		display: flex;
+		gap: 4px;
+		font-size: var(--text-label);
+		font-weight: 600;
+	}
+	.header__lang a {
+		padding: 6px 8px;
+		opacity: 0.8;
+	}
+	.header__lang a[aria-current] {
+		opacity: 1;
+		border-bottom: 1px solid currentColor;
+	}
+	.header__book {
+		min-height: 44px;
+		padding-inline: 18px;
+		font-size: 15px;
+	}
+	@media (max-width: 900px) {
+		.header__nav,
+		.header__lang {
+			display: none;
+		}
+		.header__inner {
+			height: 96px;
+		}
+		.header__logo :global(svg) {
+			width: 64px;
+			height: 64px;
+		}
+	}
+</style>

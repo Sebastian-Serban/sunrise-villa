@@ -1,0 +1,20 @@
+{
+	"order": 2,
+	"name": "Aquapark President",
+	"distance": {
+		"ro": "4,2 km",
+		"en": "4.2 km",
+		"de": "4,2 km"
+	},
+	"summary": {
+		"ro": "Piscine interioare și exterioare",
+		"en": "Indoor and outdoor pools",
+		"de": "Innen- und Aussenbecken"
+	},
+	"image": "../../assets/attractions/president.jpg",
+	"imageAlt": {
+		"ro": "Piscină interioară cu cascadă",
+		"en": "Indoor pool with a waterfall",
+		"de": "Hallenbad mit Wasserfall"
+	}
+}

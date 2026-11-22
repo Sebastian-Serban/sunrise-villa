@@ -1,0 +1,26 @@
+{
+	"order": 1,
+	"name": {
+		"ro": "Cameră dublă",
+		"en": "Double room",
+		"de": "Doppelzimmer"
+	},
+	"beds": {
+		"ro": "Pat matrimonial",
+		"en": "Double bed",
+		"de": "Doppelbett"
+	},
+	"description": {
+		"ro": "Pentru cupluri sau pentru cei care călătoresc singuri și vor spațiu. Aer condiționat, TV, frigider, birou.",
+		"en": "For couples, or solo travellers who want space. Air conditioning, TV, fridge, desk.",
+		"de": "Für Paare oder Alleinreisende, die Platz möchten. Klimaanlage, TV, Kühlschrank, Schreibtisch."
+	},
+	"sizeM2": 20,
+	"maxPersons": 2,
+	"image": "../../assets/rooms/room-double.jpg",
+	"imageAlt": {
+		"ro": "Cameră dublă cu pat matrimonial și fereastră mare",
+		"en": "Double room with a double bed and a large window",
+		"de": "Doppelzimmer mit Doppelbett und grossem Fenster"
+	}
+}

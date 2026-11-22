@@ -1,0 +1,64 @@
+---
+import '../styles/global.css';
+import { languages, localizePath, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+	lang: Lang;
+	/** Path without the language prefix, e.g. '/' or '/camere/'. Used for hreflang links. */
+	path?: string;
+	title?: string;
+	description?: string;
+}
+
+const { lang, path = '/', title, description } = Astro.props;
+const t = useTranslations(lang);
+const pageTitle = title ?? t('meta.title');
+const pageDescription = description ?? t('meta.description');
+const site = Astro.site ?? new URL('https://sunrisevilla-felix.com');
+const canonical = new URL(localizePath(path, lang), site);
+---
+
+<!doctype html>
+<html lang={lang} class="no-js">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{pageTitle}</title>
+		<meta name="description" content={pageDescription} />
+		<link rel="canonical" href={canonical} />
+		{(Object.keys(languages) as Lang[]).map((l) => (
+			<link rel="alternate" hreflang={l} href={new URL(localizePath(path, l), site)} />
+		))}
+		<link rel="alternate" hreflang="x-default" href={new URL(localizePath(path, 'ro'), site)} />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={pageDescription} />
+		<meta property="og:url" content={canonical} />
+		<meta name="theme-color" content="#2d2926" />
+		<script is:inline>
+			document.documentElement.classList.remove('no-js');
+		</script>
+	</head>
+	<body>
+		<slot />
+		<script>
+			// Draw hand strokes once when they scroll into view.
+			const targets = document.querySelectorAll('[data-draw]');
+			if (!('IntersectionObserver' in window)) {
+				targets.forEach((el) => el.classList.add('is-drawn'));
+			} else {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (!entry.isIntersecting) continue;
+							entry.target.classList.add('is-drawn');
+							observer.unobserve(entry.target);
+						}
+					},
+					{ threshold: 0.35 },
+				);
+				targets.forEach((el) => observer.observe(el));
+			}
+		</script>
+	</body>
+</html>
