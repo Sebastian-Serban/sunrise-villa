@@ -1,5 +1,6 @@
 ---
 import { getImage, Image } from "astro:assets";
+import Carousel from "../Carousel.astro";
 import pool from "../../assets/spaces/pool-aerial.jpg";
 import garden from "../../assets/spaces/gazebo.jpg";
 import dining from "../../assets/spaces/dining.jpg";
@@ -58,22 +59,22 @@ const poster = await getImage({ src: tourPoster, width: 1280, format: "webp" });
 				</figure>
 			))}
 		</div>
-
-		<p class="label spaces__sub">{t("gallery.label")}</p>
 	</div>
-	<ul class="gallery">
-		{gallery.map(({ key, image }) => (
-			<li>
-				<Image
-					class="gallery__img"
-					src={image}
-					alt={t(`gallery.${key}` as const)}
-					widths={[300, 600]}
-					sizes="300px"
-				/>
-			</li>
-		))}
-	</ul>
+	<div class="spaces__gallery">
+		<Carousel heading={t("gallery.label")} count={gallery.length}>
+			{gallery.map(({ key, image }) => (
+				<li>
+					<Image
+						class="gallery__img"
+						src={image}
+						alt={t(`gallery.${key}` as const)}
+						widths={[300, 600]}
+						sizes="300px"
+					/>
+				</li>
+			))}
+		</Carousel>
+	</div>
 
 	<div class="wrap">
 		<div class="tour">
@@ -141,23 +142,8 @@ const poster = await getImage({ src: tourPoster, width: 1280, format: "webp" });
 		color: var(--on-dark-muted);
 	}
 
-	.spaces__sub {
-		margin: var(--space-24) 0 var(--space-6);
-	}
-	.gallery {
-		display: grid;
-		grid-auto-flow: column;
-		grid-auto-columns: 300px;
-		gap: var(--space-4);
-		margin: 0;
-		padding: 0 max(var(--page-pad), calc((100vw - var(--content-max)) / 2)) var(--space-3);
-		list-style: none;
-		overflow-x: auto;
-		scroll-snap-type: x mandatory;
-		scroll-padding-inline: max(var(--page-pad), calc((100vw - var(--content-max)) / 2));
-	}
-	.gallery li {
-		scroll-snap-align: start;
+	.spaces__gallery {
+		margin-top: var(--space-24);
 	}
 	.gallery__img {
 		width: 100%;
@@ -203,11 +189,8 @@ const poster = await getImage({ src: tourPoster, width: 1280, format: "webp" });
 			font-size: 21px;
 			line-height: 26px;
 		}
-		.spaces__sub {
+		.spaces__gallery {
 			margin-top: var(--space-12);
-		}
-		.gallery {
-			grid-auto-columns: 230px;
 		}
 		.tour {
 			margin-top: var(--space-12);
