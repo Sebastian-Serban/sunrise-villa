@@ -44,7 +44,7 @@ const attractions = (await getCollection("attractions")).sort(
 									class="tile__img"
 									src={data.image}
 									alt={data.imageAlt[lang]}
-									widths={[300, 600]}
+									widths={[480, 600]}
 									sizes="(max-width: 720px) 220px, 25vw"
 								/>
 							</div>
@@ -177,7 +177,7 @@ const attractions = (await getCollection("attractions")).sort(
 			margin: var(--space-12) calc(-1 * var(--page-pad)) 0;
 			padding: 0 var(--page-pad) var(--space-2);
 			overflow-x: auto;
-			scroll-snap-type: x mandatory;
+			scrollbar-width: none;
 		}
 		.tiles li {
 			flex: none;
