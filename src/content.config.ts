@@ -23,8 +23,6 @@ const rooms = defineCollection({
 			description: localized,
 			sizeM2: z.number().positive(),
 			maxPersons: z.number().int().positive(),
-			/** Lei per night. Leave out until the client confirms prices. */
-			priceFrom: z.number().positive().optional(),
 			image: image(),
 			imageAlt: localized,
 		}),

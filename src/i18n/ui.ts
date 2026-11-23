@@ -27,6 +27,11 @@ export const PHONE = "+40 771 734 907";
 export const PHONE_HREF = "tel:+40771734907";
 export const WHATSAPP_HREF = "https://wa.me/40771734907";
 export const EMAIL = "contact@sunrisevilla-felix.com";
+export const SOCIAL_LINKS = [
+	{ name: "Facebook", href: "https://www.facebook.com/p/SunriseVilla-100057196700621" },
+	{ name: "Instagram", href: "https://www.instagram.com/sunrisevilla" },
+	{ name: "TikTok", href: "https://www.tiktok.com/@sunrise.villa6" },
+] as const;
 export const ADDRESS = "Str. Mihai Eminescu 41, Sânmartin, Băile Felix";
 
 /**
@@ -53,8 +58,8 @@ export const ui = {
 		"hero.lead":
 			"Zece camere liniștite, o piscină doar pentru oaspeți și o grădină cu foișor. Aproape de băile termale, departe de zgomotul stațiunii.",
 		"rooms.label": "Camere",
-		"rooms.title": "Zece camere, două feluri de a dormi bine.",
-		"rooms.lead": "Toate au 20 m², baie proprie și vedere spre piscină.",
+		"rooms.title": "Zece camere, trei feluri de a dormi bine.",
+		"rooms.lead": "Toate au 20 m² și baie proprie. Pentru tarife și disponibilitate, sună-ne.",
 		"rooms.persons": "persoane",
 		"rooms.details": "Detalii cameră",
 		"footer.tagline":
@@ -64,7 +69,7 @@ export const ui = {
 		"facilities.lead":
 			"Tot ce ai nevoie pentru câteva zile fără grijă. Vorbim română, germană și engleză.",
 		"facilities.pool.title": "Piscină exterioară",
-		"facilities.pool.text": "Sezonieră, doar pentru oaspeți.",
+		"facilities.pool.text": "Doar pentru oaspeți.",
 		"facilities.garden.title": "Grădină cu grătar",
 		"facilities.garden.text": "Foișor, terasă și loc de fumat.",
 		"facilities.parking.title": "Parcare gratuită",
@@ -97,7 +102,7 @@ export const ui = {
 		"spaces.label": "Spații comune",
 		"spaces.title": "Totul e doar pentru oaspeți.",
 		"spaces.pool.title": "Piscina",
-		"spaces.pool.text": "Sezonieră, cu șezlonguri și duș exterior",
+		"spaces.pool.text": "Cu șezlonguri și duș exterior",
 		"spaces.pool.alt": "Vedere din dronă asupra vilei, piscinei și grădinii",
 		"spaces.garden.title": "Grădina și foișorul",
 		"spaces.garden.text": "Cu grătar și terasă la soare",
@@ -164,6 +169,7 @@ export const ui = {
 		"footer.pages": "Pagini",
 		"footer.contact": "Contact",
 		"footer.rules": "Reguli",
+		"footer.social": "Urmărește-ne",
 		"footer.rules.checkin": "Check-in 14:00–22:00",
 		"footer.rules.checkout": "Check-out până la 11:00",
 		"footer.rules.pets": "Fără animale de companie",
@@ -196,8 +202,8 @@ export const ui = {
 		"hero.lead":
 			"Ten quiet rooms, a pool just for guests and a garden with a gazebo. Close to the thermal baths, away from the resort noise.",
 		"rooms.label": "Rooms",
-		"rooms.title": "Ten rooms, two ways to sleep well.",
-		"rooms.lead": "All are 20 m², with a private bathroom and a view of the pool.",
+		"rooms.title": "Ten rooms, three ways to sleep well.",
+		"rooms.lead": "All are 20 m² with a private bathroom. Call us for rates and availability.",
 		"rooms.persons": "guests",
 		"rooms.details": "Room details",
 		"footer.tagline": "3-star guesthouse in Sânmartin, Băile Felix. Quiet, 2 km from the crowds.",
@@ -206,7 +212,7 @@ export const ui = {
 		"facilities.lead":
 			"Everything you need for a few carefree days. We speak Romanian, German and English.",
 		"facilities.pool.title": "Outdoor pool",
-		"facilities.pool.text": "Seasonal, for guests only.",
+		"facilities.pool.text": "For guests only.",
 		"facilities.garden.title": "Garden with barbecue",
 		"facilities.garden.text": "Gazebo, terrace and a smoking area.",
 		"facilities.parking.title": "Free parking",
@@ -239,7 +245,7 @@ export const ui = {
 		"spaces.label": "Shared spaces",
 		"spaces.title": "All of it just for guests.",
 		"spaces.pool.title": "The pool",
-		"spaces.pool.text": "Seasonal, with loungers and an outdoor shower",
+		"spaces.pool.text": "With loungers and an outdoor shower",
 		"spaces.pool.alt": "Drone view of the villa, pool and garden",
 		"spaces.garden.title": "Garden and gazebo",
 		"spaces.garden.text": "With a barbecue and a sunny terrace",
@@ -304,6 +310,7 @@ export const ui = {
 		"footer.pages": "Pages",
 		"footer.contact": "Contact",
 		"footer.rules": "House rules",
+		"footer.social": "Follow us",
 		"footer.rules.checkin": "Check-in 14:00–22:00",
 		"footer.rules.checkout": "Check-out by 11:00",
 		"footer.rules.pets": "No pets",
@@ -336,8 +343,8 @@ export const ui = {
 		"hero.lead":
 			"Zehn ruhige Zimmer, ein Pool nur für Gäste und ein Garten mit Pavillon. Nah an den Thermalbädern, weit weg vom Lärm des Kurorts.",
 		"rooms.label": "Zimmer",
-		"rooms.title": "Zehn Zimmer, zwei Arten, gut zu schlafen.",
-		"rooms.lead": "Alle mit 20 m², eigenem Bad und Blick auf den Pool.",
+		"rooms.title": "Zehn Zimmer, drei Arten, gut zu schlafen.",
+		"rooms.lead": "Alle mit 20 m² und eigenem Bad. Für Preise und Verfügbarkeit rufen Sie uns an.",
 		"rooms.persons": "Personen",
 		"rooms.details": "Zimmerdetails",
 		"footer.tagline": "3-Sterne-Pension in Sânmartin, Băile Felix. Ruhe, 2 km vom Trubel.",
@@ -346,7 +353,7 @@ export const ui = {
 		"facilities.lead":
 			"Alles für ein paar sorglose Tage. Wir sprechen Rumänisch, Deutsch und Englisch.",
 		"facilities.pool.title": "Aussenpool",
-		"facilities.pool.text": "Saisonal, nur für Gäste.",
+		"facilities.pool.text": "Nur für Gäste.",
 		"facilities.garden.title": "Garten mit Grill",
 		"facilities.garden.text": "Pavillon, Terrasse und Raucherbereich.",
 		"facilities.parking.title": "Kostenlose Parkplätze",
@@ -379,7 +386,7 @@ export const ui = {
 		"spaces.label": "Gemeinschaftsräume",
 		"spaces.title": "Alles nur für unsere Gäste.",
 		"spaces.pool.title": "Der Pool",
-		"spaces.pool.text": "Saisonal, mit Liegen und Aussendusche",
+		"spaces.pool.text": "Mit Liegen und Aussendusche",
 		"spaces.pool.alt": "Drohnenaufnahme von Villa, Pool und Garten",
 		"spaces.garden.title": "Garten und Pavillon",
 		"spaces.garden.text": "Mit Grill und sonniger Terrasse",
@@ -446,6 +453,7 @@ export const ui = {
 		"footer.pages": "Seiten",
 		"footer.contact": "Kontakt",
 		"footer.rules": "Hausregeln",
+		"footer.social": "Folgen Sie uns",
 		"footer.rules.checkin": "Check-in 14:00–22:00",
 		"footer.rules.checkout": "Check-out bis 11:00",
 		"footer.rules.pets": "Keine Haustiere",
