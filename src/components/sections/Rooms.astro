@@ -21,7 +21,7 @@ const rooms = (await getCollection("rooms")).sort((a, b) => a.data.order - b.dat
 						src={data.image}
 						alt={data.imageAlt[lang]}
 						widths={[480, 800, 1200]}
-						sizes="(max-width: 720px) 100vw, 50vw"
+						sizes="(max-width: 1000px) 100vw, 33vw"
 						class="room__img"
 					/>
 					<div class="room__body">
@@ -54,23 +54,28 @@ const rooms = (await getCollection("rooms")).sort((a, b) => a.data.order - b.dat
 	}
 	.rooms__grid {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 40px;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		align-items: start;
+		gap: 32px;
 		margin-top: 72px;
 	}
 	.room {
 		background: var(--surface-raised);
 	}
-	.room:nth-child(even) {
-		margin-top: 96px;
+	/* Stagger the cards down to the right. */
+	.room:nth-child(2) {
+		margin-top: 72px;
+	}
+	.room:nth-child(3) {
+		margin-top: 144px;
 	}
 	.room__img {
 		width: 100%;
-		aspect-ratio: 5 / 4;
+		aspect-ratio: 4 / 5;
 		object-fit: cover;
 	}
 	.room__body {
-		padding: 36px 40px 40px;
+		padding: 32px 32px 36px;
 		display: flex;
 		flex-direction: column;
 		gap: 18px;
@@ -97,14 +102,20 @@ const rooms = (await getCollection("rooms")).sort((a, b) => a.data.order - b.dat
 		border-radius: var(--radius-sm);
 	}
 
-	@media (max-width: 720px) {
+	@media (max-width: 1000px) {
 		.rooms__grid {
 			grid-template-columns: minmax(0, 1fr);
 			gap: 28px;
 		}
-		.room:nth-child(even) {
+		.room:nth-child(n) {
 			margin-top: 0;
 		}
+		.room__img {
+			aspect-ratio: 4 / 3;
+		}
+	}
+
+	@media (max-width: 720px) {
 		.room__body {
 			padding: 28px 24px 32px;
 		}

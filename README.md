@@ -49,7 +49,7 @@ build fails if a language is missing. Long-form pages would use one file per lan
 - Room or attraction text: edit the JSON in `src/content/`.
 - Photos: put originals in `src/assets/` and reference them from the JSON. Astro resizes them and
   serves WebP automatically, so don't pre-compress.
-- Prices: add `priceFrom` to a room once the client confirms them.
+- Prices: the client doesn't want prices on the site; guests call for rates.
 
 ## Design
 

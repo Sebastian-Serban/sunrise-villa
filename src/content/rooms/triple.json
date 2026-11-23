@@ -1,0 +1,26 @@
+{
+	"order": 3,
+	"name": {
+		"ro": "Cameră triplă",
+		"en": "Triple room",
+		"de": "Dreibettzimmer"
+	},
+	"beds": {
+		"ro": "Matrimonial + single",
+		"en": "Double + single bed",
+		"de": "Doppel- + Einzelbett"
+	},
+	"description": {
+		"ro": "Pentru familii mici sau trei prieteni. Un pat matrimonial și unul de o persoană.",
+		"en": "For small families or three friends. One double bed and one single.",
+		"de": "Für kleine Familien oder drei Freunde. Ein Doppelbett und ein Einzelbett."
+	},
+	"sizeM2": 20,
+	"maxPersons": 3,
+	"image": "../../assets/rooms/room-triple.jpg",
+	"imageAlt": {
+		"ro": "Cameră triplă cu pat matrimonial și pat single",
+		"en": "Triple room with a double and a single bed",
+		"de": "Dreibettzimmer mit Doppel- und Einzelbett"
+	}
+}
