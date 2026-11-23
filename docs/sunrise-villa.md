@@ -13,16 +13,16 @@
 
 ### Pages (new site)
 
-| Page | Design canvas | Mock site | Astro |
-|------|---------------|-----------|-------|
-| Homepage | done (desktop + mobile) | done | done |
-| Camere (rooms) | done | - | - |
-| Galerie (gallery + lightbox) | done | - | - |
-| Contact | done | - | - |
-| Politica de confidențialitate | done | - | - |
-| 404 | done | - | - |
+| Page | RO | EN | DE | Canvas | Mock site | Astro |
+|------|----|----|----|--------|-----------|-------|
+| Homepage | `/` | `/en/` | `/de/` | done | done | done |
+| Rooms | `/camere/` | `/en/rooms/` | `/de/zimmer/` | done | done | done |
+| Gallery (+ viewer) | `/galerie/` | `/en/gallery/` | `/de/galerie/` | done | done | done |
+| Contact | `/contact/` | `/en/contact/` | `/de/kontakt/` | done | done | done |
+| Privacy | `/confidentialitate/` | `/en/privacy/` | `/de/datenschutz/` | done | done | done |
+| 404 | RO only | - | - | done | done | done |
 
-Languages: RO at `/`, EN at `/en/`, DE at `/de/`. EN/DE are drafts until reviewed.
+Slugs are translated and defined once in `src/i18n/routes.ts`. EN/DE copy is a draft until reviewed.
 
 ### Where things live
 
@@ -30,7 +30,7 @@ Languages: RO at `/`, EN at `/en/`, DE at `/de/`. EN/DE are drafts until reviewe
 |-------|-------|
 | Design system | claude.ai artifact "Sunrise Villa" (Design System type) |
 | Design canvas (all pages) | claude.ai artifact "Sunrise Villa website" (Design type) |
-| Mock site for the client | claude.ai artifact "Sunrise Villa · propunere site" (public link, homepage only) |
+| Mock site for the client | claude.ai artifact "Sunrise Villa · propunere site" (public link, all pages, RO only) |
 | Code | github.com/Sebastian-Serban/sunrise-villa, branch `astro` |
 
 **Workflow for changes:** design canvas first, then mock site, then Astro.
@@ -294,11 +294,11 @@ Mobile: sticky bottom dock (Sună · WhatsApp · Rezervă), full-screen menu.
 
 ---
 
-## Subpages (designed in canvas)
+## Subpages
 
-- **Camere:** photo hero, then each room type with a 3-photo switcher, chips, amenities and Call/WhatsApp buttons. Tan "În toate camerele" strip. No prices.
-- **Galerie:** masonry grid of 33 photos with filters (Camere, Grădina și piscina, Interior, Din dronă) and a full-screen lightbox. Final version gets the full ~50 photos.
-- **Contact:** "Bine de știut" cards (extra bed, single occupancy, payment and cancellation), contact block + form, "Cum ajungi" with drone photo.
+- **Camere:** photo hero, then each room type with a 3-photo switcher, chips and amenities, ending in one "Întreabă de camera …" button that opens the contact form with the message pre-filled (`?camera=dubla|twin|tripla`). Tan "În toate camerele" strip, then straight into the footer. No prices, no repeated Call/WhatsApp block (the footer and mobile dock cover that).
+- **Galerie:** masonry grid of 33 photos with filters (Camere, Grădina și piscina, Interior, Din dronă) and a full-screen viewer with thumbnails. No CTA band before the footer. Final version gets the full ~50 photos.
+- **Contact:** "Bine de știut" cards (extra bed, single occupancy, payment and cancellation), "Cum ajungi" with drone photo, then the contact block (with reception hours) + form directly before the footer, like on the homepage.
 - **Politica de confidențialitate:** the old site's text in a plain single column. Removed what no longer applies (WordPress cookies, Optimole, Loginizer, embedded Google Maps); added "perioada dorită" to the form fields. The new site sets no cookies, so no cookie banner.
 - **404:** tan curve shape, "Pagina asta a plecat la băi."
 
@@ -365,8 +365,8 @@ Mobile: sticky bottom dock (Sună · WhatsApp · Rezervă), full-screen menu.
 |-----------|--------|
 | Framework | Astro 7, static output, TypeScript strict |
 | Styling | Plain CSS: tokens in `src/styles/tokens.css`, scoped `<style>` per component. No Tailwind. |
-| Content | Content collections (rooms, attractions, reviews, faq) with Zod 4, localized fields `{ ro, en, de }` |
-| i18n | Astro built-in i18n; UI strings in `src/i18n/ui.ts` |
+| Content | Content collections (rooms, attractions, reviews, faq, gallery, legal) with Zod 4; localized fields `{ ro, en, de }`, legal texts as Markdown per language |
+| i18n | Astro built-in i18n; UI strings in `src/i18n/ui.ts`; translated slugs in `src/i18n/routes.ts` (links via `pageUrl()`) |
 | Images | `astro:assets` (`<Image>`, `getImage`), constrained layout |
 | Fonts | Fontsource, self-hosted |
 | Icons | `@lucide/astro` via `AppIcon` |
@@ -420,7 +420,6 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 
 ## TODOs
 
-- [ ] Build Camere, Galerie, Contact, Privacy and 404 in the mock site, then in Astro
 - [ ] Set `BOOKING_PROPERTY_URL`
 - [ ] Test `contact.php` on ClausWeb
 - [ ] Get original photos and video, replace compressed copies
@@ -466,3 +465,6 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 | 26 | Don't call the pool seasonal or heated | Heating is being built in | 2026-11-23 |
 | 27 | Privacy policy: old text, cut to what applies | New site sets no cookies and uses no external services | 2026-11-23 |
 | 28 | Workflow: canvas → mock site → Astro | Design decisions are made visually first | 2026-11-23 |
+| 29 | Translated URL slugs (`/en/rooms/`, `/de/zimmer/` ...) | Better for EN/DE visitors and search; one map in `routes.ts` keeps links and hreflang right | 2026-11-23 |
+| 30 | One enquiry button per room instead of repeated Call/WhatsApp blocks | The same block three times was noise; the button carries the room into the contact form | 2026-11-23 |
+| 31 | Contact block always sits directly before the footer | The tan contact shape is cut flat at the bottom and only flows into the footer's straight edge | 2026-11-23 |
