@@ -14,11 +14,13 @@ Acest site web este operat de Sunrise Villa, pensiune clasificată cu 3 stele, s
 
 ## Cookie-uri
 
-Site-ul nostru nu folosește cookie-uri. Fonturile și imaginile sunt găzduite pe serverul nostru, fără servicii externe de urmărire sau statistică.
+Site-ul nostru nu folosește cookie-uri. Fonturile și imaginile sunt găzduite pe serverul nostru, fără servicii externe de urmărire sau statistică. Excepție face harta Google din subsolul paginii, descrisă mai jos.
 
-## Linkuri către alte site-uri
+## Harta Google și linkuri către alte site-uri
 
-Butoanele de rezervare duc pe Booking.com, iar cele pentru hartă deschid Google Maps. Odată ajunși pe aceste site-uri, se aplică politicile lor de confidențialitate.
+În subsolul paginii, harta Google se încarcă doar după ce apăsați butonul „Arată harta Google”. Abia atunci browserul dumneavoastră se conectează la Google, care primește adresa IP și poate seta cookie-uri, conform [politicii de confidențialitate Google](https://policies.google.com/privacy). Fără acest clic, nu se transmite nimic către Google.
+
+Butoanele de rezervare duc pe Booking.com, iar „Deschide în Google Maps” și „Indicații de drum” deschid Google Maps. Odată ajunși pe aceste site-uri, se aplică politicile lor de confidențialitate.
 
 ## Cu cine partajăm datele dumneavoastră
 

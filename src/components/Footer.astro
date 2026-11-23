@@ -1,6 +1,7 @@
 ---
 import { pageUrl } from "../i18n/routes";
 import Logo from "../assets/logo.svg";
+import AppIcon from "./AppIcon.astro";
 import {
 	ADDRESS,
 	DIRECTIONS_URL,
@@ -17,6 +18,8 @@ const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 const home = pageUrl(lang, "home");
 const year = new Date().getFullYear();
+// Keyless embed URL; the label language follows the page.
+const embedUrl = `https://www.google.com/maps?q=${encodeURIComponent(`Sunrise Villa, ${ADDRESS}`)}&hl=${lang}&z=14&output=embed`;
 ---
 
 <footer class="footer bg-espresso">
@@ -80,79 +83,95 @@ const year = new Date().getFullYear();
 		</div>
 
 		<div class="footer__map">
-			<!-- Schematic, not a real map: shows direction and distance without loading Google (no cookies). -->
-			<svg
-				viewBox="0 0 600 380"
-				preserveAspectRatio="xMidYMid slice"
-				role="img"
-				aria-label={t("footer.map.label")}
+			<!--
+				Schematic map until the visitor asks for the real one: Google Maps only loads (and only
+				then sets cookies and sees the visitor's IP) after a click. See the privacy policy.
+			-->
+			<map-embed
+				class="footer__mapbox"
+				data-src={embedUrl}
+				data-title={t("footer.map.iframeTitle")}
 			>
-				<rect width="600" height="380" fill="var(--espresso-raised)"></rect>
-				<g fill="none" stroke="var(--line-dark)" stroke-width="1">
-					<path d="M0 300 C 120 280, 200 300, 300 270 S 500 240, 600 250"></path>
-					<path d="M60 380 C 90 300, 150 240, 230 210 S 380 120, 430 0"></path>
-					<path d="M0 120 C 140 140, 260 110, 360 150 S 520 200, 600 190"></path>
-					<path d="M330 380 C 350 320, 380 280, 450 250 S 560 200, 600 120"></path>
-				</g>
-				<path
-					d="M120 380 C 170 300, 230 250, 300 205 C 360 168, 400 90, 430 -10"
-					fill="none"
-					stroke="var(--ink-muted)"
-					stroke-width="5"
-					stroke-linecap="round"
-				></path>
-				<g
-					fill="none"
-					stroke="var(--tan)"
-					stroke-linecap="round"
-					stroke-dasharray="2 7"
-					stroke-width="1.5"
-					opacity="0.7"
+				<svg
+					viewBox="0 0 600 380"
+					preserveAspectRatio="xMidYMid slice"
+					role="img"
+					aria-label={t("footer.map.label")}
 				>
-					<circle cx="250" cy="250" r="110"></circle>
-					<circle cx="250" cy="250" r="235"></circle>
-				</g>
-				<g class="map__text">
-					<text x="352" y="246" class="map__muted">
-						2 km
-					</text>
-					<text x="470" y="210" class="map__muted">
-						8 km
-					</text>
-					<circle cx="318" cy="168" r="6" fill="var(--on-dark)"></circle>
-					<text x="330" y="164" class="map__strong">
-						{t("map.center")}
-					</text>
-					<text x="330" y="182" class="map__muted">
-						{t("map.center.sub")}
-					</text>
-					<circle cx="408" cy="40" r="6" fill="var(--on-dark)"></circle>
-					<text x="420" y="36" class="map__strong">
-						{t("map.oradea")}
-					</text>
-					<text x="420" y="54" class="map__muted">
-						{t("map.oradea.sub")}
-					</text>
-					<circle cx="120" cy="150" r="5" fill="var(--on-dark-muted)"></circle>
-					<text x="132" y="155" class="map__muted">
-						Băile 1 Mai
-					</text>
-				</g>
-				<g transform="translate(250 250)">
-					<circle r="26" fill="var(--tan)" opacity="0.25"></circle>
+					<rect width="600" height="380" fill="var(--espresso-raised)"></rect>
+					<g fill="none" stroke="var(--line-dark)" stroke-width="1">
+						<path d="M0 300 C 120 280, 200 300, 300 270 S 500 240, 600 250"></path>
+						<path d="M60 380 C 90 300, 150 240, 230 210 S 380 120, 430 0"></path>
+						<path d="M0 120 C 140 140, 260 110, 360 150 S 520 200, 600 190"></path>
+						<path d="M330 380 C 350 320, 380 280, 450 250 S 560 200, 600 120"></path>
+					</g>
 					<path
-						d="M0 -2 C -14 -2, -14 -26, 0 -26 C 14 -26, 14 -2, 0 -2 Z M0 -2 L0 10"
-						fill="var(--tan)"
-						stroke="var(--tan)"
-						stroke-width="2"
-						stroke-linejoin="round"
+						d="M120 380 C 170 300, 230 250, 300 205 C 360 168, 400 90, 430 -10"
+						fill="none"
+						stroke="var(--ink-muted)"
+						stroke-width="5"
+						stroke-linecap="round"
 					></path>
-					<circle cy="-14" r="4.5" fill="var(--espresso)"></circle>
-				</g>
-				<text x="250" y="292" text-anchor="middle" class="map__name">
-					Sunrise Villa
-				</text>
-			</svg>
+					<g
+						fill="none"
+						stroke="var(--tan)"
+						stroke-linecap="round"
+						stroke-dasharray="2 7"
+						stroke-width="1.5"
+						opacity="0.7"
+					>
+						<circle cx="250" cy="250" r="110"></circle>
+						<circle cx="250" cy="250" r="235"></circle>
+					</g>
+					<g class="map__text">
+						<text x="352" y="246" class="map__muted">
+							2 km
+						</text>
+						<text x="470" y="210" class="map__muted">
+							8 km
+						</text>
+						<circle cx="318" cy="168" r="6" fill="var(--on-dark)"></circle>
+						<text x="330" y="164" class="map__strong">
+							{t("map.center")}
+						</text>
+						<text x="330" y="182" class="map__muted">
+							{t("map.center.sub")}
+						</text>
+						<circle cx="408" cy="40" r="6" fill="var(--on-dark)"></circle>
+						<text x="420" y="36" class="map__strong">
+							{t("map.oradea")}
+						</text>
+						<text x="420" y="54" class="map__muted">
+							{t("map.oradea.sub")}
+						</text>
+						<circle cx="120" cy="150" r="5" fill="var(--on-dark-muted)"></circle>
+						<text x="132" y="155" class="map__muted">
+							Băile 1 Mai
+						</text>
+					</g>
+					<g transform="translate(250 250)">
+						<circle r="26" fill="var(--tan)" opacity="0.25"></circle>
+						<path
+							d="M0 -2 C -14 -2, -14 -26, 0 -26 C 14 -26, 14 -2, 0 -2 Z M0 -2 L0 10"
+							fill="var(--tan)"
+							stroke="var(--tan)"
+							stroke-width="2"
+							stroke-linejoin="round"
+						></path>
+						<circle cy="-14" r="4.5" fill="var(--espresso)"></circle>
+					</g>
+					<text x="250" y="292" text-anchor="middle" class="map__name">
+						Sunrise Villa
+					</text>
+				</svg>
+				<div class="footer__map-load">
+					<button class="btn btn--tan" type="button" data-load>
+						<AppIcon name="MapPin" />
+						{t("footer.map.load")}
+					</button>
+					<span>{t("footer.map.note")}</span>
+				</div>
+			</map-embed>
 			<div class="footer__map-actions">
 				<a class="btn btn--tan" href={MAPS_URL}>
 					{t("footer.map.open")}
@@ -172,6 +191,23 @@ const year = new Date().getFullYear();
 		</span>
 	</div>
 </footer>
+
+<script>
+	class MapEmbed extends HTMLElement {
+		connectedCallback() {
+			this.querySelector("[data-load]")?.addEventListener("click", () => {
+				const iframe = document.createElement("iframe");
+				iframe.src = this.dataset.src ?? "";
+				iframe.title = this.dataset.title ?? "";
+				iframe.loading = "lazy";
+				iframe.referrerPolicy = "no-referrer-when-downgrade";
+				iframe.allowFullscreen = true;
+				this.replaceChildren(iframe);
+			});
+		}
+	}
+	customElements.define("map-embed", MapEmbed);
+</script>
 
 <style>
 	.footer {
@@ -261,9 +297,39 @@ const year = new Date().getFullYear();
 		flex-direction: column;
 		gap: 20px;
 	}
-	.footer__map svg {
-		width: 100%;
+	.footer__mapbox {
+		position: relative;
+		display: block;
 		height: 380px;
+		background: var(--espresso-raised);
+	}
+	.footer__mapbox > svg,
+	.footer__mapbox :global(iframe) {
+		display: block;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+	.footer__map-load {
+		position: absolute;
+		top: var(--space-4);
+		left: var(--space-4);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 6px;
+	}
+	.footer__map-load .btn {
+		min-height: 44px;
+		padding-inline: var(--space-4);
+		font-size: var(--text-small);
+	}
+	.footer__map-load span {
+		padding: 2px 8px;
+		background: rgb(45 41 38 / 0.85);
+		color: var(--sand);
+		font-size: 13px;
+		line-height: 18px;
 	}
 	.map__text text {
 		font-family: var(--font-sans);
@@ -323,7 +389,7 @@ const year = new Date().getFullYear();
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			column-gap: var(--space-6);
 		}
-		.footer__map svg {
+		.footer__mapbox {
 			height: 260px;
 		}
 		.footer__map-actions {

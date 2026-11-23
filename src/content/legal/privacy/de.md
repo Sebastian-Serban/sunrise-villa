@@ -14,11 +14,13 @@ Diese Website wird von Sunrise Villa betrieben, einer 3-Sterne-Pension an der St
 
 ## Cookies
 
-Unsere Website verwendet keine Cookies. Schriften und Bilder liegen auf unserem eigenen Server, ohne externe Tracking- oder Statistikdienste.
+Unsere Website verwendet keine Cookies. Schriften und Bilder liegen auf unserem eigenen Server, ohne externe Tracking- oder Statistikdienste. Einzige Ausnahme ist die Google-Karte in der Fusszeile, siehe unten.
 
-## Links zu anderen Websites
+## Google-Karte und Links zu anderen Websites
 
-Die Buchungsknöpfe führen zu Booking.com, die Kartenknöpfe öffnen Google Maps. Dort gelten die Datenschutzerklärungen dieser Anbieter.
+Die Google-Karte in der Fusszeile wird erst geladen, wenn Sie auf «Google-Karte anzeigen» klicken. Erst dann verbindet sich Ihr Browser mit Google, das Ihre IP-Adresse erhält und Cookies setzen kann, gemäss der [Datenschutzerklärung von Google](https://policies.google.com/privacy). Ohne diesen Klick wird nichts an Google übermittelt.
+
+Die Buchungsknöpfe führen zu Booking.com, «In Google Maps öffnen» und «Route planen» öffnen Google Maps. Dort gelten die Datenschutzerklärungen dieser Anbieter.
 
 ## An wen wir Ihre Daten weitergeben
 
