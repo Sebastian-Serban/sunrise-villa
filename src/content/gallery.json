@@ -323,19 +323,8 @@
 		}
 	},
 	{
-		"id": "attic",
-		"order": 30,
-		"image": "../assets/gallery/attic.jpg",
-		"category": "camere",
-		"alt": {
-			"ro": "Cameră la mansardă cu ferestre în acoperiș",
-			"en": "Attic room with roof windows",
-			"de": "Dachzimmer mit Dachfenstern"
-		}
-	},
-	{
 		"id": "lawn",
-		"order": 31,
+		"order": 30,
 		"image": "../assets/gallery/lawn.jpg",
 		"category": "gradina",
 		"alt": {
@@ -346,7 +335,7 @@
 	},
 	{
 		"id": "double-hall",
-		"order": 32,
+		"order": 31,
 		"image": "../assets/rooms/double-hall.jpg",
 		"category": "camere",
 		"alt": {
@@ -357,7 +346,7 @@
 	},
 	{
 		"id": "stairwell",
-		"order": 33,
+		"order": 32,
 		"image": "../assets/gallery/stairwell.jpg",
 		"category": "interior",
 		"alt": {
