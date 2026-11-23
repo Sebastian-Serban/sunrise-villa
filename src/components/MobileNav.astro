@@ -4,7 +4,7 @@
  * and Escape come for free) and the sticky contact dock at the bottom.
  * The menu is opened by the "Meniu" button in Header.astro.
  */
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { pageUrl, type Page } from "../i18n/routes";
 import AppIcon from "./AppIcon.astro";
 import Logo from "../assets/logo.svg";
 import {
@@ -20,19 +20,19 @@ import {
 } from "../i18n/ui";
 
 interface Props {
-	path?: string;
+	page?: Page;
 }
 
-const { path = "" } = Astro.props;
+const { page = "home" } = Astro.props;
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
-const home = getRelativeLocaleUrl(lang);
+const home = pageUrl(lang, "home");
 const links = [
 	{ href: home, label: t("nav.home") },
-	{ href: getRelativeLocaleUrl(lang, "camere"), label: t("nav.rooms") },
-	{ href: getRelativeLocaleUrl(lang, "galerie"), label: t("nav.gallery") },
+	{ href: pageUrl(lang, "rooms"), label: t("nav.rooms") },
+	{ href: pageUrl(lang, "gallery"), label: t("nav.gallery") },
 	{ href: `${home}#imprejurimi`, label: t("nav.area") },
-	{ href: getRelativeLocaleUrl(lang, "contact"), label: t("nav.contact") },
+	{ href: pageUrl(lang, "contact"), label: t("nav.contact") },
 ];
 ---
 
@@ -56,7 +56,7 @@ const links = [
 	<div class="menu__lang" aria-label={t("nav.language")}>
 		{(Object.keys(languages) as Lang[]).map((l) => (
 			<a
-				href={getRelativeLocaleUrl(l, path)}
+				href={pageUrl(l, page)}
 				hreflang={l}
 				lang={l}
 				aria-current={l === lang ? "true" : undefined}

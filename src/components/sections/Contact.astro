@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { pageUrl } from "../../i18n/routes";
 import AppIcon from "../AppIcon.astro";
 import { ADDRESS, EMAIL, PHONE, PHONE_HREF, getLang, useTranslations } from "../../i18n/ui";
 
@@ -127,7 +127,7 @@ const enquiries = Object.fromEntries(rooms.map(({ data }) => [data.anchor, data.
 			<div class="field--full form__foot">
 				<span class="muted">
 					{t("form.privacy")}
-					<a href={getRelativeLocaleUrl(lang, "confidentialitate")}>{t("form.privacyLink")}</a>
+					<a href={pageUrl(lang, "privacy")}>{t("form.privacyLink")}</a>
 				</span>
 				<button class="btn btn--primary" type="submit">
 					{t("form.submit")}

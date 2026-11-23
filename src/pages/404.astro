@@ -3,7 +3,7 @@
  * Not-found page. Static hosts serve one 404 for every path, so this is
  * Romanian only (the default language).
  */
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { pageUrl } from "../i18n/routes";
 import Base from "../layouts/Base.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
@@ -39,13 +39,13 @@ const t = useTranslations("ro");
 			</h1>
 			<p class="lead muted not-found__lead">{t("notFound.lead")}</p>
 			<div class="not-found__links">
-				<a class="btn btn--primary" href={getRelativeLocaleUrl("ro")}>
+				<a class="btn btn--primary" href={pageUrl("ro", "home")}>
 					{t("notFound.home")}
 				</a>
-				<a class="btn btn--ghost" href={getRelativeLocaleUrl("ro", "camere")}>
+				<a class="btn btn--ghost" href={pageUrl("ro", "rooms")}>
 					{t("nav.rooms")}
 				</a>
-				<a class="btn btn--ghost" href={getRelativeLocaleUrl("ro", "contact")}>
+				<a class="btn btn--ghost" href={pageUrl("ro", "contact")}>
 					{t("nav.contact")}
 				</a>
 			</div>

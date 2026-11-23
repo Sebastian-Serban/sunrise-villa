@@ -1,5 +1,5 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { pageUrl } from "../i18n/routes";
 import Logo from "../assets/logo.svg";
 import {
 	ADDRESS,
@@ -15,7 +15,7 @@ import {
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
-const home = getRelativeLocaleUrl(lang);
+const home = pageUrl(lang, "home");
 const year = new Date().getFullYear();
 ---
 
@@ -31,16 +31,16 @@ const year = new Date().getFullYear();
 					<h3>{t("footer.pages")}</h3>
 					<ul>
 						<li>
-							<a href={getRelativeLocaleUrl(lang, "camere")}>{t("nav.rooms")}</a>
+							<a href={pageUrl(lang, "rooms")}>{t("nav.rooms")}</a>
 						</li>
 						<li>
-							<a href={getRelativeLocaleUrl(lang, "galerie")}>{t("nav.gallery")}</a>
+							<a href={pageUrl(lang, "gallery")}>{t("nav.gallery")}</a>
 						</li>
 						<li>
 							<a href={`${home}#imprejurimi`}>{t("nav.area")}</a>
 						</li>
 						<li>
-							<a href={getRelativeLocaleUrl(lang, "contact")}>{t("nav.contact")}</a>
+							<a href={pageUrl(lang, "contact")}>{t("nav.contact")}</a>
 						</li>
 					</ul>
 				</nav>
@@ -167,7 +167,7 @@ const year = new Date().getFullYear();
 	<div class="wrap footer__bottom">
 		<span>© {year} Sunrise Villa</span>
 		<span>
-			<a href={getRelativeLocaleUrl(lang, "confidentialitate")}>{t("footer.privacy")}</a>·{" "}
+			<a href={pageUrl(lang, "privacy")}>{t("footer.privacy")}</a>·{" "}
 			<a href="https://anpc.ro/">ANPC</a>
 		</span>
 	</div>

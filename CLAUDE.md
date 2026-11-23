@@ -9,7 +9,8 @@ truth for client, property, policies and decisions.
   interactivity.
 - Plain CSS: tokens in `src/styles/tokens.css`, scoped `<style>` in components. No Tailwind.
 - Content collections (`src/content.config.ts`) with Zod 4 from `astro/zod`.
-- i18n: RO default at `/`, EN at `/en/`, DE at `/de/`. Every user-facing string goes through
+- i18n: RO default at `/`, EN at `/en/`, DE at `/de/`. Slugs are translated (`src/i18n/routes.ts`); link with `pageUrl()`,
+  never hand-written paths. Every user-facing string goes through
   `src/i18n/ui.ts` or a localised content field. Never hardcode Romanian in a component.
 
 ## Design rules (from the design system)

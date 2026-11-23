@@ -2,7 +2,7 @@
 /** Rooms page: every room type with its photos, then what all rooms share. */
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { pageUrl } from "../../i18n/routes";
 import Base from "../../layouts/Base.astro";
 import AppIcon, { type AppIconName } from "../AppIcon.astro";
 import Footer from "../Footer.astro";
@@ -16,7 +16,7 @@ import { getLang, useTranslations, type UiKey } from "../../i18n/ui";
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 const rooms = (await getCollection("rooms")).sort((a, b) => a.data.order - b.data.order);
-const contact = getRelativeLocaleUrl(lang, "contact");
+const contact = pageUrl(lang, "contact");
 
 const amenities: { icon: AppIconName; key: UiKey }[] = [
 	{ icon: "Snowflake", key: "amenity.ac" },
@@ -28,9 +28,9 @@ const amenities: { icon: AppIconName; key: UiKey }[] = [
 ];
 ---
 
-<Base path="camere" title={t("roomsPage.meta.title")} description={t("roomsPage.meta.description")}>
-	<Header path="camere" />
-	<MobileNav path="camere" />
+<Base page="rooms" title={t("roomsPage.meta.title")} description={t("roomsPage.meta.description")}>
+	<Header page="rooms" />
+	<MobileNav page="rooms" />
 	<main>
 		<section class="rooms-hero">
 			<Image

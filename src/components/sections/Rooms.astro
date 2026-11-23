@@ -2,13 +2,13 @@
 import { Image } from "astro:assets";
 import AppIcon from "../AppIcon.astro";
 import { getCollection } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { pageUrl } from "../../i18n/routes";
 import { getLang, useTranslations } from "../../i18n/ui";
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 const rooms = (await getCollection("rooms")).sort((a, b) => a.data.order - b.data.order);
-const roomsPage = getRelativeLocaleUrl(lang, "camere");
+const roomsPage = pageUrl(lang, "rooms");
 ---
 
 <section id="camere" class="section rooms">
