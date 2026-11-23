@@ -257,8 +257,8 @@ Rules:
 
 ### Typography
 
-- Display: Fraunces (variable, optical size), self-hosted via Fontsource.
-- Body: Instrument Sans (variable), self-hosted via Fontsource.
+- Display: Fraunces (variable, optical size), self-hosted.
+- Body: Instrument Sans (variable), self-hosted.
 - Body text 17px.
 
 ### Signature motif: curves vs. grid
@@ -368,7 +368,7 @@ Mobile: sticky bottom dock (Sună · WhatsApp · Rezervă), full-screen menu.
 | Content | Content collections (rooms, attractions, reviews, faq, gallery, legal) with Zod 4; localized fields `{ ro, en, de }`, legal texts as Markdown per language |
 | i18n | Astro built-in i18n; UI strings in `src/i18n/ui.ts`; translated slugs in `src/i18n/routes.ts` (links via `pageUrl()`) |
 | Images | `astro:assets` (`<Image>`, `getImage`), constrained layout |
-| Fonts | Fontsource, self-hosted |
+| Fonts | Self-hosted woff2 in `src/assets/fonts/` via Astro fonts API (preload + size-matched fallbacks) |
 | Icons | `@lucide/astro` via `AppIcon` |
 | Interactivity | Small custom elements (booking bar, carousel, mobile menu); no UI framework |
 | Lint/format | ESLint (typescript-eslint, astro, jsx-a11y-x) + Prettier; CI runs lint + build |

@@ -64,7 +64,9 @@ Design tokens mirror the Sunrise Villa design system (colours, Fraunces + Instru
 square radii). The curved dividers and the cursive line in `Sweep.astro` are the site's signature.
 Their shapes are placeholders until the hand-drawn set exists.
 
-Fonts are self-hosted via Fontsource, so no requests go to Google (GDPR).
+Fonts are self-hosted (`src/assets/fonts/`, OFL) through Astro's fonts API in `astro.config.mjs`, so no
+requests go to Google (GDPR). Astro preloads them and generates size-matched fallback fonts, so
+text doesn't jump when the real font arrives.
 
 ## Contact form
 
