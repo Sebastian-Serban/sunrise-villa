@@ -26,8 +26,9 @@
 	--error: #a0522d;
 
 	/* Type */
-	--font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
-	--font-sans: "Instrument Sans Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+	/* Font faces and size-matched fallbacks come from the fonts config in astro.config.mjs */
+	--font-display: var(--font-fraunces);
+	--font-sans: var(--font-instrument-sans);
 
 	--text-display-xl: 96px;
 	--text-display-l: 64px;
