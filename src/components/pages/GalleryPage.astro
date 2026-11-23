@@ -25,7 +25,7 @@ const photos = await Promise.all(
 		// Large version for the viewer; never upscale past the original.
 		full: await getImage({
 			src: data.image,
-			width: Math.min(1800, data.image.width),
+			width: Math.min(2400, data.image.width),
 			format: "webp",
 		}),
 	})),
