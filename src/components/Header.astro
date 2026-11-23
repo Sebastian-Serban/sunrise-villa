@@ -1,25 +1,25 @@
 ---
 import Logo from "../assets/logo.svg";
 import AppIcon from "./AppIcon.astro";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { pageUrl, type Page } from "../i18n/routes";
 import { BOOKING_URL, getLang, languages, useTranslations, type Lang } from "../i18n/ui";
 
 interface Props {
-	/** Path without the language prefix, used for the language switch. */
-	path?: string;
+	/** Current page: marks the active link and drives the language switch. */
+	page?: Page;
 	/** Light text over a photo (hero) vs dark text on a light ground. */
 	overPhoto?: boolean;
 }
 
-const { path = "", overPhoto = true } = Astro.props;
+const { page = "home", overPhoto = true } = Astro.props;
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
-const home = getRelativeLocaleUrl(lang);
+const home = pageUrl(lang, "home");
 const links = [
-	{ path: "camere", href: getRelativeLocaleUrl(lang, "camere"), label: t("nav.rooms") },
-	{ path: "galerie", href: getRelativeLocaleUrl(lang, "galerie"), label: t("nav.gallery") },
-	{ path: null, href: `${home}#imprejurimi`, label: t("nav.area") },
-	{ path: "contact", href: getRelativeLocaleUrl(lang, "contact"), label: t("nav.contact") },
+	{ page: "rooms", href: pageUrl(lang, "rooms"), label: t("nav.rooms") },
+	{ page: "gallery", href: pageUrl(lang, "gallery"), label: t("nav.gallery") },
+	{ page: null, href: `${home}#imprejurimi`, label: t("nav.area") },
+	{ page: "contact", href: pageUrl(lang, "contact"), label: t("nav.contact") },
 ];
 ---
 
@@ -30,7 +30,7 @@ const links = [
 		</a>
 		<nav class="header__nav" aria-label={t("nav.menu")}>
 			{links.map((link) => (
-				<a href={link.href} aria-current={link.path === path ? "page" : undefined}>
+				<a href={link.href} aria-current={link.page === page ? "page" : undefined}>
 					{link.label}
 				</a>
 			))}
@@ -39,7 +39,7 @@ const links = [
 			<div class="header__lang">
 				{(Object.keys(languages) as Lang[]).map((l) => (
 					<a
-						href={getRelativeLocaleUrl(l, path)}
+						href={pageUrl(l, page)}
 						hreflang={l}
 						lang={l}
 						aria-current={l === lang ? "true" : undefined}

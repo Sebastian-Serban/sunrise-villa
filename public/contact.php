@@ -10,13 +10,19 @@ declare(strict_types=1);
 const RECIPIENT = 'contact@sunrisevilla-felix.com';
 const SENDER = 'contact@sunrisevilla-felix.com';
 const LANGS = ['ro' => '/', 'en' => '/en/', 'de' => '/de/'];
-/** Pages with the form, relative to the language root. Whitelisted: never redirect to user input. */
-const PAGES = ['home' => '', 'contact' => 'contact/'];
+/**
+ * Pages with the form, relative to the language root (slugs match src/i18n/routes.ts).
+ * Whitelisted: never redirect to user input.
+ */
+const PAGES = [
+    'home' => ['ro' => '', 'en' => '', 'de' => ''],
+    'contact' => ['ro' => 'contact/', 'en' => 'contact/', 'de' => 'kontakt/'],
+];
 
 function back(string $lang, string $state): never
 {
     $page = $_POST['page'] ?? 'home';
-    $path = (LANGS[$lang] ?? '/') . (PAGES[$page] ?? '');
+    $path = (LANGS[$lang] ?? '/') . (PAGES[$page][$lang] ?? '');
     header('Location: ' . $path . '?' . $state . '=1#contact', true, 303);
     exit;
 }

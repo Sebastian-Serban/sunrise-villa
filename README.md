@@ -28,6 +28,7 @@ src/
                      gallery.json (gallery page photos), legal/<page>/<lang>.md
   content.config.ts  schemas for the content above
   i18n/ui.ts         UI strings (RO, EN, DE), contact constants, getLang()
+  i18n/routes.ts     translated URL slugs per page, pageUrl()
   layouts/Base.astro <html> shell: meta, hreflang, fonts, stroke draw-in
   pages/             RO routes at /, en/ and de/ mirror them; 404.astro is RO only
   styles/            tokens.css (design system), global.css
@@ -45,7 +46,8 @@ added once in `src/pages/` and mirrored in `en/` and `de/` as a one-line wrapper
 UI strings are in `src/i18n/ui.ts` (the pattern from Astro's i18n recipe). Structured content (rooms,
 attractions) carries `{ ro, en, de }` per text field so facts like size and price exist once; the
 build fails if a language is missing. Long-form pages (the privacy policy) use one Markdown file per
-language in `src/content/legal/`. URL slugs are Romanian in every language (`/en/camere/`).
+language in `src/content/legal/`. URL slugs are translated (`/camere/`, `/en/rooms/`, `/de/zimmer/`): the slugs live in
+`src/i18n/routes.ts`, route files must use the same names, and links always go through `pageUrl()`.
 
 ## Editing content
 

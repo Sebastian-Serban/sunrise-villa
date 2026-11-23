@@ -9,27 +9,25 @@ import PageHead from "../PageHead.astro";
 import { getLang, useTranslations } from "../../i18n/ui";
 
 interface Props {
-	/** Folder name in src/content/legal/, also the URL path. */
-	page: "confidentialitate";
+	/** Page key; also the folder name in src/content/legal/. */
+	page: "privacy";
 }
-
-const folders = { confidentialitate: "privacy" } as const;
 
 const { page } = Astro.props;
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
-const entry = await getEntry("legal", `${folders[page]}/${lang}`);
-if (!entry) throw new Error(`Missing legal text: ${folders[page]}/${lang}.md`);
+const entry = await getEntry("legal", `${page}/${lang}`);
+if (!entry) throw new Error(`Missing legal text: ${page}/${lang}.md`);
 const { Content } = await render(entry);
 ---
 
 <Base
-	path={page}
+	page={page}
 	title={`${entry.data.title} | Sunrise Villa`}
 	description={entry.data.description}
 >
-	<Header path={page} overPhoto={false} />
-	<MobileNav path={page} />
+	<Header page={page} overPhoto={false} />
+	<MobileNav page={page} />
 	<main class="legal">
 		<PageHead titleBefore={entry.data.title} small>
 			<p class="muted legal__updated">
