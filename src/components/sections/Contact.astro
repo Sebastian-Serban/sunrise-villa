@@ -1,9 +1,23 @@
 ---
+import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import AppIcon from "../AppIcon.astro";
 import { ADDRESS, EMAIL, PHONE, PHONE_HREF, getLang, useTranslations } from "../../i18n/ui";
 
+interface Props {
+	/** Which page the form is on, so contact.php can send the guest back there. */
+	page?: "home" | "contact";
+	/** Show the reception hours (contact page). */
+	reception?: boolean;
+}
+
+const { page = "home", reception = false } = Astro.props;
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
+
+// "Ask about this room" links arrive with ?camera=<anchor>; pre-fill the message.
+const rooms = await getCollection("rooms");
+const enquiries = Object.fromEntries(rooms.map(({ data }) => [data.anchor, data.enquiry[lang]]));
 ---
 
 <section id="contact" class="contact">
@@ -51,6 +65,15 @@ const t = useTranslations(lang);
 						{ADDRESS}
 					</div>
 				</li>
+				{reception && (
+					<li>
+						<AppIcon name="BellRing" />
+						<div>
+							<small>{t("contact.reception")}</small>
+							{t("contact.reception.value")}
+						</div>
+					</li>
+				)}
 				<li>
 					<AppIcon name="Clock" />
 					<div>
@@ -63,6 +86,7 @@ const t = useTranslations(lang);
 
 		<form class="form" method="post" action="/contact.php" aria-label={t("form.label")}>
 			<input type="hidden" name="lang" value={lang} />
+			<input type="hidden" name="page" value={page} />
 			<!-- Honeypot: humans never see or fill this -->
 			<div class="form__trap" aria-hidden="true">
 				<label for="contact-website">Website</label>
@@ -86,7 +110,12 @@ const t = useTranslations(lang);
 			</div>
 			<div class="field field--full">
 				<label for="contact-message">{t("form.message")}</label>
-				<textarea id="contact-message" name="message" required></textarea>
+				<textarea
+					id="contact-message"
+					name="message"
+					required
+					data-enquiries={JSON.stringify(enquiries)}
+				></textarea>
 			</div>
 			<p
 				class="form__status"
@@ -96,7 +125,10 @@ const t = useTranslations(lang);
 				data-error={t("form.error")}
 			></p>
 			<div class="field--full form__foot">
-				<span class="muted">{t("form.privacy")}</span>
+				<span class="muted">
+					{t("form.privacy")}
+					<a href={getRelativeLocaleUrl(lang, "confidentialitate")}>{t("form.privacyLink")}</a>
+				</span>
 				<button class="btn btn--primary" type="submit">
 					{t("form.submit")}
 				</button>
@@ -110,6 +142,12 @@ const t = useTranslations(lang);
 	const status = document.querySelector<HTMLElement>(".form__status");
 	const params = new URLSearchParams(window.location.search);
 	const state = params.has("sent") ? "sent" : params.has("error") ? "error" : null;
+	const message = document.querySelector<HTMLTextAreaElement>("#contact-message");
+	const room = params.get("camera");
+	if (message && room && !message.value) {
+		const enquiries = JSON.parse(message.dataset.enquiries ?? "{}") as Record<string, string>;
+		message.value = enquiries[room] ?? "";
+	}
 	if (status && state) {
 		status.textContent = status.dataset[state] ?? "";
 		status.dataset.state = state;

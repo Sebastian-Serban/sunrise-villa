@@ -8,9 +8,11 @@ interface Props {
 	path?: string;
 	title?: string;
 	description?: string;
+	/** Keep out of search results and skip canonical/hreflang (404). */
+	noindex?: boolean;
 }
 
-const { path = "", title, description } = Astro.props;
+const { path = "", title, description, noindex = false } = Astro.props;
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 const pageTitle = title ?? t("meta.title");
@@ -25,11 +27,17 @@ const canonical = getAbsoluteLocaleUrl(lang, path);
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{pageTitle}</title>
 		<meta name="description" content={pageDescription} />
-		<link rel="canonical" href={canonical} />
-		{(Object.keys(languages) as Lang[]).map((l) => (
-			<link rel="alternate" hreflang={l} href={getAbsoluteLocaleUrl(l, path)} />
-		))}
-		<link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl("ro", path)} />
+		{noindex ? (
+			<meta name="robots" content="noindex" />
+		) : (
+			<>
+				<link rel="canonical" href={canonical} />
+				{(Object.keys(languages) as Lang[]).map((l) => (
+					<link rel="alternate" hreflang={l} href={getAbsoluteLocaleUrl(l, path)} />
+				))}
+				<link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl("ro", path)} />
+			</>
+		)}
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={pageDescription} />

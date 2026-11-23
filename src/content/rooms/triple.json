@@ -1,5 +1,6 @@
 {
 	"order": 3,
+	"anchor": "tripla",
 	"name": {
 		"ro": "Cameră triplă",
 		"en": "Triple room",
@@ -15,12 +16,48 @@
 		"en": "For small families or three friends. One double bed and one single.",
 		"de": "Für kleine Familien oder drei Freunde. Ein Doppelbett und ein Einzelbett."
 	},
+	"intro": {
+		"ro": "Pentru familii mici sau trei prieteni. Un pat matrimonial și un pat de o persoană, fără să mai fie nevoie de pat suplimentar.",
+		"en": "For small families or three friends. A double bed and a single bed, so no extra bed is needed.",
+		"de": "Für kleine Familien oder drei Freunde. Ein Doppelbett und ein Einzelbett, ganz ohne Zustellbett."
+	},
+	"ask": {
+		"ro": "Întreabă de camera triplă",
+		"en": "Ask about the triple room",
+		"de": "Dreibettzimmer anfragen"
+	},
+	"enquiry": {
+		"ro": "Bună ziua, aș dori informații despre camera triplă.",
+		"en": "Hello, I would like information about the triple room.",
+		"de": "Guten Tag, ich hätte gerne Informationen zum Dreibettzimmer."
+	},
 	"sizeM2": 20,
 	"maxPersons": 3,
-	"image": "../../assets/rooms/room-triple.jpg",
-	"imageAlt": {
-		"ro": "Cameră triplă cu pat matrimonial și pat single",
-		"en": "Triple room with a double and a single bed",
-		"de": "Dreibettzimmer mit Doppel- und Einzelbett"
-	}
+	"extraBed": false,
+	"photos": [
+		{
+			"image": "../../assets/rooms/room-triple.jpg",
+			"alt": {
+				"ro": "Cameră triplă cu pat matrimonial și pat single",
+				"en": "Triple room with a double and a single bed",
+				"de": "Dreibettzimmer mit Doppel- und Einzelbett"
+			}
+		},
+		{
+			"image": "../../assets/rooms/triple-attic.jpg",
+			"alt": {
+				"ro": "Cameră triplă la mansardă, cu ferestre în acoperiș",
+				"en": "Attic triple room with roof windows",
+				"de": "Dreibettzimmer im Dachgeschoss mit Dachfenstern"
+			}
+		},
+		{
+			"image": "../../assets/rooms/triple-desk.jpg",
+			"alt": {
+				"ro": "Cameră triplă cu birou și TV",
+				"en": "Triple room with desk and TV",
+				"de": "Dreibettzimmer mit Schreibtisch und TV"
+			}
+		}
+	]
 }

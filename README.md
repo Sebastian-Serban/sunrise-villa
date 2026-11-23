@@ -21,13 +21,15 @@ npm run lint      # ESLint incl. accessibility rules for .astro templates
 ```
 src/
   assets/            images (optimised at build time) and the logo SVG
-  components/        Header, Sweep (curved section divider), HomePage (composes the page)
+  components/        Header, Sweep (curved section divider), PageHead, RoomPhotos, ...
+    pages/           one component per page (Home, Rooms, Gallery, Contact, Legal), shared by RO/EN/DE
     sections/        one component per homepage section: Hero, Rooms, Spaces, ...
-  content/           rooms/, attractions/ (one JSON per item), reviews.json, faq.json
+  content/           rooms/, attractions/ (one JSON per item), reviews.json, faq.json,
+                     gallery.json (gallery page photos), legal/<page>/<lang>.md
   content.config.ts  schemas for the content above
   i18n/ui.ts         UI strings (RO, EN, DE), contact constants, getLang()
   layouts/Base.astro <html> shell: meta, hreflang, fonts, stroke draw-in
-  pages/             index.astro (RO at /), en/ and de/ mirror it
+  pages/             RO routes at /, en/ and de/ mirror them; 404.astro is RO only
   styles/            tokens.css (design system), global.css
 docs/sunrise-villa.md  project knowledge base: client, property, decisions
 legacy/                old WordPress child-theme CSS, reference only
@@ -42,11 +44,14 @@ added once in `src/pages/` and mirrored in `en/` and `de/` as a one-line wrapper
 
 UI strings are in `src/i18n/ui.ts` (the pattern from Astro's i18n recipe). Structured content (rooms,
 attractions) carries `{ ro, en, de }` per text field so facts like size and price exist once; the
-build fails if a language is missing. Long-form pages would use one file per language instead.
+build fails if a language is missing. Long-form pages (the privacy policy) use one Markdown file per
+language in `src/content/legal/`. URL slugs are Romanian in every language (`/en/camere/`).
 
 ## Editing content
 
-- Room or attraction text: edit the JSON in `src/content/`.
+- Room or attraction text: edit the JSON in `src/content/`. A room's first photo is its cover.
+- Gallery page: add an entry to `src/content/gallery.json` (image, category, alt text per language).
+- Privacy policy: edit `src/content/legal/privacy/<lang>.md` and the `updated` date.
 - Photos: put originals in `src/assets/` and reference them from the JSON. Astro resizes them and
   serves WebP automatically, so don't pre-compress.
 - Prices: the client doesn't want prices on the site; guests call for rates.

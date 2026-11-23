@@ -1,0 +1,369 @@
+[
+	{
+		"id": "villa-pool",
+		"order": 1,
+		"image": "../assets/hero.jpg",
+		"category": "gradina",
+		"alt": {
+			"ro": "Vila și piscina într-o zi senină",
+			"en": "The villa and the pool on a clear day",
+			"de": "Die Villa und der Pool an einem klaren Tag"
+		}
+	},
+	{
+		"id": "room-double",
+		"order": 2,
+		"image": "../assets/rooms/room-double.jpg",
+		"category": "camere",
+		"alt": {
+			"ro": "Cameră dublă cu pat matrimonial",
+			"en": "Double room with a double bed",
+			"de": "Doppelzimmer mit Doppelbett"
+		}
+	},
+	{
+		"id": "aerial",
+		"order": 3,
+		"image": "../assets/spaces/pool-aerial.jpg",
+		"category": "drona",
+		"alt": {
+			"ro": "Vila, piscina și grădina văzute din dronă",
+			"en": "The villa, pool and garden from above",
+			"de": "Villa, Pool und Garten von oben"
+		}
+	},
+	{
+		"id": "triple-attic",
+		"order": 4,
+		"image": "../assets/rooms/triple-attic.jpg",
+		"category": "camere",
+		"tall": true,
+		"alt": {
+			"ro": "Cameră triplă la mansardă",
+			"en": "Attic triple room",
+			"de": "Dreibettzimmer im Dachgeschoss"
+		}
+	},
+	{
+		"id": "gazebo",
+		"order": 5,
+		"image": "../assets/spaces/gazebo.jpg",
+		"category": "gradina",
+		"alt": {
+			"ro": "Foișorul cu masă, cu vedere spre piscină",
+			"en": "The gazebo with a table, looking out to the pool",
+			"de": "Der Pavillon mit Tisch und Blick auf den Pool"
+		}
+	},
+	{
+		"id": "dining",
+		"order": 6,
+		"image": "../assets/spaces/dining.jpg",
+		"category": "interior",
+		"alt": {
+			"ro": "Sala de mese",
+			"en": "The dining room",
+			"de": "Der Speisesaal"
+		}
+	},
+	{
+		"id": "pool-villa",
+		"order": 7,
+		"image": "../assets/gallery/pool-villa.jpg",
+		"category": "gradina",
+		"alt": {
+			"ro": "Piscina și vila, cu gazon proaspăt tuns",
+			"en": "The pool and villa with a freshly mown lawn",
+			"de": "Pool und Villa mit frisch gemähtem Rasen"
+		}
+	},
+	{
+		"id": "room-twin",
+		"order": 8,
+		"image": "../assets/rooms/room-twin.jpg",
+		"category": "camere",
+		"alt": {
+			"ro": "Cameră twin cu două paturi",
+			"en": "Twin room with two beds",
+			"de": "Zweibettzimmer mit zwei Betten"
+		}
+	},
+	{
+		"id": "grill",
+		"order": 9,
+		"image": "../assets/gallery/grill.jpg",
+		"category": "gradina",
+		"alt": {
+			"ro": "Grătarul din cărămidă și foișorul",
+			"en": "The brick grill and the gazebo",
+			"de": "Der gemauerte Grill und der Pavillon"
+		}
+	},
+	{
+		"id": "triple",
+		"order": 10,
+		"image": "../assets/rooms/room-triple.jpg",
+		"category": "camere",
+		"tall": true,
+		"alt": {
+			"ro": "Cameră triplă cu pat matrimonial și pat single",
+			"en": "Triple room with a double and a single bed",
+			"de": "Dreibettzimmer mit Doppel- und Einzelbett"
+		}
+	},
+	{
+		"id": "lounge",
+		"order": 11,
+		"image": "../assets/gallery/lounge.jpg",
+		"category": "interior",
+		"alt": {
+			"ro": "Zonă de relaxare cu canapea, la mansardă",
+			"en": "Lounge corner with a sofa in the attic",
+			"de": "Sitzecke mit Sofa im Dachgeschoss"
+		}
+	},
+	{
+		"id": "pool-gazebo",
+		"order": 12,
+		"image": "../assets/gallery/pool-gazebo.jpg",
+		"category": "gradina",
+		"alt": {
+			"ro": "Piscina și foișorul, cu gardul viu în spate",
+			"en": "The pool and gazebo with the hedge behind",
+			"de": "Pool und Pavillon vor der Hecke"
+		}
+	},
+	{
+		"id": "double-attic",
+		"order": 13,
+		"image": "../assets/rooms/double-attic.jpg",
+		"category": "camere",
+		"alt": {
+			"ro": "Cameră dublă la mansardă",
+			"en": "Attic double room",
+			"de": "Doppelzimmer im Dachgeschoss"
+		}
+	},
+	{
+		"id": "drone",
+		"order": 14,
+		"image": "../assets/gallery/drone.jpg",
+		"category": "drona",
+		"alt": {
+			"ro": "Vila văzută din dronă, cu împrejurimile",
+			"en": "The villa and its surroundings from above",
+			"de": "Die Villa und ihre Umgebung von oben"
+		}
+	},
+	{
+		"id": "gazebo-view",
+		"order": 15,
+		"image": "../assets/gallery/gazebo-view.jpg",
+		"category": "gradina",
+		"alt": {
+			"ro": "Vedere din foișor spre piscină și vilă",
+			"en": "View from the gazebo to the pool and villa",
+			"de": "Blick vom Pavillon auf Pool und Villa"
+		}
+	},
+	{
+		"id": "staircase",
+		"order": 16,
+		"image": "../assets/gallery/staircase.jpg",
+		"category": "interior",
+		"alt": {
+			"ro": "Scara interioară cu balustradă din fier forjat",
+			"en": "The staircase with its wrought-iron railing",
+			"de": "Die Treppe mit schmiedeeisernem Geländer"
+		}
+	},
+	{
+		"id": "twin-desk",
+		"order": 17,
+		"image": "../assets/rooms/twin-desk.jpg",
+		"category": "camere",
+		"alt": {
+			"ro": "Cameră twin cu birou și TV",
+			"en": "Twin room with desk and TV",
+			"de": "Zweibettzimmer mit Schreibtisch und TV"
+		}
+	},
+	{
+		"id": "summer",
+		"order": 18,
+		"image": "../assets/seasons/summer.jpg",
+		"category": "gradina",
+		"alt": {
+			"ro": "Piscina, șezlongurile și foișorul vara",
+			"en": "The pool, loungers and gazebo in summer",
+			"de": "Pool, Liegen und Pavillon im Sommer"
+		}
+	},
+	{
+		"id": "stairs",
+		"order": 19,
+		"image": "../assets/gallery/stairs.jpg",
+		"category": "interior",
+		"tall": true,
+		"alt": {
+			"ro": "Scara spre etaj",
+			"en": "The stairs to the upper floor",
+			"de": "Die Treppe ins Obergeschoss"
+		}
+	},
+	{
+		"id": "bath",
+		"order": 20,
+		"image": "../assets/gallery/bath.jpg",
+		"category": "camere",
+		"alt": {
+			"ro": "Baie proprie cu duș",
+			"en": "Private bathroom with shower",
+			"de": "Eigenes Bad mit Dusche"
+		}
+	},
+	{
+		"id": "summer-kitchen",
+		"order": 21,
+		"image": "../assets/gallery/summer-kitchen.jpg",
+		"category": "gradina",
+		"alt": {
+			"ro": "Bucătăria de vară de lângă foișor",
+			"en": "The summer kitchen next to the gazebo",
+			"de": "Die Sommerküche neben dem Pavillon"
+		}
+	},
+	{
+		"id": "attic-lounge",
+		"order": 22,
+		"image": "../assets/gallery/attic-lounge.jpg",
+		"category": "interior",
+		"alt": {
+			"ro": "Spațiu de relaxare cu ferestre în acoperiș",
+			"en": "Seating area under the roof windows",
+			"de": "Sitzbereich unter den Dachfenstern"
+		}
+	},
+	{
+		"id": "triple-desk",
+		"order": 23,
+		"image": "../assets/rooms/triple-desk.jpg",
+		"category": "camere",
+		"tall": true,
+		"alt": {
+			"ro": "Cameră triplă cu birou și TV",
+			"en": "Triple room with desk and TV",
+			"de": "Dreibettzimmer mit Schreibtisch und TV"
+		}
+	},
+	{
+		"id": "facade",
+		"order": 24,
+		"image": "../assets/gallery/facade.jpg",
+		"category": "gradina",
+		"alt": {
+			"ro": "Fațada vilei și piscina",
+			"en": "The front of the villa and the pool",
+			"de": "Die Fassade der Villa und der Pool"
+		}
+	},
+	{
+		"id": "villa",
+		"order": 25,
+		"image": "../assets/gallery/villa.jpg",
+		"category": "gradina",
+		"alt": {
+			"ro": "Vila și șezlongurile din grădină",
+			"en": "The villa and the loungers in the garden",
+			"de": "Die Villa und die Liegen im Garten"
+		}
+	},
+	{
+		"id": "upstairs-hall",
+		"order": 26,
+		"image": "../assets/gallery/upstairs-hall.jpg",
+		"category": "interior",
+		"alt": {
+			"ro": "Holul de la etaj, cu ușile camerelor",
+			"en": "The upstairs hall with the room doors",
+			"de": "Der obere Flur mit den Zimmertüren"
+		}
+	},
+	{
+		"id": "twin-bath",
+		"order": 27,
+		"image": "../assets/rooms/twin-bath.jpg",
+		"category": "camere",
+		"alt": {
+			"ro": "Cameră twin cu ușa spre baie",
+			"en": "Twin room with the door to the bathroom",
+			"de": "Zweibettzimmer mit Tür zum Bad"
+		}
+	},
+	{
+		"id": "terrace",
+		"order": 28,
+		"image": "../assets/gallery/terrace.jpg",
+		"category": "gradina",
+		"alt": {
+			"ro": "Piscina și terasa din fața vilei",
+			"en": "The pool and the terrace in front of the villa",
+			"de": "Pool und Terrasse vor der Villa"
+		}
+	},
+	{
+		"id": "hallway",
+		"order": 29,
+		"image": "../assets/gallery/hallway.jpg",
+		"category": "interior",
+		"alt": {
+			"ro": "Hol luminos spre camere",
+			"en": "A bright hallway to the rooms",
+			"de": "Heller Flur zu den Zimmern"
+		}
+	},
+	{
+		"id": "attic",
+		"order": 30,
+		"image": "../assets/gallery/attic.jpg",
+		"category": "camere",
+		"alt": {
+			"ro": "Cameră la mansardă cu ferestre în acoperiș",
+			"en": "Attic room with roof windows",
+			"de": "Dachzimmer mit Dachfenstern"
+		}
+	},
+	{
+		"id": "lawn",
+		"order": 31,
+		"image": "../assets/gallery/lawn.jpg",
+		"category": "gradina",
+		"alt": {
+			"ro": "Grădina cu gazon și șezlonguri",
+			"en": "The lawn and loungers in the garden",
+			"de": "Rasen und Liegen im Garten"
+		}
+	},
+	{
+		"id": "double-hall",
+		"order": 32,
+		"image": "../assets/rooms/double-hall.jpg",
+		"category": "camere",
+		"alt": {
+			"ro": "Cameră dublă văzută din hol",
+			"en": "Double room seen from the hallway",
+			"de": "Doppelzimmer vom Flur aus"
+		}
+	},
+	{
+		"id": "stairwell",
+		"order": 33,
+		"image": "../assets/gallery/stairwell.jpg",
+		"category": "interior",
+		"alt": {
+			"ro": "Casa scării și o cameră deschisă",
+			"en": "The stairwell and an open room",
+			"de": "Treppenhaus und ein offenes Zimmer"
+		}
+	}
+]

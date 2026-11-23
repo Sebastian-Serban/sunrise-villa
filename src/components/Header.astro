@@ -16,10 +16,10 @@ const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 const home = getRelativeLocaleUrl(lang);
 const links = [
-	{ href: `${home}#camere`, label: t("nav.rooms") },
-	{ href: `${home}#spatii`, label: t("nav.spaces") },
-	{ href: `${home}#imprejurimi`, label: t("nav.area") },
-	{ href: `${home}#contact`, label: t("nav.contact") },
+	{ path: "camere", href: getRelativeLocaleUrl(lang, "camere"), label: t("nav.rooms") },
+	{ path: "galerie", href: getRelativeLocaleUrl(lang, "galerie"), label: t("nav.gallery") },
+	{ path: null, href: `${home}#imprejurimi`, label: t("nav.area") },
+	{ path: "contact", href: getRelativeLocaleUrl(lang, "contact"), label: t("nav.contact") },
 ];
 ---
 
@@ -30,7 +30,9 @@ const links = [
 		</a>
 		<nav class="header__nav" aria-label={t("nav.menu")}>
 			{links.map((link) => (
-				<a href={link.href}>{link.label}</a>
+				<a href={link.href} aria-current={link.path === path ? "page" : undefined}>
+					{link.label}
+				</a>
 			))}
 		</nav>
 		<div class="header__end">
@@ -46,7 +48,10 @@ const links = [
 					</a>
 				))}
 			</div>
-			<a class="btn btn--tan header__book" href={BOOKING_URL}>
+			<a
+				class:list={["btn header__book", overPhoto ? "btn--tan" : "btn--primary"]}
+				href={BOOKING_URL}
+			>
 				{t("cta.book")}
 			</a>
 			<button class="header__menu" type="button" data-open-menu aria-controls="mobile-menu">
@@ -90,6 +95,13 @@ const links = [
 	}
 	.header__nav a:hover {
 		color: var(--tan);
+	}
+	.header:not(.header--over-photo) .header__nav a:hover {
+		color: var(--tan-deep);
+	}
+	.header__nav a[aria-current] {
+		padding-bottom: 4px;
+		border-bottom: 2px solid var(--tan);
 	}
 	.header__end {
 		display: flex;
@@ -149,6 +161,11 @@ const links = [
 			font-size: var(--text-small);
 			font-weight: 600;
 			cursor: pointer;
+		}
+		.header:not(.header--over-photo) .header__menu {
+			border-color: var(--line-strong);
+			background: transparent;
+			color: var(--ink);
 		}
 	}
 </style>
