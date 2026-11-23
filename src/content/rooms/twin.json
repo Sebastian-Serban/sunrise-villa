@@ -1,5 +1,6 @@
 {
 	"order": 2,
+	"anchor": "twin",
 	"name": {
 		"ro": "Cameră twin",
 		"en": "Twin room",
@@ -15,12 +16,48 @@
 		"en": "For friends, colleagues or a parent with a child. Same amenities, two beds.",
 		"de": "Für Freunde, Kollegen oder Elternteil mit Kind. Gleiche Ausstattung, zwei Betten."
 	},
+	"intro": {
+		"ro": "Pentru prieteni, colegi sau părinte cu copil. Aceleași dotări ca la camera dublă, cu două paturi de o persoană.",
+		"en": "For friends, colleagues or a parent with a child. The same amenities as the double room, with two single beds.",
+		"de": "Für Freunde, Kollegen oder Elternteil mit Kind. Gleiche Ausstattung wie das Doppelzimmer, mit zwei Einzelbetten."
+	},
+	"ask": {
+		"ro": "Întreabă de camera twin",
+		"en": "Ask about the twin room",
+		"de": "Zweibettzimmer anfragen"
+	},
+	"enquiry": {
+		"ro": "Bună ziua, aș dori informații despre camera twin.",
+		"en": "Hello, I would like information about the twin room.",
+		"de": "Guten Tag, ich hätte gerne Informationen zum Zweibettzimmer."
+	},
 	"sizeM2": 20,
 	"maxPersons": 2,
-	"image": "../../assets/rooms/room-twin.jpg",
-	"imageAlt": {
-		"ro": "Cameră twin cu două paturi separate",
-		"en": "Twin room with two single beds",
-		"de": "Zweibettzimmer mit zwei Einzelbetten"
-	}
+	"extraBed": true,
+	"photos": [
+		{
+			"image": "../../assets/rooms/room-twin.jpg",
+			"alt": {
+				"ro": "Cameră twin cu două paturi separate",
+				"en": "Twin room with two single beds",
+				"de": "Zweibettzimmer mit zwei Einzelbetten"
+			}
+		},
+		{
+			"image": "../../assets/rooms/twin-desk.jpg",
+			"alt": {
+				"ro": "Cameră twin cu birou și TV",
+				"en": "Twin room with desk and TV",
+				"de": "Zweibettzimmer mit Schreibtisch und TV"
+			}
+		},
+		{
+			"image": "../../assets/rooms/twin-bath.jpg",
+			"alt": {
+				"ro": "Cameră twin cu ușa spre baia proprie",
+				"en": "Twin room with the door to its own bathroom",
+				"de": "Zweibettzimmer mit Tür zum eigenen Bad"
+			}
+		}
+	]
 }

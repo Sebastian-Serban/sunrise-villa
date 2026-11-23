@@ -18,13 +18,24 @@ const rooms = defineCollection({
 	schema: ({ image }) =>
 		z.object({
 			order: z.number().int(),
+			/** Fragment id on the rooms page and value of ?camera= on the contact page. */
+			anchor: z.string().regex(/^[a-z]+$/),
 			name: localized,
 			beds: localized,
+			/** Short text for the homepage card. */
 			description: localized,
+			/** Longer text for the rooms page. */
+			intro: localized,
+			/** Label of the enquiry button on the rooms page. */
+			ask: localized,
+			/** Pre-filled contact form message when coming from that button. */
+			enquiry: localized,
 			sizeM2: z.number().positive(),
 			maxPersons: z.number().int().positive(),
-			image: image(),
-			imageAlt: localized,
+			/** Whether an extra bed can be added on request. */
+			extraBed: z.boolean(),
+			/** First photo is the cover (homepage card, rooms page main image). */
+			photos: z.array(z.object({ image: image(), alt: localized })).min(1),
 		}),
 });
 
@@ -70,4 +81,28 @@ const faq = defineCollection({
 	}),
 });
 
-export const collections = { rooms, attractions, reviews, faq };
+/** Photos for the gallery page. Order in gallery.json is the display order for "all". */
+const gallery = defineCollection({
+	loader: file("./src/content/gallery.json"),
+	schema: ({ image }) =>
+		z.object({
+			order: z.number().int(),
+			image: image(),
+			category: z.enum(["camere", "gradina", "interior", "drona"]),
+			/** Portrait crop in the grid. */
+			tall: z.boolean().default(false),
+			alt: localized,
+		}),
+});
+
+/** Legal pages as Markdown, one file per language: src/content/legal/<page>/<lang>.md */
+const legal = defineCollection({
+	loader: glob({ pattern: "**/*.md", base: "./src/content/legal" }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		updated: z.string(),
+	}),
+});
+
+export const collections = { rooms, attractions, reviews, faq, gallery, legal };

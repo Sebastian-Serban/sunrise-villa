@@ -2,11 +2,13 @@
 import { Image } from "astro:assets";
 import AppIcon from "../AppIcon.astro";
 import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLang, useTranslations } from "../../i18n/ui";
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 const rooms = (await getCollection("rooms")).sort((a, b) => a.data.order - b.data.order);
+const roomsPage = getRelativeLocaleUrl(lang, "camere");
 ---
 
 <section id="camere" class="section rooms">
@@ -18,8 +20,8 @@ const rooms = (await getCollection("rooms")).sort((a, b) => a.data.order - b.dat
 			{rooms.map(({ data }) => (
 				<article class="room">
 					<Image
-						src={data.image}
-						alt={data.imageAlt[lang]}
+						src={data.photos[0].image}
+						alt={data.photos[0].alt[lang]}
 						widths={[480, 800, 1200]}
 						sizes="(max-width: 1000px) 100vw, 33vw"
 						class="room__img"
@@ -41,6 +43,9 @@ const rooms = (await getCollection("rooms")).sort((a, b) => a.data.order - b.dat
 							</li>
 						</ul>
 						<p class="muted">{data.description[lang]}</p>
+						<a class="room__link" href={`${roomsPage}#${data.anchor}`}>
+							{t("rooms.details")}
+						</a>
 					</div>
 				</article>
 			))}
@@ -82,6 +87,17 @@ const rooms = (await getCollection("rooms")).sort((a, b) => a.data.order - b.dat
 	}
 	.room__body p {
 		margin: 0;
+	}
+	.room__link {
+		align-self: flex-start;
+		padding-bottom: 2px;
+		border-bottom: 2px solid var(--tan);
+		color: var(--espresso);
+		font-weight: 600;
+		text-decoration: none;
+	}
+	.room__link:hover {
+		color: var(--tan-deep);
 	}
 	.room__chips {
 		display: flex;

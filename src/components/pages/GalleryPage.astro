@@ -1,0 +1,450 @@
+---
+/**
+ * Gallery page: filterable photo grid and a full-screen viewer.
+ * Filtering is a data attribute on the grid; CSS hides the rest. The viewer is
+ * a native <dialog> fed from the photos that are currently visible.
+ */
+import { getImage, Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import AppIcon from "../AppIcon.astro";
+import Footer from "../Footer.astro";
+import Header from "../Header.astro";
+import MobileNav from "../MobileNav.astro";
+import PageHead from "../PageHead.astro";
+import Sweep from "../Sweep.astro";
+import { getLang, useTranslations } from "../../i18n/ui";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+
+const entries = (await getCollection("gallery")).sort((a, b) => a.data.order - b.data.order);
+const photos = await Promise.all(
+	entries.map(async ({ data }) => ({
+		...data,
+		// Large version for the viewer; never upscale past the original.
+		full: await getImage({
+			src: data.image,
+			width: Math.min(1800, data.image.width),
+			format: "webp",
+		}),
+	})),
+);
+
+const categories = ["toate", "camere", "gradina", "interior", "drona"] as const;
+const counts = Object.fromEntries(
+	categories.map((c) => [
+		c,
+		c === "toate" ? photos.length : photos.filter((p) => p.category === c).length,
+	]),
+);
+---
+
+<Base
+	path="galerie"
+	title={t("galleryPage.meta.title")}
+	description={t("galleryPage.meta.description")}
+>
+	<Header path="galerie" overPhoto={false} />
+	<MobileNav path="galerie" />
+	<main>
+		<PageHead
+			label={t("nav.gallery")}
+			titleBefore={t("galleryPage.title.before")}
+			titleAccent={t("galleryPage.title.accent")}
+			lead={t("galleryPage.lead")}
+		>
+			<div class="filters" role="group" aria-label={t("galleryPage.filter")}>
+				{categories.map((c) => (
+					<button
+						class="filters__btn"
+						type="button"
+						data-filter={c}
+						aria-pressed={c === "toate" ? "true" : "false"}
+					>
+						{t(`galleryPage.cat.${c}`)}
+						<span>{counts[c]}</span>
+					</button>
+				))}
+			</div>
+		</PageHead>
+
+		<section class="section gallery">
+			<div class="wrap">
+				<div class="gallery__grid" data-grid data-filter="toate">
+					{photos.map((photo) => (
+						<button
+							class:list={["gallery__item", { "gallery__item--tall": photo.tall }]}
+							type="button"
+							data-cat={photo.category}
+							data-full={photo.full.src}
+							aria-label={`${t("galleryPage.open")} ${photo.alt[lang]}`}
+						>
+							<Image
+								src={photo.image}
+								alt={photo.alt[lang]}
+								widths={[400, 600, 800]}
+								sizes="(max-width: 720px) 50vw, (max-width: 1000px) 50vw, 33vw"
+							/>
+						</button>
+					))}
+				</div>
+				<p class="muted gallery__hint">{t("galleryPage.hint")}</p>
+			</div>
+		</section>
+
+		<dialog class="viewer" aria-label={t("lightbox.label")} data-viewer>
+			<div class="viewer__top">
+				<span class="viewer__count" aria-live="polite" data-count></span>
+				<button class="viewer__btn" type="button" data-close aria-label={t("lightbox.close")}>
+					<AppIcon name="X" />
+				</button>
+			</div>
+			<div class="viewer__stage">
+				<button
+					class="viewer__btn viewer__side"
+					type="button"
+					data-prev
+					aria-label={t("carousel.prev")}
+				>
+					<AppIcon name="ChevronLeft" />
+				</button>
+				<img class="viewer__img" alt="" data-img />
+				<button
+					class="viewer__btn viewer__side"
+					type="button"
+					data-next
+					aria-label={t("carousel.next")}
+				>
+					<AppIcon name="ChevronRight" />
+				</button>
+			</div>
+			<p class="viewer__caption" data-caption></p>
+			<div class="viewer__nav">
+				<button class="viewer__btn" type="button" data-prev aria-label={t("carousel.prev")}>
+					<AppIcon name="ChevronLeft" />
+				</button>
+				<button class="viewer__btn" type="button" data-next aria-label={t("carousel.next")}>
+					<AppIcon name="ChevronRight" />
+				</button>
+			</div>
+			<div class="viewer__thumbs" data-thumbs></div>
+		</dialog>
+
+		<Sweep from="surface" to="espresso" shape="rise" />
+	</main>
+	<Footer />
+</Base>
+
+<script>
+	const grid = document.querySelector<HTMLElement>("[data-grid]");
+	const viewer = document.querySelector<HTMLDialogElement>("[data-viewer]");
+
+	if (grid && viewer) {
+		const filters = document.querySelectorAll<HTMLButtonElement>("[data-filter]:not([data-grid])");
+		filters.forEach((button) =>
+			button.addEventListener("click", () => {
+				grid.dataset.filter = button.dataset.filter;
+				filters.forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+			}),
+		);
+
+		const img = viewer.querySelector<HTMLImageElement>("[data-img]")!;
+		const caption = viewer.querySelector<HTMLElement>("[data-caption]")!;
+		const count = viewer.querySelector<HTMLElement>("[data-count]")!;
+		const prevs = viewer.querySelectorAll<HTMLButtonElement>("[data-prev]");
+		const nexts = viewer.querySelectorAll<HTMLButtonElement>("[data-next]");
+		const thumbs = viewer.querySelector<HTMLElement>("[data-thumbs]")!;
+		let items: HTMLButtonElement[] = [];
+		let index = 0;
+
+		const show = () => {
+			const item = items[index];
+			const thumb = item?.querySelector("img");
+			if (!item || !thumb) return;
+			img.src = item.dataset.full ?? thumb.src;
+			img.alt = thumb.alt;
+			caption.textContent = thumb.alt;
+			count.textContent = `${index + 1} / ${items.length}`;
+			prevs.forEach((b) => (b.disabled = index === 0));
+			nexts.forEach((b) => (b.disabled = index === items.length - 1));
+			[...thumbs.children].forEach((t, i) => t.setAttribute("aria-current", String(i === index)));
+			thumbs.children[index]?.scrollIntoView({ block: "nearest", inline: "center" });
+		};
+		const buildThumbs = () => {
+			thumbs.replaceChildren(
+				...items.map((item, i) => {
+					const button = document.createElement("button");
+					button.type = "button";
+					button.setAttribute("aria-label", `${i + 1} / ${items.length}`);
+					const thumb = document.createElement("img");
+					const source = item.querySelector("img");
+					thumb.src = source?.currentSrc || source?.src || "";
+					thumb.alt = "";
+					button.append(thumb);
+					button.addEventListener("click", () => {
+						index = i;
+						show();
+					});
+					return button;
+				}),
+			);
+		};
+		const step = (delta: number) => {
+			const next = index + delta;
+			if (next < 0 || next >= items.length) return;
+			index = next;
+			show();
+		};
+
+		grid.querySelectorAll<HTMLButtonElement>(".gallery__item").forEach((item) =>
+			item.addEventListener("click", () => {
+				// Only the photos the current filter shows
+				items = [...grid.querySelectorAll<HTMLButtonElement>(".gallery__item")].filter(
+					(el) => el.offsetParent !== null,
+				);
+				index = items.indexOf(item);
+				buildThumbs();
+				viewer.showModal();
+				show();
+			}),
+		);
+		prevs.forEach((b) => b.addEventListener("click", () => step(-1)));
+		nexts.forEach((b) => b.addEventListener("click", () => step(1)));
+		viewer.querySelector("[data-close]")?.addEventListener("click", () => viewer.close());
+		viewer.addEventListener("keydown", (event) => {
+			if (event.key === "ArrowLeft") step(-1);
+			if (event.key === "ArrowRight") step(1);
+		});
+	}
+</script>
+
+<style>
+	.filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin-top: 40px;
+	}
+	.filters__btn {
+		height: 44px;
+		padding: 0 18px;
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius-sm);
+		background: transparent;
+		color: var(--ink);
+		font: inherit;
+		font-size: var(--text-small);
+		font-weight: 600;
+		cursor: pointer;
+	}
+	.filters__btn span {
+		margin-left: 6px;
+		font-weight: 400;
+		color: var(--ink-muted);
+	}
+	.filters__btn[aria-pressed="true"] {
+		background: var(--espresso);
+		border-color: var(--espresso);
+		color: var(--on-dark);
+	}
+	.filters__btn[aria-pressed="true"] span {
+		color: var(--on-dark-muted);
+	}
+
+	.gallery {
+		padding-top: 40px;
+	}
+	.gallery__grid {
+		column-count: 3;
+		column-gap: var(--space-4);
+	}
+	.gallery__item {
+		display: block;
+		width: 100%;
+		margin: 0 0 var(--space-4);
+		padding: 0;
+		border: 0;
+		background: var(--photo-placeholder);
+		break-inside: avoid;
+		cursor: zoom-in;
+	}
+	.gallery__item img {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
+	}
+	.gallery__item--tall img {
+		aspect-ratio: 3 / 4;
+	}
+	.gallery__item:focus-visible {
+		outline: 2px solid var(--tan-deep);
+		outline-offset: 3px;
+	}
+	.gallery__grid[data-filter="camere"] .gallery__item:not([data-cat="camere"]),
+	.gallery__grid[data-filter="gradina"] .gallery__item:not([data-cat="gradina"]),
+	.gallery__grid[data-filter="interior"] .gallery__item:not([data-cat="interior"]),
+	.gallery__grid[data-filter="drona"] .gallery__item:not([data-cat="drona"]) {
+		display: none;
+	}
+	.gallery__hint {
+		margin: var(--space-6) 0 0;
+		font-size: var(--text-small);
+	}
+
+	.viewer {
+		width: 100%;
+		max-width: none;
+		height: 100%;
+		max-height: none;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background: var(--espresso-hover);
+		color: var(--on-dark);
+		grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+	}
+	.viewer[open] {
+		display: grid;
+	}
+	.viewer::backdrop {
+		background: var(--espresso-hover);
+	}
+	.viewer__top {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 20px var(--page-pad);
+	}
+	.viewer__count {
+		font-size: var(--text-small);
+		color: var(--on-dark-muted);
+		font-variant-numeric: tabular-nums;
+	}
+	.viewer__btn {
+		width: 52px;
+		height: 52px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid var(--ink-muted);
+		border-radius: var(--radius-sm);
+		background: transparent;
+		color: var(--on-dark);
+		cursor: pointer;
+	}
+	.viewer__btn:hover {
+		border-color: var(--on-dark);
+	}
+	.viewer__btn:disabled {
+		opacity: 0.3;
+		cursor: default;
+	}
+	.viewer__btn:focus-visible {
+		outline: 2px solid var(--tan);
+		outline-offset: 3px;
+	}
+	.viewer__stage {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+		gap: var(--space-6);
+		padding: 0 var(--page-pad);
+		min-height: 0;
+	}
+	.viewer__img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		min-height: 0;
+	}
+	.viewer__caption {
+		margin: 0;
+		padding: 20px var(--page-pad) 28px;
+		text-align: center;
+		color: var(--sand);
+	}
+	.viewer__nav {
+		display: none;
+	}
+	.viewer__thumbs {
+		display: flex;
+		gap: var(--space-2);
+		padding: 0 var(--page-pad) var(--space-6);
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+	.viewer__thumbs :global(button) {
+		flex: none;
+		width: 84px;
+		height: 56px;
+		padding: 0;
+		border: 0;
+		background: var(--espresso-raised);
+		opacity: 0.45;
+		cursor: pointer;
+	}
+	.viewer__thumbs :global(button[aria-current="true"]) {
+		opacity: 1;
+		outline: 2px solid var(--tan);
+		outline-offset: 2px;
+	}
+	.viewer__thumbs :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	@media (max-width: 1000px) {
+		.gallery__grid {
+			column-count: 2;
+		}
+	}
+	@media (max-width: 720px) {
+		.filters {
+			flex-wrap: nowrap;
+			overflow-x: auto;
+			margin: 28px calc(-1 * var(--page-pad)) 0;
+			padding: 0 var(--page-pad) 4px;
+			scrollbar-width: none;
+		}
+		.filters__btn {
+			flex: none;
+		}
+		.gallery {
+			padding-top: var(--space-6);
+		}
+		.gallery__grid {
+			column-gap: var(--space-2);
+			margin-inline: -12px;
+		}
+		.gallery__item {
+			margin-bottom: var(--space-2);
+		}
+		.viewer__stage {
+			grid-template-columns: minmax(0, 1fr);
+			padding: 0;
+		}
+		.viewer__side {
+			display: none;
+		}
+		.viewer__nav {
+			display: flex;
+			justify-content: center;
+			gap: var(--space-3);
+			padding-bottom: var(--space-4);
+		}
+		.viewer__thumbs {
+			padding-bottom: calc(20px + env(safe-area-inset-bottom));
+		}
+		.viewer__thumbs :global(button) {
+			width: 64px;
+			height: 44px;
+		}
+		.viewer__caption {
+			padding-bottom: var(--space-4);
+		}
+	}
+</style>

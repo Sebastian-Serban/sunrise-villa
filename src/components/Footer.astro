@@ -31,16 +31,16 @@ const year = new Date().getFullYear();
 					<h3>{t("footer.pages")}</h3>
 					<ul>
 						<li>
-							<a href={`${home}#camere`}>{t("nav.rooms")}</a>
+							<a href={getRelativeLocaleUrl(lang, "camere")}>{t("nav.rooms")}</a>
 						</li>
 						<li>
-							<a href={`${home}#spatii`}>{t("nav.gallery")}</a>
+							<a href={getRelativeLocaleUrl(lang, "galerie")}>{t("nav.gallery")}</a>
 						</li>
 						<li>
 							<a href={`${home}#imprejurimi`}>{t("nav.area")}</a>
 						</li>
 						<li>
-							<a href={`${home}#contact`}>{t("nav.contact")}</a>
+							<a href={getRelativeLocaleUrl(lang, "contact")}>{t("nav.contact")}</a>
 						</li>
 					</ul>
 				</nav>
@@ -166,8 +166,10 @@ const year = new Date().getFullYear();
 
 	<div class="wrap footer__bottom">
 		<span>© {year} Sunrise Villa</span>
-		<!-- TODO: link the privacy policy here once the page exists (needed before launch, GDPR) -->
-		<a href="https://anpc.ro/">ANPC</a>
+		<span>
+			<a href={getRelativeLocaleUrl(lang, "confidentialitate")}>{t("footer.privacy")}</a>·{" "}
+			<a href="https://anpc.ro/">ANPC</a>
+		</span>
 	</div>
 </footer>
 

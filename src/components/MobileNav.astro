@@ -28,11 +28,11 @@ const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 const home = getRelativeLocaleUrl(lang);
 const links = [
-	{ href: `${home}#camere`, label: t("nav.rooms") },
-	{ href: `${home}#spatii`, label: t("nav.spaces") },
+	{ href: home, label: t("nav.home") },
+	{ href: getRelativeLocaleUrl(lang, "camere"), label: t("nav.rooms") },
+	{ href: getRelativeLocaleUrl(lang, "galerie"), label: t("nav.gallery") },
 	{ href: `${home}#imprejurimi`, label: t("nav.area") },
-	{ href: `${home}#intrebari`, label: t("nav.faq") },
-	{ href: `${home}#contact`, label: t("nav.contact") },
+	{ href: getRelativeLocaleUrl(lang, "contact"), label: t("nav.contact") },
 ];
 ---
 
