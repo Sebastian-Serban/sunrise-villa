@@ -11,6 +11,19 @@
 | Timeline | WordPress site live since ~2025. Rebuild in code (Astro, static) in progress since Nov 2026. |
 | Budget | Minimize paid tools. Free preferred, paid only when clearly justified. |
 
+### Status (24 Nov 2026)
+
+The client saw the new design (mock site) and **rejected it**: they prefer the look of the current
+WordPress site. They are fully on board with leaving WordPress for Astro.
+
+Direction now: **port the current site's look to Astro, close to 1:1**. Keep everything the client
+would recognise (colours, fonts, section order, layouts, photos, copy, button and card styles).
+Quietly fix what is broken or weak (spacing, alignment, type scale, contrast, image quality, speed).
+Mobile gets designed properly regardless: the client judges the site on their phone first.
+The new-design work (design system, sweeps/curves, Fraunces/Instrument Sans) is archived, not deleted.
+The structural Astro work (pages, i18n, translated slugs, content collections, form, map, fonts setup,
+images) carries over.
+
 ### Pages (new site)
 
 | Page | RO | EN | DE | Canvas | Mock site | Astro |
@@ -22,18 +35,25 @@
 | Privacy | `/confidentialitate/` | `/en/privacy/` | `/de/datenschutz/` | done | done | done |
 | 404 | RO only | - | - | done | done | done |
 
+The table tracks the **rejected new design**. For the port, every page goes through canvas → mock
+site → Astro again in the old look.
+
 Slugs are translated and defined once in `src/i18n/routes.ts`. EN/DE copy is a draft until reviewed.
 
 ### Where things live
 
 | Thing | Where |
 |-------|-------|
-| Design system | claude.ai artifact "Sunrise Villa" (Design System type) |
-| Design canvas (all pages) | claude.ai artifact "Sunrise Villa website" (Design type) |
-| Mock site for the client | claude.ai artifact "Sunrise Villa · propunere site" (public link, all pages, RO only) |
+| Design system (archived, rejected design) | claude.ai artifact "Sunrise Villa" (Design System type) |
+| Design canvas, rejected new design (archived) | claude.ai artifact "Sunrise Villa website" (Design type) |
+| Mock site, rejected new design (archived) | claude.ai artifact "Sunrise Villa · propunere site" (public link) |
+| Design canvas, port of the current look | new canvas, to be created |
+| Old site styles | live site + child theme CSS in `legacy/wordpress-child-theme/style.css` |
 | Code | github.com/Sebastian-Serban/sunrise-villa, branch `astro` |
 
-**Workflow for changes:** design canvas first, then mock site, then Astro.
+**Workflow for changes:** design canvas first, then mock site, then Astro, and Astro only after both
+Sebastian and the client approve. For the port: audit of the live site (signature to keep / issues to
+fix) comes before the canvas.
 
 ---
 
@@ -228,7 +248,11 @@ Core angle: close enough to everything, far enough from the noise. 2 km from cen
 
 ## Design System
 
-Source of truth: the "Sunrise Villa" design system artifact. Tokens are mirrored in `src/styles/tokens.css`.
+> **Archived.** This section describes the new design the client rejected (24 Nov 2026). The port
+> uses the current site's styles; they will be documented here after the audit. Do not use the
+> rules below for new work.
+
+Source of truth was the "Sunrise Villa" design system artifact. Tokens are mirrored in `src/styles/tokens.css`.
 
 ### Colors
 
@@ -280,7 +304,11 @@ Lucide (`@lucide/astro`), stroke-based, 1.5 stroke width.
 
 ## Homepage
 
-### Section Order (new site)
+> The section order and subpage descriptions below are from the rejected new design. Content
+> decisions in them (three rooms, no prices, enquiry button, pages) still stand; layouts will follow
+> the old site.
+
+### Section Order (rejected new design)
 
 Hero (video background + booking bar) → Facts strip (9.9, 4.8, 2 km, 8 km) → Rooms (3 cards) → Spaces (photos, gallery carousel, tour video) → Facilities (on tan) → Seasons (summer / autumn-winter) → Surroundings (lake + attractions) → Reviews (on espresso) → FAQ → Contact (tan split + form) → Footer (schematic map, socials)
 
@@ -424,12 +452,13 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 - [ ] Test `contact.php` on ClausWeb
 - [ ] Get original photos and video, replace compressed copies
 - [ ] Check attraction photo licences
-- [ ] Hand-drawn final versions of the curves
+- [ ] Audit the live site: signature to keep, issues to fix, extracted styles (phone + desktop)
+- [ ] New design canvas: old look, fixed, phone first
+- [ ] Mock site of the port, then client approval, then Astro
 - [ ] Review EN/DE copy
 - [ ] Structured data (LodgingBusiness) + per-page meta
 - [ ] 301 redirects for old WordPress URLs
 - [ ] Verify Google Business Profile website URL
-- [ ] Update design system artifact to match the prominent sweeps and tan fills
 
 ---
 
@@ -456,8 +485,8 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 | 17 | LodgingBusiness schema type | Correct category for a guesthouse | 2026-05-03 |
 | 18 | Ditch WordPress, rebuild in code | Client never edits; WP maintenance, plugin load and security issues outweigh benefits. Changes go through Sebastian. | 2026-11-20 |
 | 19 | Astro, static output | SEO-friendly static HTML, zero JS by default, content collections for structured data | 2026-11-20 |
-| 20 | New design system: Fraunces + Instrument Sans, square system, curves-vs-grid motif | Boutique and calm without generic gradients and rounded cards | 2026-11-20 |
-| 21 | Prominent sweeps and tan fills between sections | The curves should be the site's signature, not decoration | 2026-11-20 |
+| 20 | ~~New design system: Fraunces + Instrument Sans, square system, curves-vs-grid motif~~ (superseded by 32) | Boutique and calm without generic gradients and rounded cards | 2026-11-20 |
+| 21 | ~~Prominent sweeps and tan fills between sections~~ (superseded by 32) | The curves should be the site's signature, not decoration | 2026-11-20 |
 | 22 | Astro built-in i18n, RO at root | Use the framework's way; localized JSON fields for structured content | 2026-11-21 |
 | 23 | Gallery as a swiper (scroll-snap + arrows) | Hidden scrollbar, consistent image ratio, no library | 2026-11-23 |
 | 24 | Three room types incl. triple | Old site has a triple room; max 3 persons per room | 2026-11-23 |
@@ -467,4 +496,5 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 | 28 | Workflow: canvas → mock site → Astro | Design decisions are made visually first | 2026-11-23 |
 | 29 | Translated URL slugs (`/en/rooms/`, `/de/zimmer/` ...) | Better for EN/DE visitors and search; one map in `routes.ts` keeps links and hreflang right | 2026-11-23 |
 | 30 | One enquiry button per room instead of repeated Call/WhatsApp blocks | The same block three times was noise; the button carries the room into the contact form | 2026-11-23 |
-| 31 | Contact block always sits directly before the footer | The tan contact shape is cut flat at the bottom and only flows into the footer's straight edge | 2026-11-23 |
+| 31 | ~~Contact block always sits directly before the footer~~ (layout rule of the rejected design) | The tan contact shape is cut flat at the bottom and only flows into the footer's straight edge | 2026-11-23 |
+| 32 | Client rejected the new design; port the current site's look to Astro, close to 1:1, fixing bugs and weak spots quietly, phone first | Client prefers their current site's look ("vibes"); still wants off WordPress | 2026-11-24 |
