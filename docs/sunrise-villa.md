@@ -24,6 +24,10 @@ The new-design work (design system, sweeps/curves, Fraunces/Instrument Sans) is 
 The structural Astro work (pages, i18n, translated slugs, content collections, form, map, fonts setup,
 images) carries over.
 
+**25 Nov 2026:** audit done, port canvas built (phone + desktop, all pages), preview site published for
+the client ("Sunrise Villa · previzualizare site"). Waiting for Sebastian to share it and for client
+feedback before touching Astro.
+
 ### Pages (new site)
 
 | Page | RO | EN | DE | Canvas | Mock site | Astro |
@@ -47,7 +51,8 @@ Slugs are translated and defined once in `src/i18n/routes.ts`. EN/DE copy is a d
 | Design system (archived, rejected design) | claude.ai artifact "Sunrise Villa" (Design System type) |
 | Design canvas, rejected new design (archived) | claude.ai artifact "Sunrise Villa website" (Design type) |
 | Mock site, rejected new design (archived) | claude.ai artifact "Sunrise Villa · propunere site" (public link) |
-| Design canvas, port of the current look | new canvas, to be created |
+| Design canvas, port of the current look | claude.ai artifact "Sunrise Villa · port design actual" (Design type), pages Telefon and Desktop |
+| Preview site of the port, for the client | claude.ai artifact "Sunrise Villa · previzualizare site" (https://claude.ai/artifact/8KfhfsYNd17pCHuxHx8gmi), to be shared by Sebastian |
 | Old site styles | live site + child theme CSS in `legacy/wordpress-child-theme/style.css` |
 | Code | github.com/Sebastian-Serban/sunrise-villa, branch `astro` |
 
@@ -248,9 +253,46 @@ Core angle: close enough to everything, far enough from the noise. 2 km from cen
 
 ## Design System
 
-> **Archived.** This section describes the new design the client rejected (24 Nov 2026). The port
-> uses the current site's styles; they will be documented here after the audit. Do not use the
-> rules below for new work.
+### Port design (current look, in use)
+
+Taken from the live site and its child theme CSS (`legacy/wordpress-child-theme/style.css`), with quiet fixes.
+
+| Token | Hex | Use |
+|-------|-----|-----|
+| tan | #C2926D | Buttons, icon circles, headings on dark, H1 in heroes |
+| tan-deep | #8B5E3C | Links and small labels on light (contrast fix) |
+| espresso | #2D2926 | Header, dark sections, footer |
+| sand | #E8E1D7 | Cards (rooms, spaces, reviews) |
+| background | #F5F5F5 | Page |
+| ink | #2F2F2D | Body text |
+| border / border-strong | #D4C9BC / #A89880 | Card and input borders |
+| text on dark | #D8D1C7 | Body text on espresso (lighter than the old grey, contrast fix) |
+
+- Type: system font stack (-apple-system, Segoe UI, Roboto…), bold 700 headings. Body 17px (old site 16px).
+  H2 36px desktop / 30px phone, centred on desktop like the old site.
+- Buttons: tan with espresso text, 4px radius, 44px tall (old site had small buttons); outline variant with tan border.
+- Radii: photos and cards 16px, small cards 12px, tiles 10–16px. Soft shadows on overlapping cards.
+- Facilities: tan circles with two soft rings (box-shadow), 3×2 on desktop, 2 columns on phone.
+- Carousels: round tan arrows; scroll-snap with peeking cards on phone.
+- Header: espresso bar, logo badge in a tan tab hanging down at the left, centred nav, outline "Rezervare acum".
+- Floating contact buttons (phone, WhatsApp, mail) kept, smaller (44–46px).
+- Google map only loads after a click (no cookie banner needed).
+
+Desktop layouts follow the old desktop site: hero text on the left; rooms and common spaces as photo +
+overlapping sand card, two per view in a carousel; "Acasă, departe de casă" as a full-width photo with a
+dark card; attractions 2 large + 3 small tiles with labels always visible; reviews as centred sand cards
+with initials; contact and contact form on espresso.
+
+Phone fixes: hero buttons visible, aquapark and reviews as horizontal swipe, compact facilities grid,
+room photos as swipe, gallery in two columns with a viewer.
+
+Rooms page copy is the old copy, trimmed (shared amenities shown once in an "În fiecare cameră" box,
+no per-room labels, no repeated facilities sentence).
+
+### Design System (rejected new design)
+
+> **Archived.** This section describes the new design the client rejected (24 Nov 2026). Do not use
+> the rules below for new work.
 
 Source of truth was the "Sunrise Villa" design system artifact. Tokens are mirrored in `src/styles/tokens.css`.
 
@@ -443,6 +485,10 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 5. German spelling: site DE copy uses Swiss spelling (ss); most guests are from Germany/Austria where ß is standard. Decide before DE goes live.
 6. Deployment target: ClausWeb vs. Cloudflare Pages
 7. Original photos and video files from the client
+8. Triple room beds: old site says "trei paturi", our data says double + single. Ask the client.
+9. Parking: old rooms page says "în apropierea pensiunii", homepage says "în incinta pensiunii". Port uses "în incinta" for now.
+10. Which photo is the real "Bufet" photo (port uses a placeholder)
+11. Phone vs old site: gallery uses mixed tile sizes and the phone contact form/section is light, while the old site uses equal tiles and dark. Align if the client notices.
 
 ---
 
@@ -452,9 +498,11 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 - [ ] Test `contact.php` on ClausWeb
 - [ ] Get original photos and video, replace compressed copies
 - [ ] Check attraction photo licences
-- [ ] Audit the live site: signature to keep, issues to fix, extracted styles (phone + desktop)
-- [ ] New design canvas: old look, fixed, phone first
-- [ ] Mock site of the port, then client approval, then Astro
+- [x] Audit the live site: signature to keep, issues to fix, extracted styles (phone + desktop)
+- [x] New design canvas: old look, fixed, phone first (+ desktop)
+- [x] Preview site of the port
+- [ ] Share the preview with the client, collect feedback
+- [ ] After approval: swap the Astro visual layer to the port design
 - [ ] Review EN/DE copy
 - [ ] Structured data (LodgingBusiness) + per-page meta
 - [ ] 301 redirects for old WordPress URLs
@@ -498,3 +546,8 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 | 30 | One enquiry button per room instead of repeated Call/WhatsApp blocks | The same block three times was noise; the button carries the room into the contact form | 2026-11-23 |
 | 31 | ~~Contact block always sits directly before the footer~~ (layout rule of the rejected design) | The tan contact shape is cut flat at the bottom and only flows into the footer's straight edge | 2026-11-23 |
 | 32 | Client rejected the new design; port the current site's look to Astro, close to 1:1, fixing bugs and weak spots quietly, phone first | Client prefers their current site's look ("vibes"); still wants off WordPress | 2026-11-24 |
+| 33 | Keep the floating contact buttons, smaller, instead of a bottom bar | Recognisable from the old site; smaller covers less text | 2026-11-25 |
+| 34 | Google map loads on click, as in the rejected design | No cookie banner needed | 2026-11-25 |
+| 35 | Aquapark section as horizontal swipe on phone | Two big cards stacked took too much height | 2026-11-25 |
+| 36 | Desktop port follows the old desktop layouts, not a scaled-up phone layout | A scaled-up phone version felt off and less recognisable | 2026-11-25 |
+| 37 | Rooms page uses the old copy, trimmed; shared amenities shown once | Client should recognise the text; repeating identical lists per room was noise | 2026-11-25 |
