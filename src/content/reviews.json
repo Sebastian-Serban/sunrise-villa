@@ -3,40 +3,42 @@
 		"id": "popoiu-ionel",
 		"order": 1,
 		"author": "Popoiu Ionel",
-		"source": "booking",
+		"source": "google",
 		"text": "O pensiune construită și mobilată cu gust. Nu kitsch. Curățenie exemplară."
 	},
 	{
 		"id": "mihai",
 		"order": 2,
 		"author": "Mihai",
-		"source": "booking",
+		"source": "google",
 		"text": "Cazarea este ideală pentru cupluri, pentru liniște și relaxare, fără trafic, fără gălăgie. Despre cameră… impecabil."
 	},
 	{
 		"id": "paul-iancu",
 		"order": 3,
 		"author": "Paul Iancu",
-		"source": "booking",
+		"source": "google",
 		"text": "Patul este foarte confortabil, cu o saltea care n-ar fi deplasată într-un hotel de cinci stele. Locația este foarte liniștită."
 	},
 	{
 		"id": "petru-varga",
 		"order": 4,
 		"author": "R. Petru Varga",
-		"source": "booking",
+		"source": "google",
 		"text": "Un loc extraordinar, foarte foarte curat și îngrijit. Proprietarii sunt oameni fantastici, mereu dispuși să ajute."
 	},
 	{
 		"id": "tuzik2010",
 		"order": 5,
 		"author": "tuzik2010",
+		"source": "google",
 		"text": "Locul acesta seamănă cu o vilă la țară, dar se află la doar 7 minute de băile termale."
 	},
 	{
 		"id": "alexandra-madalina-popa",
 		"order": 6,
 		"author": "Alexandra Madalina Popa",
+		"source": "google",
 		"text": "O cazare de nota 20! Camerele mari, frumoase, spațioase, confortabile și foarte curate."
 	}
 ]
