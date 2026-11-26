@@ -11,7 +11,7 @@
 | Timeline | WordPress site live since ~2025. Rebuild in code (Astro, static) in progress since Nov 2026. |
 | Budget | Minimize paid tools. Free preferred, paid only when clearly justified. |
 
-### Status (24 Nov 2026)
+### Status (26 Nov 2026)
 
 The client saw the new design (mock site) and **rejected it**: they prefer the look of the current
 WordPress site. They are fully on board with leaving WordPress for Astro.
@@ -28,6 +28,11 @@ images) carries over.
 the client ("Sunrise Villa · previzualizare site"). Waiting for Sebastian to share it and for client
 feedback before touching Astro.
 
+**26 Nov 2026:** no client feedback yet; Sebastian decided to start the Astro port anyway. Homepage
+ported on branch `astro` (phone + desktop, RO/EN/DE) with the shared components the other pages
+reuse (header with phone menu, footer with click-to-load map, floating contact buttons, button,
+carousel, pair card, section head). Remaining pages next.
+
 ### Pages (new site)
 
 | Page | RO | EN | DE | Canvas | Mock site | Astro |
@@ -41,6 +46,11 @@ feedback before touching Astro.
 
 The table tracks the **rejected new design**. For the port, every page goes through canvas → mock
 site → Astro again in the old look.
+
+| Port design | Canvas | Preview site | Astro |
+|-------------|--------|--------------|-------|
+| Homepage | done | done | done (26 Nov) |
+| Rooms, Gallery (+ viewer), Contact, Privacy, 404 | done | done | todo |
 
 Slugs are translated and defined once in `src/i18n/routes.ts`. EN/DE copy is a draft until reviewed.
 
@@ -217,6 +227,18 @@ Water lilies open during the day, close at evening. Lotus only June-August.
 | Pădurea Craiului / Munții Apuseni | Day trip | Nature |
 
 Attraction photos came from the old site: check licences and which aquapark photo is which before launch.
+
+Links used on the homepage (taken from the old site's markup, set as `url` in `src/content/attractions/`):
+
+| Card / tile | URL |
+|-------------|-----|
+| Aquapark President | https://baile-felix.ro/aqua-park |
+| Complex Apollo-Felix | https://www.felixspa.com/en/strand-apollo-felix-2 |
+| Complexul Aquapark Nymphaea | https://www.aquapark-nymphaea.ro/ |
+| Centrul istoric Oradea | https://www.oradeainimagini.ro/de-vizitat/centrul-istoric/ |
+| Lacul cu Nuferi | https://share.google/ltgfFJl3BdLfbScGx (Google short link, as on the old site) |
+| Cetatea Oradea | https://share.google/mLAktjOiL8k1uZNfp (Google short link, as on the old site) |
+| Băile Felix | https://visitbailefelix.com/things-to-do/ |
 
 ### Location Positioning
 
@@ -439,9 +461,9 @@ Mobile: sticky bottom dock (Sună · WhatsApp · Rezervă), full-screen menu.
 | Content | Content collections (rooms, attractions, reviews, faq, gallery, legal) with Zod 4; localized fields `{ ro, en, de }`, legal texts as Markdown per language |
 | i18n | Astro built-in i18n; UI strings in `src/i18n/ui.ts`; translated slugs in `src/i18n/routes.ts` (links via `pageUrl()`) |
 | Images | `astro:assets` (`<Image>`, `getImage`), constrained layout |
-| Fonts | Self-hosted woff2 in `src/assets/fonts/` via Astro fonts API (preload + size-matched fallbacks) |
+| Fonts | Port design uses the system font stack. The Fraunces/Instrument Sans woff2 files of the rejected design stay in `src/assets/fonts/` but are no longer loaded |
 | Icons | `@lucide/astro` via `AppIcon` |
-| Interactivity | Small custom elements (booking bar, carousel, mobile menu); no UI framework |
+| Interactivity | Small custom elements (carousel, phone menu, click-to-load map); no UI framework |
 | Lint/format | ESLint (typescript-eslint, astro, jsx-a11y-x) + Prettier; CI runs lint + build |
 | Hosting | Undecided: ClausWeb (FTP) or Cloudflare Pages. contact.php needs PHP, so ClausWeb unless the form moves. |
 
@@ -473,6 +495,7 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 
 - 9.9/10 on Booking.com, 4.8 from 113 Google reviews; consistent praise for cleanliness, staff, value
 - Booking.com Traveller Review Award 2026
+- The quotes on the site (`src/content/reviews.json`) are all from Google reviews (confirmed by Sebastian, 26 Nov)
 - Reviews are the strongest conversion tool: keep them prominent
 
 ---
@@ -503,7 +526,8 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 - [x] New design canvas: old look, fixed, phone first (+ desktop)
 - [x] Preview site of the port
 - [ ] Share the preview with the client, collect feedback
-- [ ] After approval: swap the Astro visual layer to the port design
+- [x] Port the homepage to Astro (started before client feedback, Sebastian's call)
+- [ ] Port Rooms, Gallery, Contact, Privacy, 404 to Astro
 - [ ] Review EN/DE copy
 - [ ] Structured data (LodgingBusiness) + per-page meta
 - [ ] 301 redirects for old WordPress URLs
@@ -552,3 +576,7 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 | 35 | Aquapark section as horizontal swipe on phone | Two big cards stacked took too much height | 2026-11-25 |
 | 36 | Desktop port follows the old desktop layouts, not a scaled-up phone layout | A scaled-up phone version felt off and less recognisable | 2026-11-25 |
 | 37 | Rooms page uses the old copy, trimmed; shared amenities shown once | Client should recognise the text; repeating identical lists per room was noise | 2026-11-25 |
+| 38 | Start the Astro port before client feedback on the preview | No answer yet; the port is close to the site they already like | 2026-11-26 |
+| 39 | Small RO/EN/DE switch next to "Rezervare acum" on desktop (not in the canvas) | The site has three languages; desktop needs a way to switch | 2026-11-26 |
+| 40 | Aquapark cards and attraction tiles link to the same pages as the old site | Keep what the client already had; links live in the content files | 2026-11-26 |
+| 41 | No Claude attribution in commits or PRs; commits authored as Sebastian | Claude should not show up as author or contributor in the repo (history rewritten 26 Nov) | 2026-11-26 |
