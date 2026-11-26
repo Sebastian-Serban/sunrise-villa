@@ -17,9 +17,9 @@
 		"de": "Doppelbett, Klimaanlage, TV, eigenes Bad mit Dusche. Ideal für Paare oder Alleinreisende, die Komfort und Privatsphäre suchen."
 	},
 	"intro": {
-		"ro": "Pentru cupluri sau pentru cei care călătoresc singuri și vor spațiu. Pat matrimonial, lumină naturală și liniște după o zi la băi.",
-		"en": "For couples, or solo travellers who want space. A double bed, natural light and quiet after a day at the baths.",
-		"de": "Für Paare oder Alleinreisende, die Platz möchten. Doppelbett, Tageslicht und Ruhe nach einem Tag in den Bädern."
+		"ro": "Alege Camera Dublă de la Sunrise Villa pentru o experiență completă lângă stațiunea Băile Felix. Perfectă pentru cupluri sau pentru două persoane care caută relaxare într-un cadru natural deosebit, cu acces rapid la atracțiile turistice și băile termale. Confortul de acasă, departe de agitația stațiunii.",
+		"en": "Choose the Double Room at Sunrise Villa for a complete stay near the Băile Felix resort. Perfect for couples or two people looking to relax in a beautiful natural setting, with quick access to the sights and the thermal baths. The comfort of home, away from the bustle of the resort.",
+		"de": "Wählen Sie das Doppelzimmer der Sunrise Villa für einen rundum gelungenen Aufenthalt beim Kurort Băile Felix. Ideal für Paare oder zwei Personen, die Erholung in einer besonderen Naturlandschaft suchen, mit schnellem Zugang zu den Sehenswürdigkeiten und den Thermalbädern. Wohnkomfort wie zu Hause, fern vom Trubel des Kurorts."
 	},
 	"ask": {
 		"ro": "Întreabă de camera dublă",
@@ -41,14 +41,6 @@
 				"ro": "Cameră dublă cu pat matrimonial",
 				"en": "Double room with a double bed",
 				"de": "Doppelzimmer mit Doppelbett"
-			}
-		},
-		{
-			"image": "../../assets/rooms/room-double.jpg",
-			"alt": {
-				"ro": "Cameră dublă cu pat matrimonial și fereastră mare",
-				"en": "Double room with a double bed and a large window",
-				"de": "Doppelzimmer mit Doppelbett und grossem Fenster"
 			}
 		},
 		{
