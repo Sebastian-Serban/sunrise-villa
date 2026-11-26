@@ -1,23 +1,60 @@
 ---
-/** Contact page: practical notes, how to get here, then the contact block with the form. */
-import { Image } from "astro:assets";
+/**
+ * Contact page: photo banner, the ways to reach us on an espresso ground, then the form.
+ * The form posts to public/contact.php; "Ask about this room" links arrive with ?camera=<anchor>.
+ */
+import { getCollection } from "astro:content";
+import { pageUrl } from "../../i18n/routes";
 import Base from "../../layouts/Base.astro";
 import AppIcon, { type AppIconName } from "../AppIcon.astro";
+import Button from "../Button.astro";
 import Footer from "../Footer.astro";
 import Header from "../Header.astro";
-import PageHead from "../PageHead.astro";
-import Sweep from "../Sweep.astro";
-import Contact from "../sections/Contact.astro";
-import aerial from "../../assets/spaces/pool-aerial.jpg";
-import { DIRECTIONS_URL, MAPS_URL, getLang, useTranslations } from "../../i18n/ui";
+import PageBanner from "../PageBanner.astro";
+import SectionHead from "../SectionHead.astro";
+import heroImage from "../../assets/gallery/villa.jpg";
+import {
+	BOOKING_URL,
+	EMAIL,
+	PHONE,
+	PHONE_HREF,
+	RECEPTION_HOURS,
+	WHATSAPP_HREF,
+	getLang,
+	useTranslations,
+} from "../../i18n/ui";
 
-const t = useTranslations(getLang(Astro.currentLocale));
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 
-const notes = ["extraBed", "single", "payment"] as const;
-const routes: { icon: AppIconName; key: "car" | "plane" | "resort" }[] = [
-	{ icon: "Car", key: "car" },
-	{ icon: "Plane", key: "plane" },
-	{ icon: "MapPin", key: "resort" },
+// Pre-fill texts for ?camera=<anchor>, read by the script below
+const rooms = await getCollection("rooms");
+const enquiries = Object.fromEntries(rooms.map(({ data }) => [data.anchor, data.enquiry[lang]]));
+
+/** Phone shows three cards (phone, WhatsApp, email); desktop merges phone and WhatsApp. */
+const channels: {
+	icon: AppIconName;
+	href: string;
+	label: string;
+	desktopLabel?: string;
+	value: string;
+	phoneOnly?: boolean;
+}[] = [
+	{
+		icon: "Phone",
+		href: PHONE_HREF,
+		label: t("contactPage.phone"),
+		desktopLabel: t("contactPage.phoneWhatsapp"),
+		value: PHONE,
+	},
+	{
+		icon: "MessageCircle",
+		href: WHATSAPP_HREF,
+		label: t("contactPage.whatsapp"),
+		value: t("contactPage.whatsapp.cta"),
+		phoneOnly: true,
+	},
+	{ icon: "Mail", href: `mailto:${EMAIL}`, label: t("contact.email"), value: EMAIL },
 ];
 ---
 
@@ -28,175 +65,437 @@ const routes: { icon: AppIconName; key: "car" | "plane" | "resort" }[] = [
 >
 	<Header page="contact" />
 	<main>
-		<PageHead
-			label={t("nav.contact")}
-			titleBefore={t("contactPage.title.before")}
-			titleAccent={t("contactPage.title.accent")}
-			lead={t("contactPage.lead")}
-		/>
-		<Sweep from="surface" to="sand" shape="rise" line />
+		<PageBanner image={heroImage} title={t("contactPage.title")} />
 
-		<section class="bg-sand notes">
-			<div class="wrap">
-				<p class="label">{t("contactPage.notes.label")}</p>
-				<h2 class="serif h2">{t("contactPage.notes.title")}</h2>
-				<ul class="notes__list">
-					{notes.map((key) => (
-						<li>
-							<strong class="serif">{t(`contactPage.notes.${key}.title`)}</strong>
-							<span class="muted">{t(`contactPage.notes.${key}.text`)}</span>
-						</li>
-					))}
-				</ul>
-			</div>
-		</section>
-		<Sweep from="sand" to="surface" />
-
-		<section class="reach">
-			<div class="wrap reach__layout">
-				<Image
-					class="reach__img"
-					src={aerial}
-					alt={t("contactPage.reach.alt")}
-					widths={[600, 900, 1200]}
-					sizes="(max-width: 1000px) 100vw, 58vw"
+		<section class="reach" aria-labelledby="reach-title">
+			<div class="reach__inner">
+				<SectionHead
+					id="reach-title"
+					tone="dark"
+					title={t("homeContact.title")}
+					lead={t("homeContact.lead")}
 				/>
-				<div class="reach__text">
-					<div>
-						<p class="label">{t("contactPage.reach.label")}</p>
-						<h2 class="serif h2 reach__title">{t("contactPage.reach.title")}</h2>
-					</div>
+				<div class="reach__body">
+					<Button class="reach__book" href={BOOKING_URL} large>
+						<span class="phone-only">{t("contactPage.bookBooking")}</span>
+						<span class="desktop-only">{t("cta.bookNow")}</span>
+					</Button>
+					<div class="reach__rule" aria-hidden="true"></div>
 					<ul class="reach__list">
-						{routes.map(({ icon, key }) => (
-							<li>
-								<AppIcon name={icon} />
-								<div>
-									<strong class="serif">{t(`contactPage.reach.${key}.title`)}</strong>
-									<span>{t(`contactPage.reach.${key}.text`)}</span>
-								</div>
+						{channels.map((c) => (
+							<li class:list={{ "phone-only": c.phoneOnly }}>
+								<a class="item" href={c.href}>
+									<span class="item__icon">
+										<AppIcon name={c.icon} stroke-width={2} />
+									</span>
+									<span class="item__text">
+										<span class="item__label">
+											{c.desktopLabel ? (
+												<>
+													<span class="phone-only">{c.label}</span>
+													<span class="desktop-only">{c.desktopLabel}</span>
+												</>
+											) : (
+												c.label
+											)}
+										</span>
+										<span class="item__value">{c.value}</span>
+									</span>
+								</a>
 							</li>
 						))}
+						<li class="item item--reception">
+							<span class="item__icon">
+								<AppIcon name="Clock" stroke-width={2} />
+							</span>
+							<span class="item__text">
+								<span class="item__label">{t("homeContact.hours")}</span>
+								<strong class="item__value">{RECEPTION_HOURS}</strong>
+							</span>
+						</li>
 					</ul>
-					<div class="reach__actions">
-						<a class="btn btn--primary" href={DIRECTIONS_URL}>
-							{t("footer.map.directions")}
-						</a>
-						<a class="btn btn--ghost" href={MAPS_URL}>
-							Google Maps
-						</a>
-					</div>
 				</div>
 			</div>
 		</section>
 
-		<Contact page="contact" reception />
+		<section id="contact" class="message" aria-labelledby="message-title">
+			<div class="message__inner">
+				<h2 id="message-title">{t("contactPage.form.title")}</h2>
+				<p class="message__lead">
+					<span class="desktop-only">{t("contactPage.form.lead")}</span>
+					<span class="phone-only">{t("contactPage.form.lead.short")}</span>
+				</p>
+				<form class="form" method="post" action="/contact.php" aria-label={t("form.label")}>
+					<input type="hidden" name="lang" value={lang} />
+					<input type="hidden" name="page" value="contact" />
+					<!-- Honeypot: humans never see or fill this -->
+					<div class="form__trap" aria-hidden="true">
+						<label for="contact-website">Website</label>
+						<input
+							id="contact-website"
+							name="website"
+							type="text"
+							tabindex="-1"
+							autocomplete="off"
+						/>
+					</div>
+					<div class="field">
+						<label for="contact-name">{t("form.name")}</label>
+						<input id="contact-name" name="name" type="text" autocomplete="name" required />
+					</div>
+					<div class="field">
+						<label for="contact-phone">{t("form.phone")}</label>
+						<input id="contact-phone" name="phone" type="tel" autocomplete="tel" />
+					</div>
+					<div class="field">
+						<label for="contact-email">{t("form.email")}</label>
+						<input id="contact-email" name="email" type="email" autocomplete="email" required />
+					</div>
+					<div class="field">
+						<label for="contact-dates">{t("form.dates")}</label>
+						<input id="contact-dates" name="dates" type="text" />
+					</div>
+					<div class="field">
+						<label for="contact-message">{t("form.message")}</label>
+						<textarea
+							id="contact-message"
+							name="message"
+							rows="5"
+							required
+							data-enquiries={JSON.stringify(enquiries)}
+						></textarea>
+					</div>
+					<p
+						class="form__status"
+						role="status"
+						hidden
+						data-sent={t("form.sent")}
+						data-error={t("form.error")}
+					></p>
+					<p class="form__privacy">
+						{t("form.privacy")} <a href={pageUrl(lang, "privacy")}>{t("form.privacyLink")}</a>.
+					</p>
+					<Button type="submit" class="form__submit" large>
+						{t("form.submit")}
+					</Button>
+				</form>
+			</div>
+		</section>
 	</main>
 	<Footer />
 </Base>
 
+<script>
+	// contact.php redirects back with ?sent=1 or ?error=1
+	const status = document.querySelector<HTMLElement>(".form__status");
+	const params = new URLSearchParams(window.location.search);
+	const state = params.has("sent") ? "sent" : params.has("error") ? "error" : null;
+	const message = document.querySelector<HTMLTextAreaElement>("#contact-message");
+	const room = params.get("camera");
+	if (message && room && !message.value) {
+		const enquiries = JSON.parse(message.dataset.enquiries ?? "{}") as Record<string, string>;
+		message.value = enquiries[room] ?? "";
+	}
+	if (status && state) {
+		status.textContent = status.dataset[state] ?? "";
+		status.dataset.state = state;
+		if (state === "error") status.setAttribute("role", "alert");
+		status.hidden = false;
+		history.replaceState(null, "", window.location.pathname + "#contact");
+	}
+</script>
+
 <style>
-	.notes {
-		padding-bottom: var(--space-12);
-	}
-	.notes__list {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: var(--space-6);
-		margin: var(--space-12) 0 0;
-		padding: 0;
-		list-style: none;
-	}
-	.notes__list li {
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
-		padding: var(--space-6);
-		background: var(--surface-raised);
-		font-size: 16px;
-		line-height: 24px;
-	}
-	.notes__list strong {
-		font-size: 24px;
-		line-height: 30px;
+	.desktop-only {
+		display: none;
 	}
 
+	/* Ways to reach us. Phone: cards on espresso. Desktop: centred columns. */
 	.reach {
-		padding-top: var(--space-12);
+		--head-gap: 26px;
+		padding: 44px var(--page-pad) 48px;
+		background: var(--espresso);
+		color: var(--on-dark-strong);
 	}
-	.reach__layout {
-		display: grid;
-		grid-template-columns: repeat(12, minmax(0, 1fr));
-		column-gap: var(--gutter);
-		row-gap: 40px;
-		align-items: center;
+	.reach__inner {
+		max-width: 640px;
+		margin-inline: auto;
 	}
-	:global(.reach__img) {
-		grid-column: 1 / span 7;
-		width: 100%;
-		aspect-ratio: 16 / 10;
-		object-fit: cover;
-	}
-	.reach__text {
-		grid-column: 9 / span 4;
+	.reach__body {
 		display: flex;
 		flex-direction: column;
-		gap: 28px;
 	}
-	.reach__title {
-		font-size: 48px;
+	.reach__rule {
+		display: none;
 	}
 	.reach__list {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-6);
+		gap: 12px;
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
-	.reach__list li {
+	.item {
 		display: flex;
-		gap: var(--space-4);
-		align-items: flex-start;
+		align-items: center;
+		gap: 14px;
+		padding: 12px 14px;
+		border: 1px solid var(--line-dark);
+		border-radius: var(--radius-md);
+		color: var(--white);
+		text-decoration: none;
+		line-height: 1.35;
 	}
-	.reach__list :global(.app-icon) {
-		margin-top: 6px;
-		color: var(--tan-deep);
+	.item:hover .item__value {
+		color: var(--tan);
 	}
-	.reach__list strong {
+	.item__icon {
+		display: flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: var(--radius-full);
+		background: var(--tan);
+		color: var(--espresso);
+	}
+	.item__text {
+		min-width: 0;
+	}
+	.item__label {
 		display: block;
-		font-size: 24px;
-		line-height: 30px;
+		font-size: var(--text-label);
+		color: var(--on-dark);
 	}
-	.reach__list span {
-		font-size: 16px;
-		line-height: 24px;
-		color: var(--ink-muted);
+	.item__value {
+		font-weight: 700;
+		overflow-wrap: anywhere;
 	}
-	.reach__actions {
+	/* Reception hours: a plain line under the cards on phones */
+	.item--reception {
+		margin-top: 14px;
+		padding: 0;
+		border: 0;
+		font-size: var(--text-small);
+		line-height: 1.5;
+	}
+	.item--reception .item__icon {
+		display: none;
+	}
+	.item--reception .item__label {
+		display: inline;
+		font-size: inherit;
+	}
+	.item--reception .item__label::after {
+		content: ": ";
+	}
+	.item--reception .item__value {
+		color: var(--white);
+	}
+	.reach :global(.reach__book) {
+		order: 2;
 		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-3);
+		margin-top: 22px;
 	}
 
-	@media (max-width: 1000px) {
-		.reach__layout {
-			grid-template-columns: minmax(0, 1fr);
-		}
-		:global(.reach__img),
-		.reach__text {
-			grid-column: 1 / -1;
-		}
+	/* Message form. Phone: light ground. Desktop: espresso, like the contact block. */
+	.message {
+		padding: 48px var(--page-pad) 56px;
 	}
-	@media (max-width: 720px) {
-		.notes__list {
-			grid-template-columns: 1fr;
-			gap: var(--space-3);
+	.message__inner {
+		max-width: 640px;
+		margin-inline: auto;
+	}
+	.message h2 {
+		margin: 0 0 8px;
+		font-size: 28px;
+		line-height: 1.2;
+		font-weight: 700;
+	}
+	.message__lead {
+		margin: 0 0 24px;
+	}
+	.form {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+	.field label {
+		font-size: var(--text-small);
+		font-weight: 600;
+	}
+	.field input,
+	.field textarea {
+		width: 100%;
+		min-width: 0;
+		height: 48px;
+		padding: 0 14px;
+		border: 1px solid var(--border-strong);
+		border-radius: var(--radius-sm);
+		background: var(--white);
+		color: var(--ink);
+		font: inherit;
+		font-size: var(--text-body);
+	}
+	.field textarea {
+		height: auto;
+		min-height: 130px;
+		padding: 12px 14px;
+		resize: vertical;
+	}
+	.form__trap {
+		position: absolute;
+		left: -9999px;
+	}
+	.form__status {
+		margin: 0;
+		padding: var(--space-3) var(--space-4);
+		border-radius: var(--radius-sm);
+		background: var(--sand);
+		color: var(--success);
+		font-weight: 600;
+	}
+	.form__status[data-state="error"] {
+		color: var(--error);
+	}
+	.form__privacy {
+		margin: 0;
+		font-size: var(--text-label);
+		line-height: 1.5;
+		color: var(--ink-muted);
+	}
+	.form :global(.form__submit) {
+		display: flex;
+		width: 100%;
+	}
+
+	@media (min-width: 900px) {
+		.phone-only {
+			display: none;
 		}
-		.reach__title {
-			font-size: var(--text-h2);
+		.desktop-only {
+			display: inline;
 		}
+
 		.reach {
-			padding-block: var(--space-12);
+			--head-gap: 28px;
+			padding: 88px var(--page-pad) 96px;
+			border-top: 1px solid var(--line-dark);
+			text-align: center;
+		}
+		.reach__inner {
+			max-width: 1000px;
+		}
+		.reach__body {
+			align-items: center;
+		}
+		.reach :global(.reach__book) {
+			order: 0;
+			display: inline-flex;
+			margin: 0;
+			min-height: 44px;
+			font-size: 15px;
+		}
+		.reach__rule {
+			display: block;
+			width: 64px;
+			height: 2px;
+			margin: 48px auto;
+			background: var(--tan);
+		}
+		.reach__list {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+			gap: 32px;
+			width: 100%;
+		}
+		.item,
+		.item--reception {
+			flex-direction: column;
+			gap: 12px;
+			margin: 0;
+			padding: 0;
+			border: 0;
+			font-size: inherit;
+		}
+		.item__icon,
+		.item--reception .item__icon {
+			display: flex;
+			width: 52px;
+			height: 52px;
+			border: 1px solid var(--tan);
+			background: none;
+			color: var(--tan);
+		}
+		.item__label,
+		.item--reception .item__label {
+			display: block;
+			font-size: var(--text-small);
+			color: var(--on-dark-muted);
+		}
+		.item--reception .item__label::after {
+			content: none;
+		}
+		.item__value {
+			font-size: 20px;
+		}
+
+		.message {
+			padding: 88px var(--page-pad) 104px;
+			border-top: 1px solid var(--line-dark);
+			background: var(--espresso);
+			color: var(--on-dark-strong);
+		}
+		.message__inner {
+			max-width: 600px;
+		}
+		.message h2 {
+			margin-bottom: 12px;
+			font-size: var(--text-h2);
+			color: var(--tan);
+			text-align: center;
+		}
+		.message__lead {
+			margin-bottom: 36px;
+			color: var(--on-dark);
+			text-align: center;
+		}
+		.form {
+			gap: 18px;
+		}
+		.field input,
+		.field textarea {
+			height: 50px;
+			border-color: var(--border-strong);
+			background: var(--espresso-raised);
+			color: var(--white);
+		}
+		.field textarea {
+			height: auto;
+			min-height: 150px;
+		}
+		.message :focus-visible {
+			outline-color: var(--tan);
+		}
+		.form__privacy {
+			color: var(--on-dark-muted);
+		}
+		.form__privacy a {
+			color: var(--tan);
+		}
+		.form :global(.form__submit) {
+			display: inline-flex;
+			width: auto;
+			align-self: center;
+			min-height: 50px;
+			padding-inline: 40px;
 		}
 	}
 </style>
