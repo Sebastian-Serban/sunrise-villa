@@ -6,6 +6,14 @@ import { BOOKING_URL, getLang, useTranslations } from "../../i18n/ui";
 import poolVilla from "../../assets/gallery/pool-villa.jpg";
 import lawn from "../../assets/gallery/lawn.jpg";
 
+interface Props {
+	/** Small caps line above the title. */
+	eyebrow?: string;
+	/** Photo from 900px: the homepage uses the lawn, the rooms page the pool. */
+	desktopPhoto?: "lawn" | "pool";
+}
+
+const { eyebrow, desktopPhoto = "lawn" } = Astro.props;
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 ---
@@ -22,7 +30,7 @@ const t = useTranslations(lang);
 	/>
 	<Image
 		class="cta__img cta__img--desktop"
-		src={lawn}
+		src={desktopPhoto === "pool" ? poolVilla : lawn}
 		alt=""
 		widths={[1200, 1920, 2400]}
 		sizes="100vw"
@@ -30,6 +38,7 @@ const t = useTranslations(lang);
 	/>
 	<div class="cta__scrim"></div>
 	<div class="cta__content">
+		{eyebrow && <p class="cta__eyebrow">{eyebrow}</p>}
 		<h2>{t("cta.title")}</h2>
 		<p>{t("cta.text")}</p>
 		<div class="cta__actions">
@@ -72,6 +81,14 @@ const t = useTranslations(lang);
 		align-items: stretch;
 		gap: 14px;
 	}
+	.cta__content .cta__eyebrow {
+		margin: 0;
+		font-size: 14px;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--tan);
+	}
 	h2 {
 		margin: 0;
 		font-size: var(--text-h2);
@@ -111,6 +128,10 @@ const t = useTranslations(lang);
 			align-items: center;
 			max-width: 760px;
 			margin-inline: auto;
+		}
+		.cta__content .cta__eyebrow {
+			font-size: 15px;
+			letter-spacing: 0.14em;
 		}
 		h2 {
 			font-size: 40px;
