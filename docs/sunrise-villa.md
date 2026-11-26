@@ -51,7 +51,8 @@ Slugs are translated and defined once in `src/i18n/routes.ts`. EN/DE copy is a d
 | Design system (archived, rejected design) | claude.ai artifact "Sunrise Villa" (Design System type) |
 | Design canvas, rejected new design (archived) | claude.ai artifact "Sunrise Villa website" (Design type) |
 | Mock site, rejected new design (archived) | claude.ai artifact "Sunrise Villa · propunere site" (public link) |
-| Design canvas, port of the current look | claude.ai artifact "Sunrise Villa · port design actual" (Design type), pages Telefon and Desktop |
+| Design canvas, port of the current look | claude.ai artifact "Sunrise Villa · port design actual" (Design type), https://claude.ai/artifact/Fdt9n2JNGXJVzt9EYTNjvx, pages Telefon and Desktop |
+| Port tooling (canvas snapshot, images, preview build) | `tools/port/` in the repo, see its README |
 | Preview site of the port, for the client | claude.ai artifact "Sunrise Villa · previzualizare site" (https://claude.ai/artifact/8KfhfsYNd17pCHuxHx8gmi), to be shared by Sebastian |
 | Old site styles | live site + child theme CSS in `legacy/wordpress-child-theme/style.css` |
 | Code | github.com/Sebastian-Serban/sunrise-villa, branch `astro` |

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<title>Galerie, vizualizare foto · telefon</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div role="dialog" aria-label="Vizualizare fotografie" style="width:390px;height:844px;box-sizing:border-box;background:#14110F;color:#E8E1D7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;display:flex;flex-direction:column">
+  <div style="height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 12px 0 20px">
+    <span style="font-size:15px;color:#CFC7BC">3 / 15</span>
+    <button aria-label="Închide" style="width:44px;height:44px;border:0;border-radius:50%;background:rgba(232,225,215,.12);color:#E8E1D7;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  </div>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative">
+    <img src="/_blob/565716455e7562b91c6def86a1c09298" alt="Foișorul cu grătar" style="width:100%;height:auto;display:block">
+    <button aria-label="Fotografia anterioară" style="position:absolute;left:10px;width:44px;height:44px;border:0;border-radius:50%;background:#C2926D;color:#2D2926;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button aria-label="Fotografia următoare" style="position:absolute;right:10px;width:44px;height:44px;border:0;border-radius:50%;background:#C2926D;color:#2D2926;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+  </div>
+  <p style="margin:0;padding:14px 20px 0;font-size:16px">Foișorul cu grătar</p>
+  <div style="display:flex;gap:6px;overflow:hidden;padding:14px 20px 28px">
+    <img src="/_blob/3b4b838366f966502c301d327d79688e" alt="" style="width:64px;height:48px;object-fit:cover;border-radius:4px;opacity:.55;flex:none">
+    <img src="/_blob/2dbf486155fc13aead8f3ce16e89c8b4" alt="" style="width:64px;height:48px;object-fit:cover;border-radius:4px;opacity:.55;flex:none">
+    <img src="/_blob/565716455e7562b91c6def86a1c09298" alt="" style="width:64px;height:48px;object-fit:cover;border-radius:4px;outline:2px solid #C2926D;outline-offset:1px;flex:none">
+    <img src="/_blob/f32f36b1f7f801146a0422f3aae67ae2" alt="" style="width:64px;height:48px;object-fit:cover;border-radius:4px;opacity:.55;flex:none">
+    <img src="/_blob/00a9f9cb6e768b993c9c2ddeb91bc556" alt="" style="width:64px;height:48px;object-fit:cover;border-radius:4px;opacity:.55;flex:none">
+  </div>
+  <p style="margin:0 0 18px;text-align:center;font-size:13px;color:#A8A096">Glisează stânga sau dreapta</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
