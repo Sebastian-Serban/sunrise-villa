@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+import Carousel from "../Carousel.astro";
+import PairCard from "../PairCard.astro";
+import SectionHead from "../SectionHead.astro";
+import { getLang, useTranslations } from "../../i18n/ui";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const spaces = (await getCollection("spaces")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="spaces" id="spatii-comune">
+	<div class="wrap wrap--wide">
+		<SectionHead title={t("spaces.title")} lead={t("spaces.lead")} />
+		<div class="bleed-phone">
+			<Carousel
+				label={t("spaces.title")}
+				prevLabel={t("spaces.prev")}
+				nextLabel={t("spaces.next")}
+				dotLabel={t("carousel.dot")}
+				dots
+			>
+				{spaces.map(({ data }) => (
+					<PairCard
+						flat
+						image={data.image}
+						alt={data.alt[lang]}
+						title={data.name[lang]}
+						text={data.text[lang]}
+						sizes="(min-width: 1200px) 360px, (min-width: 900px) 480px, 80vw"
+					/>
+				))}
+			</Carousel>
+		</div>
+	</div>
+</section>
+
+<style>
+	.spaces {
+		--head-gap: 22px;
+		padding-block: 40px 24px;
+	}
+	@media (min-width: 900px) {
+		.spaces {
+			--head-gap: 48px;
+			padding-block: 56px 88px;
+		}
+	}
+</style>

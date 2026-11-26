@@ -1,168 +1,351 @@
 ---
 /**
- * Horizontal carousel: native scroll-snap track (swipe works on touch), hidden
- * scrollbar, prev/next buttons and a position counter. No library.
+ * Reusable carousel built on CSS scroll-snap. The children are the slides.
  *
- * Pass <li> elements as children. Slide width is set with --slide-width.
+ * Phone (< 900px): swipe row with peeking slides and dots, or (mobile="stack") a plain
+ * vertical list. Desktop (>= 900px): `cols` slides per view with round arrow buttons.
+ * Arrows and dots are real buttons; the scroll area is keyboard-scrollable (left/right arrows).
+ * Without JS it is still a scrollable row. Respects prefers-reduced-motion.
+ *
+ * Slides must be direct children. Give them their own look; this component only sets
+ * their width and snapping.
  */
 import AppIcon from "./AppIcon.astro";
-import { getLang, useTranslations } from "../i18n/ui";
 
 interface Props {
-	/** Visible label shown left of the controls, e.g. "Galerie". */
-	heading: string;
-	/** Number of slides, for the "1 / 6" counter. */
-	count: number;
+	/** Accessible name of the carousel region, e.g. "Camere". */
+	label: string;
+	prevLabel: string;
+	nextLabel: string;
+	/** Prefix of the dot buttons' accessible name; the slide number is appended. */
+	dotLabel?: string;
+	/** Phone layout: horizontal swipe row, or a vertical list with no carousel controls. */
+	mobile?: "swipe" | "stack";
+	/** Show dots (one per scroll position). */
+	dots?: boolean;
+	/** Slides per view from 900px and from 1200px. */
+	cols?: [number, number];
+	/** Gap between slides from 900px, in px. */
+	gap?: number;
+	/** Space reserved on each side of the slides for the arrows, in px. */
+	inset?: number;
+	/** Where the arrows sit relative to the stage edge, in px (negative = outside). */
+	arrowOffset?: number;
 }
 
-const { heading, count } = Astro.props;
-const t = useTranslations(getLang(Astro.currentLocale));
+const {
+	label,
+	prevLabel,
+	nextLabel,
+	dotLabel = "",
+	mobile = "swipe",
+	dots = false,
+	cols = [1, 2],
+	gap = 40,
+	inset = 40,
+	arrowOffset = -8,
+} = Astro.props;
+const style = `--cols-mid:${cols[0]};--cols-wide:${cols[1]};--gap:${gap}px;--inset:${inset}px;--arrow-offset:${arrowOffset}px`;
 ---
 
-<app-carousel class="carousel">
-	<div class="wrap carousel__head">
-		<p class="label carousel__heading">{heading}</p>
-		<div class="carousel__nav">
-			<span class="carousel__count" aria-hidden="true">
-				<span data-position>1</span> / {count}
-			</span>
-			<button
-				class="carousel__btn"
-				type="button"
-				data-prev
-				aria-label={t("carousel.prev")}
-				disabled
-			>
-				<AppIcon name="ChevronLeft" />
-			</button>
-			<button class="carousel__btn" type="button" data-next aria-label={t("carousel.next")}>
-				<AppIcon name="ChevronRight" />
-			</button>
+<sv-carousel class="carousel" data-mobile={mobile} data-dot-label={dotLabel} style={style}>
+	<div class="carousel__stage">
+		<div class="carousel__viewport" tabindex="0" role="region" aria-label={label} data-viewport>
+			<div class="carousel__track" data-track>
+				<slot />
+			</div>
 		</div>
+		<button
+			class="carousel__arrow carousel__arrow--prev"
+			type="button"
+			aria-label={prevLabel}
+			data-prev
+		>
+			<AppIcon name="ChevronLeft" stroke-width={2.4} />
+		</button>
+		<button
+			class="carousel__arrow carousel__arrow--next"
+			type="button"
+			aria-label={nextLabel}
+			data-next
+		>
+			<AppIcon name="ChevronRight" stroke-width={2.4} />
+		</button>
 	</div>
-	<ul class="carousel__track" data-track aria-label={heading}>
-		<slot />
-	</ul>
-</app-carousel>
+	{dots && <div class="carousel__dots" data-dots></div>}
+</sv-carousel>
 
 <script>
-	class AppCarousel extends HTMLElement {
+	class SvCarousel extends HTMLElement {
+		private viewport!: HTMLElement;
+		private track!: HTMLElement;
+		private prev!: HTMLButtonElement;
+		private next!: HTMLButtonElement;
+		private dotsEl: HTMLElement | null = null;
+		private step = 0;
+		private positions = 1;
+		private frame = 0;
+
 		connectedCallback() {
-			const track = this.querySelector<HTMLElement>("[data-track]")!;
-			const prev = this.querySelector<HTMLButtonElement>("[data-prev]")!;
-			const next = this.querySelector<HTMLButtonElement>("[data-next]")!;
-			const position = this.querySelector<HTMLElement>("[data-position]")!;
-			const slides = [...track.children] as HTMLElement[];
-			if (slides.length < 2) return;
+			this.viewport = this.querySelector<HTMLElement>("[data-viewport]")!;
+			this.track = this.querySelector<HTMLElement>("[data-track]")!;
+			this.prev = this.querySelector<HTMLButtonElement>("[data-prev]")!;
+			this.next = this.querySelector<HTMLButtonElement>("[data-next]")!;
+			this.dotsEl = this.querySelector<HTMLElement>("[data-dots]");
 
-			// Distance between two slides, so one click moves exactly one photo
-			const step = () => slides[1]!.offsetLeft - slides[0]!.offsetLeft;
+			this.prev.addEventListener("click", () => this.go(this.index() - this.perView()));
+			this.next.addEventListener("click", () => this.go(this.index() + this.perView()));
+			this.viewport.addEventListener("scroll", () => this.schedule(), { passive: true });
+			this.viewport.addEventListener("keydown", (event) => {
+				if (this.step === 0) return;
+				if (event.key === "ArrowRight") {
+					event.preventDefault();
+					this.go(this.index() + 1);
+				} else if (event.key === "ArrowLeft") {
+					event.preventDefault();
+					this.go(this.index() - 1);
+				}
+			});
+			new ResizeObserver(() => this.measure()).observe(this.viewport);
+			this.measure();
+		}
 
-			const update = () => {
-				const max = track.scrollWidth - track.clientWidth - 2;
-				const atEnd = track.scrollLeft >= max;
-				const index = Math.round(track.scrollLeft / step());
-				// At the end several slides are visible at once; show the last one as current
-				position.textContent = String(atEnd ? slides.length : Math.min(index + 1, slides.length));
-				prev.disabled = track.scrollLeft <= 2;
-				next.disabled = atEnd;
-			};
+		private slides(): HTMLElement[] {
+			return Array.from(this.track.children) as HTMLElement[];
+		}
 
-			prev.addEventListener("click", () => track.scrollBy({ left: -step() }));
-			next.addEventListener("click", () => track.scrollBy({ left: step() }));
-			track.addEventListener("scroll", () => requestAnimationFrame(update), { passive: true });
-			window.addEventListener("resize", update);
-			update();
+		private perView(): number {
+			const slides = this.slides();
+			if (this.step === 0 || slides.length === 0) return 1;
+			const gap = this.step - slides[0].offsetWidth;
+			return Math.max(1, Math.floor((this.viewport.clientWidth + gap) / this.step + 0.02));
+		}
+
+		private index(): number {
+			if (this.step === 0) return 0;
+			const max = this.viewport.scrollWidth - this.viewport.clientWidth;
+			if (this.viewport.scrollLeft >= max - 2) return this.positions - 1;
+			const i = Math.round(this.viewport.scrollLeft / this.step);
+			return Math.min(Math.max(i, 0), this.positions - 1);
+		}
+
+		/** Recompute slide step and number of scroll positions, rebuild the dots. */
+		private measure() {
+			const slides = this.slides();
+			const scrollable = this.viewport.scrollWidth > this.viewport.clientWidth + 1;
+			this.step = slides.length > 1 && scrollable ? slides[1].offsetLeft - slides[0].offsetLeft : 0;
+			// Stacked slides share the same left edge, so step is 0 and the controls stay hidden
+			this.toggleAttribute("data-static", this.step <= 0);
+			this.positions = this.step > 0 ? Math.max(1, slides.length - this.perView() + 1) : 1;
+			if (this.dotsEl) {
+				if (this.dotsEl.childElementCount !== this.positions) {
+					const label = this.dataset.dotLabel ?? "";
+					this.dotsEl.replaceChildren(
+						...Array.from({ length: this.positions }, (_, i) => {
+							const dot = document.createElement("button");
+							dot.type = "button";
+							dot.className = "carousel__dot";
+							dot.setAttribute("aria-label", `${label} ${i + 1}`.trim());
+							dot.addEventListener("click", () => this.go(i));
+							return dot;
+						}),
+					);
+				}
+			}
+			this.update();
+		}
+
+		private go(target: number) {
+			if (this.step === 0) return;
+			const i = Math.min(Math.max(target, 0), this.positions - 1);
+			const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+			this.viewport.scrollTo({ left: i * this.step, behavior: reduce ? "auto" : "smooth" });
+		}
+
+		private schedule() {
+			if (this.frame) return;
+			this.frame = requestAnimationFrame(() => {
+				this.frame = 0;
+				this.update();
+			});
+		}
+
+		private update() {
+			const i = this.index();
+			this.prev.setAttribute("aria-disabled", String(i <= 0));
+			this.next.setAttribute("aria-disabled", String(i >= this.positions - 1));
+			this.dotsEl?.querySelectorAll("button").forEach((dot, n) => {
+				if (n === i) dot.setAttribute("aria-current", "true");
+				else dot.removeAttribute("aria-current");
+			});
 		}
 	}
-	customElements.define("app-carousel", AppCarousel);
+	customElements.define("sv-carousel", SvCarousel);
 </script>
 
 <style>
 	.carousel {
-		--slide-width: 340px;
-		--slide-gap: var(--space-4);
-		/* Left edge of the content column, so the first slide lines up with the text */
-		--track-inset: max(var(--page-pad), calc((100vw - var(--content-max)) / 2));
 		display: block;
+		--phone-gap: 14px;
+		--phone-pad: 24px;
 	}
-	.carousel__head {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: var(--space-4);
-		margin-bottom: var(--space-6);
+	.carousel__stage {
+		position: relative;
 	}
-	.carousel__heading {
-		margin: 0;
+
+	/* Phone: swipe row with peeking slides, snapping to the slide start */
+	.carousel__viewport {
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: var(--phone-pad);
+		scrollbar-width: none;
+		overscroll-behavior-x: contain;
+		border-radius: var(--radius-lg);
 	}
-	.carousel__nav {
-		display: flex;
-		align-items: center;
-		gap: var(--space-2);
+	.carousel__viewport::-webkit-scrollbar {
+		display: none;
 	}
-	.carousel__count {
-		margin-right: var(--space-2);
-		font-size: var(--text-small);
-		line-height: 20px;
-		color: var(--ink-muted);
-		font-variant-numeric: tabular-nums;
-	}
-	.carousel__btn {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 48px;
-		height: 48px;
-		padding: 0;
-		border: 1px solid var(--line-strong);
-		border-radius: var(--radius-sm);
-		background: transparent;
-		color: var(--ink);
-		cursor: pointer;
-	}
-	.carousel__btn:hover:not(:disabled) {
-		background: var(--espresso);
-		border-color: var(--espresso);
-		color: var(--on-dark);
-	}
-	.carousel__btn:disabled {
-		opacity: 0.35;
-		cursor: default;
+	.carousel__viewport:focus-visible {
+		outline: 2px solid var(--tan-deep);
+		outline-offset: -2px;
 	}
 	.carousel__track {
 		display: flex;
-		gap: var(--slide-gap);
-		margin: 0;
-		padding: 0 var(--track-inset);
-		list-style: none;
-		overflow-x: auto;
-		scroll-snap-type: x mandatory;
-		scroll-padding-inline: var(--track-inset);
-		scroll-behavior: smooth;
-		scrollbar-width: none;
+		gap: var(--phone-gap);
+		padding: 4px var(--phone-pad) 8px;
 	}
-	.carousel__track::-webkit-scrollbar {
-		display: none;
-	}
-	.carousel__track > :global(li) {
-		flex: none;
-		width: var(--slide-width);
+	.carousel__track > :global(*) {
+		flex: 0 0 80%;
+		min-width: 0;
 		scroll-snap-align: start;
 	}
-	@media (prefers-reduced-motion: reduce) {
-		.carousel__track {
-			scroll-behavior: auto;
+
+	/* Phone, stacked: no carousel at all */
+	.carousel[data-mobile="stack"] .carousel__viewport {
+		overflow: visible;
+		scroll-snap-type: none;
+	}
+	.carousel[data-mobile="stack"] .carousel__track {
+		flex-direction: column;
+		gap: 32px;
+		padding: 0;
+	}
+	.carousel[data-mobile="stack"] .carousel__track > :global(*) {
+		flex: none;
+	}
+
+	.carousel__arrow {
+		display: none;
+		position: absolute;
+		top: 50%;
+		z-index: 2;
+		width: 44px;
+		height: 44px;
+		margin-top: -22px;
+		padding: 0;
+		border: 0;
+		border-radius: var(--radius-full);
+		background: var(--tan);
+		color: var(--espresso);
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+	}
+	.carousel__arrow:hover {
+		background: var(--tan-hover);
+	}
+	.carousel__arrow[aria-disabled="true"] {
+		opacity: 0.4;
+		cursor: default;
+	}
+	.carousel__arrow--prev {
+		left: var(--arrow-offset);
+	}
+	.carousel__arrow--next {
+		right: var(--arrow-offset);
+	}
+
+	.carousel__dots {
+		display: flex;
+		justify-content: center;
+		margin-top: 6px;
+	}
+	.carousel[data-static] .carousel__dots {
+		display: none;
+	}
+	.carousel__dots :global(.carousel__dot) {
+		width: 16px;
+		height: 24px;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		cursor: pointer;
+		position: relative;
+	}
+	.carousel__dots :global(.carousel__dot)::before {
+		content: "";
+		position: absolute;
+		top: 8px;
+		left: 4px;
+		width: 8px;
+		height: 8px;
+		border-radius: 4px;
+		background: var(--border);
+	}
+	.carousel__dots :global(.carousel__dot[aria-current="true"]) {
+		width: 30px;
+	}
+	.carousel__dots :global(.carousel__dot[aria-current="true"])::before {
+		width: 22px;
+		background: var(--tan);
+	}
+
+	/* Desktop: slides per view, arrows */
+	@media (min-width: 900px) {
+		.carousel {
+			--cols: var(--cols-mid);
+		}
+		.carousel__stage {
+			padding-inline: var(--inset);
+		}
+		.carousel__viewport,
+		.carousel[data-mobile="stack"] .carousel__viewport {
+			overflow-x: auto;
+			overflow-y: hidden;
+			scroll-snap-type: x mandatory;
+			scroll-padding-inline: 0;
+			border-radius: 0;
+			/* room for the cards' shadows, which overflow-x would otherwise clip */
+			margin-block: -16px -40px;
+		}
+		.carousel__track,
+		.carousel[data-mobile="stack"] .carousel__track {
+			flex-direction: row;
+			gap: var(--gap);
+			padding: 16px 0 40px;
+		}
+		.carousel__track > :global(*),
+		.carousel[data-mobile="stack"] .carousel__track > :global(*) {
+			flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+		}
+		.carousel__arrow {
+			display: flex;
+		}
+		.carousel[data-static] .carousel__arrow {
+			display: none;
+		}
+		.carousel__dots {
+			margin-top: 28px;
 		}
 	}
-	@media (max-width: 720px) {
+	@media (min-width: 1200px) {
 		.carousel {
-			--slide-width: 280px;
-			--slide-gap: var(--space-3);
+			--cols: var(--cols-wide);
 		}
-		.carousel__btn {
-			width: 44px;
-			height: 44px;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.carousel__viewport {
+			scroll-behavior: auto;
 		}
 	}
 </style>

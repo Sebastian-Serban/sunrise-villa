@@ -1,0 +1,116 @@
+---
+import { Image } from "astro:assets";
+import Button from "../Button.astro";
+import { pageUrl } from "../../i18n/routes";
+import { getLang, useTranslations } from "../../i18n/ui";
+import interior from "../../assets/spaces/home-away.jpg";
+import villa from "../../assets/gallery/villa.jpg";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+---
+
+<section class="away">
+	<!-- Phone: interior photo above the text. Desktop: the villa as a full-width background. -->
+	<Image
+		class="away__photo"
+		src={interior}
+		alt={t("away.alt")}
+		widths={[480, 780, 1100]}
+		sizes="calc(100vw - 48px)"
+		loading="lazy"
+	/>
+	<Image
+		class="away__bg"
+		src={villa}
+		alt=""
+		widths={[1200, 1920, 2400]}
+		sizes="100vw"
+		loading="lazy"
+	/>
+	<div class="away__inner">
+		<div class="away__card">
+			<h2>{t("away.title")}</h2>
+			<p>{t("away.text")}</p>
+			<Button href={pageUrl(lang, "rooms")} variant="outline">
+				{t("away.more")}
+			</Button>
+		</div>
+	</div>
+</section>
+
+<style>
+	.away {
+		padding: 40px var(--page-pad);
+	}
+	.away__photo {
+		width: 100%;
+		height: 260px;
+		object-fit: cover;
+		border-radius: var(--radius-lg);
+	}
+	.away__bg {
+		display: none;
+	}
+	h2 {
+		margin: 24px 0 12px;
+		font-size: var(--text-h2);
+		line-height: 1.2;
+		font-weight: 700;
+	}
+	p {
+		margin: 0 0 20px;
+	}
+
+	@media (min-width: 900px) {
+		.away {
+			position: relative;
+			display: flex;
+			align-items: center;
+			height: 560px;
+			padding: 0;
+		}
+		.away__photo {
+			display: none;
+		}
+		.away__bg {
+			display: block;
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.away__inner {
+			position: relative;
+			width: 100%;
+			max-width: var(--wide-max);
+			margin-inline: auto;
+			padding-inline: 64px;
+		}
+		.away__card {
+			max-width: 520px;
+			padding: 36px 36px 38px;
+			border-radius: var(--radius-lg);
+			background: rgb(45 41 38 / 0.9);
+			color: var(--on-dark-strong);
+		}
+		h2 {
+			margin: 0 0 12px;
+			font-size: 34px;
+			color: var(--tan);
+		}
+		p {
+			margin-bottom: 24px;
+			color: #ddd6cc;
+		}
+		.away__card :global(.btn--outline) {
+			border-color: var(--tan);
+			color: var(--tan);
+		}
+		.away__card :global(.btn--outline:hover) {
+			background: var(--tan);
+			color: var(--espresso);
+		}
+	}
+</style>

@@ -7,15 +7,13 @@ import { pageUrl } from "../i18n/routes";
 import Base from "../layouts/Base.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
-import MobileNav from "../components/MobileNav.astro";
 import { useTranslations } from "../i18n/ui";
 
 const t = useTranslations("ro");
 ---
 
 <Base noindex title={t("notFound.meta.title")} description={t("notFound.lead")}>
-	<Header overPhoto={false} />
-	<MobileNav />
+	<Header />
 	<main class="not-found">
 		<div class="not-found__shape" data-draw aria-hidden="true">
 			<svg viewBox="0 0 1440 860" preserveAspectRatio="none">

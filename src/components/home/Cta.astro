@@ -1,0 +1,141 @@
+---
+import { Image } from "astro:assets";
+import Button from "../Button.astro";
+import { pageUrl } from "../../i18n/routes";
+import { BOOKING_URL, getLang, useTranslations } from "../../i18n/ui";
+import poolVilla from "../../assets/gallery/pool-villa.jpg";
+import lawn from "../../assets/gallery/lawn.jpg";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+---
+
+<section class="cta">
+	<!-- The canvas uses a different photo per width -->
+	<Image
+		class="cta__img cta__img--phone"
+		src={poolVilla}
+		alt=""
+		widths={[640, 960, 1280]}
+		sizes="100vw"
+		loading="lazy"
+	/>
+	<Image
+		class="cta__img cta__img--desktop"
+		src={lawn}
+		alt=""
+		widths={[1200, 1920, 2400]}
+		sizes="100vw"
+		loading="lazy"
+	/>
+	<div class="cta__scrim"></div>
+	<div class="cta__content">
+		<h2>{t("cta.title")}</h2>
+		<p>{t("cta.text")}</p>
+		<div class="cta__actions">
+			<Button href={BOOKING_URL} large>
+				{t("cta.bookNow")}
+			</Button>
+			<Button class="cta__second" href={pageUrl(lang, "gallery")} variant="outline-photo" large>
+				{t("cta.seeGallery")}
+			</Button>
+		</div>
+	</div>
+</section>
+
+<style>
+	.cta {
+		position: relative;
+		padding: 80px var(--page-pad);
+		color: var(--white);
+		text-align: center;
+	}
+	.cta__img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.cta__img--desktop {
+		display: none;
+	}
+	.cta__scrim {
+		position: absolute;
+		inset: 0;
+		background: rgb(20 17 15 / 0.55);
+	}
+	.cta__content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 14px;
+	}
+	h2 {
+		margin: 0;
+		font-size: var(--text-h2);
+		line-height: 1.2;
+		font-weight: 700;
+	}
+	p {
+		margin: 0 0 8px;
+		color: #f2ede6;
+	}
+	.cta__actions {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+	.cta__actions :global(.btn) {
+		display: flex;
+	}
+	.cta__actions :global(.cta__second) {
+		background: none;
+	}
+
+	@media (min-width: 900px) {
+		.cta {
+			padding: 120px var(--page-pad);
+		}
+		.cta__img--phone {
+			display: none;
+		}
+		.cta__img--desktop {
+			display: block;
+		}
+		.cta__scrim {
+			background: rgb(20 17 15 / 0.5);
+		}
+		.cta__content {
+			align-items: center;
+			max-width: 760px;
+			margin-inline: auto;
+		}
+		h2 {
+			font-size: 40px;
+		}
+		p {
+			margin-bottom: 12px;
+			font-size: 18px;
+		}
+		.cta__actions {
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+		.cta__actions :global(.btn) {
+			display: inline-flex;
+			min-height: 44px;
+			font-size: 15px;
+		}
+		.cta__actions :global(.cta__second) {
+			border-color: var(--tan);
+			background: var(--tan);
+			color: var(--espresso);
+		}
+		.cta__actions :global(.cta__second:hover) {
+			background: var(--tan-hover);
+		}
+	}
+</style>

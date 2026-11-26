@@ -13,11 +13,11 @@ html {
 
 body {
 	margin: 0;
-	background: var(--surface);
+	background: var(--background);
 	color: var(--ink);
 	font-family: var(--font-sans);
 	font-size: var(--text-body);
-	line-height: 1.65;
+	line-height: 1.6;
 	-webkit-font-smoothing: antialiased;
 	overflow-x: clip;
 }
@@ -46,11 +46,30 @@ a:hover {
 	outline-offset: 3px;
 }
 
+@media (min-width: 900px) {
+	body {
+		line-height: 1.65;
+	}
+}
+
 /* Layout */
 .wrap {
 	max-width: calc(var(--content-max) + 2 * var(--page-pad));
 	margin-inline: auto;
 	padding-inline: var(--page-pad);
+}
+
+.wrap--wide {
+	max-width: var(--wide-max);
+}
+/* Phone: let a swipe row run edge to edge inside a padded wrapper */
+.bleed-phone {
+	margin-inline: calc(var(--page-pad) * -1);
+}
+@media (min-width: 900px) {
+	.bleed-phone {
+		margin-inline: 0;
+	}
 }
 
 .section {
@@ -64,7 +83,7 @@ a:hover {
 
 /* Grounds */
 .bg-surface {
-	background: var(--surface);
+	background: var(--background);
 }
 .bg-sand {
 	background: var(--sand);
@@ -125,30 +144,34 @@ a:hover {
 	color: var(--ink-muted);
 }
 
-/* Buttons */
+/*
+ * Buttons. Shared by <Button> and by plain <a class="btn ..."> on pages not yet ported.
+ * Port design: 4px radius, 44px tall (48px with btn--lg), tan fill with espresso text.
+ */
 .btn {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
-	min-height: 52px;
-	padding: 0 var(--space-6);
+	min-height: 44px;
+	padding: 0 22px;
 	border-radius: var(--radius-sm);
 	border: 1px solid transparent;
 	font: inherit;
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: 600;
+	line-height: 1.2;
 	text-decoration: none;
 	white-space: nowrap;
 	cursor: pointer;
 }
-.btn--primary {
-	background: var(--espresso);
-	color: var(--on-dark);
+.btn--lg {
+	min-height: 48px;
+	font-size: 16px;
 }
-.btn--primary:hover {
-	background: var(--espresso-hover);
-	color: var(--on-dark);
+.btn--block {
+	display: flex;
+	width: 100%;
 }
 .btn--tan {
 	background: var(--tan);
@@ -158,9 +181,46 @@ a:hover {
 	background: var(--tan-hover);
 	color: var(--espresso);
 }
+/* Outline on light grounds */
+.btn--outline {
+	border-color: var(--tan-deep);
+	color: var(--tan-deep);
+}
+.btn--outline:hover {
+	background: var(--tan-deep);
+	color: var(--white);
+}
+/* Outline on espresso */
+.btn--outline-dark {
+	border-color: var(--tan);
+	color: var(--tan);
+}
+.btn--outline-dark:hover {
+	background: var(--tan);
+	color: var(--espresso);
+}
+/* Outline over a photo */
+.btn--outline-photo {
+	border-color: var(--tan);
+	background: rgb(45 41 38 / 0.35);
+	color: var(--white);
+}
+.btn--outline-photo:hover {
+	background: var(--tan);
+	color: var(--espresso);
+}
+/* Espresso fill on light grounds */
+.btn--primary {
+	background: var(--espresso);
+	color: var(--on-dark-strong);
+}
+.btn--primary:hover {
+	background: var(--espresso-hover);
+	color: var(--on-dark-strong);
+}
 .btn--ghost {
 	background: transparent;
-	border-color: var(--line-strong);
+	border-color: var(--border-strong);
 	color: var(--ink);
 }
 .btn--ghost:hover {
@@ -170,11 +230,11 @@ a:hover {
 .btn--ghost-dark {
 	background: transparent;
 	border-color: var(--on-dark-muted);
-	color: var(--on-dark);
+	color: var(--on-dark-strong);
 }
 .btn--ghost-dark:hover {
-	border-color: var(--on-dark);
-	color: var(--on-dark);
+	border-color: var(--on-dark-strong);
+	color: var(--on-dark-strong);
 }
 
 /*
@@ -220,4 +280,9 @@ a:hover {
 
 .app-icon {
 	flex: none;
+}
+
+/* Focus ring that stays visible on espresso grounds */
+.bg-espresso :focus-visible {
+	outline-color: var(--tan);
 }

@@ -1,0 +1,44 @@
+---
+/**
+ * The site's button. Renders a link when `href` is set, otherwise a <button>.
+ * Styles live in src/styles/global.css (.btn, .btn--*), so plain markup with the same
+ * classes looks identical.
+ */
+interface Props {
+	href?: string;
+	/**
+	 * tan: filled. outline: on light grounds. outline-dark: on espresso.
+	 * outline-photo: over a photo. primary: espresso fill on light grounds.
+	 */
+	variant?: "tan" | "outline" | "outline-dark" | "outline-photo" | "primary";
+	/** 48px tall instead of 44px. */
+	large?: boolean;
+	/** Full width. */
+	block?: boolean;
+	class?: string;
+	type?: "button" | "submit";
+	target?: string;
+	rel?: string;
+}
+
+const {
+	href,
+	variant = "tan",
+	large = false,
+	block = false,
+	class: className,
+	type = "button",
+	...rest
+} = Astro.props;
+const classes = ["btn", `btn--${variant}`, { "btn--lg": large, "btn--block": block }, className];
+---
+
+{href !== undefined ? (
+	<a class:list={classes} href={href} {...rest}>
+		<slot />
+	</a>
+) : (
+	<button class:list={classes} type={type} {...rest}>
+		<slot />
+	</button>
+)}

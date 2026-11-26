@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+import Button from "../Button.astro";
+import Carousel from "../Carousel.astro";
+import PairCard from "../PairCard.astro";
+import SectionHead from "../SectionHead.astro";
+import { pageUrl } from "../../i18n/routes";
+import { getLang, useTranslations } from "../../i18n/ui";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const rooms = (await getCollection("rooms")).sort((a, b) => a.data.order - b.data.order);
+const roomsPage = pageUrl(lang, "rooms");
+---
+
+<section class="rooms" id="camere">
+	<div class="wrap wrap--wide">
+		<SectionHead title={t("rooms.title")} lead={t("rooms.lead")} />
+		<Carousel
+			mobile="stack"
+			label={t("rooms.title")}
+			prevLabel={t("rooms.prev")}
+			nextLabel={t("rooms.next")}
+			dotLabel={t("carousel.dot")}
+			dots
+		>
+			{rooms.map(({ data }) => (
+				<PairCard
+					image={data.photos[0].image}
+					alt={data.photos[0].alt[lang]}
+					title={data.name[lang]}
+					text={data.description[lang]}
+					sizes="(min-width: 1200px) 360px, (min-width: 900px) 480px, calc(100vw - 48px)"
+				>
+					<Button href={`${roomsPage}#${data.anchor}`}>{t("rooms.details")}</Button>
+				</PairCard>
+			))}
+		</Carousel>
+	</div>
+</section>
+
+<style>
+	.rooms {
+		--head-gap: 28px;
+		padding-block: 56px 24px;
+	}
+	@media (min-width: 900px) {
+		.rooms {
+			--head-gap: 48px;
+			padding-block: 96px 56px;
+		}
+	}
+</style>

@@ -10,7 +10,6 @@ import Base from "../../layouts/Base.astro";
 import AppIcon from "../AppIcon.astro";
 import Footer from "../Footer.astro";
 import Header from "../Header.astro";
-import MobileNav from "../MobileNav.astro";
 import PageHead from "../PageHead.astro";
 import Sweep from "../Sweep.astro";
 import { getLang, useTranslations } from "../../i18n/ui";
@@ -45,8 +44,7 @@ const counts = Object.fromEntries(
 	title={t("galleryPage.meta.title")}
 	description={t("galleryPage.meta.description")}
 >
-	<Header page="gallery" overPhoto={false} />
-	<MobileNav page="gallery" />
+	<Header page="gallery" />
 	<main>
 		<PageHead
 			label={t("nav.gallery")}

@@ -1,0 +1,166 @@
+---
+import AppIcon, { type AppIconName } from "../AppIcon.astro";
+import Button from "../Button.astro";
+import SectionHead from "../SectionHead.astro";
+import {
+	BOOKING_URL,
+	EMAIL,
+	PHONE,
+	PHONE_HREF,
+	RECEPTION_HOURS,
+	getLang,
+	useTranslations,
+} from "../../i18n/ui";
+
+const t = useTranslations(getLang(Astro.currentLocale));
+const items: { icon: AppIconName; label: string; value: string; href?: string }[] = [
+	{ icon: "Phone", label: t("contact.phone"), value: PHONE, href: PHONE_HREF },
+	{ icon: "Mail", label: t("contact.email"), value: EMAIL, href: `mailto:${EMAIL}` },
+	{ icon: "Clock", label: t("homeContact.hours"), value: RECEPTION_HOURS },
+];
+---
+
+<section class="contact">
+	<div class="contact__inner">
+		<SectionHead title={t("homeContact.title")} lead={t("homeContact.lead")} />
+		<Button class="contact__book" href={BOOKING_URL} large>
+			{t("cta.bookNow")}
+		</Button>
+		<div class="contact__rule" aria-hidden="true"></div>
+		<ul class="contact__list">
+			{items.map((item) => (
+				<li>
+					<span class="contact__icon">
+						<AppIcon name={item.icon} stroke-width={2} />
+					</span>
+					<div>
+						<div class="contact__label">{item.label}</div>
+						{item.href ? (
+							<a href={item.href}>{item.value}</a>
+						) : (
+							<div class="contact__value">{item.value}</div>
+						)}
+					</div>
+				</li>
+			))}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.contact {
+		--head-gap: 22px;
+		padding: 52px var(--page-pad) 48px;
+	}
+	.contact__inner {
+		max-width: 1000px;
+		margin-inline: auto;
+	}
+	.contact__inner :global(.btn) {
+		display: flex;
+		margin-bottom: 28px;
+	}
+	.contact__rule {
+		display: none;
+	}
+	.contact__list {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	li {
+		display: flex;
+		align-items: flex-start;
+		gap: 14px;
+		line-height: 1.4;
+	}
+	.contact__icon {
+		display: flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: var(--radius-full);
+		background: var(--sand);
+		color: var(--tan-deep);
+	}
+	.contact__label {
+		font-size: 14px;
+		color: #6b6560;
+	}
+	li a,
+	.contact__value {
+		font-weight: 600;
+		color: var(--ink);
+		text-decoration: none;
+		overflow-wrap: anywhere;
+	}
+	li a:hover {
+		color: var(--tan-deep);
+	}
+
+	/* Desktop: centred on espresso */
+	@media (min-width: 900px) {
+		.contact {
+			--head-gap: 28px;
+			padding: 88px var(--page-pad) 96px;
+			border-top: 1px solid #3e3833;
+			background: var(--espresso);
+			color: var(--on-dark-strong);
+			text-align: center;
+		}
+		.contact :global(h2) {
+			color: var(--tan);
+		}
+		.contact :global(.head p) {
+			color: var(--on-dark);
+		}
+		.contact__inner :global(.btn) {
+			display: inline-flex;
+			margin-bottom: 0;
+			min-height: 44px;
+			font-size: 15px;
+		}
+		.contact__rule {
+			display: block;
+			width: 64px;
+			height: 2px;
+			margin: 48px auto;
+			background: var(--tan);
+		}
+		.contact__list {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+			gap: 32px;
+		}
+		li {
+			flex-direction: column;
+			align-items: center;
+			gap: 12px;
+		}
+		.contact__icon {
+			width: 52px;
+			height: 52px;
+			border: 1px solid var(--tan);
+			background: none;
+			color: var(--tan);
+		}
+		.contact__label {
+			font-size: 15px;
+			color: var(--on-dark-muted);
+		}
+		li a,
+		.contact__value {
+			font-size: 20px;
+			font-weight: 700;
+			color: var(--white);
+		}
+		li a:hover {
+			color: var(--tan);
+		}
+	}
+</style>

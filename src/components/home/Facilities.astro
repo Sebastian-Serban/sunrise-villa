@@ -1,0 +1,166 @@
+---
+import SectionHead from "../SectionHead.astro";
+import { getLang, useTranslations, type UiKey } from "../../i18n/ui";
+
+const t = useTranslations(getLang(Astro.currentLocale));
+
+/** Each facility has a long text (desktop) and a shorter one for the compact phone grid.
+ * Icon paths are lucide's (waves, wifi, square-parking, leaf, flame, plane), kept inline. */
+const items: { icon: string; key: "pool" | "wifi" | "parking" | "garden" | "bbq" | "transfer" }[] =
+	[
+		{
+			key: "pool",
+			icon: "M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1",
+		},
+		{
+			key: "wifi",
+			icon: "M12 20h.01M2 8.82a15 15 0 0 1 20 0M5 12.86a10 10 0 0 1 14 0M8.5 16.43a5 5 0 0 1 7 0",
+		},
+		{
+			key: "parking",
+			icon: "M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM9 17V7h4a3 3 0 0 1 0 6H9",
+		},
+		{
+			key: "garden",
+			icon: "M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10ZM2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12",
+		},
+		{
+			key: "bbq",
+			icon: "M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z",
+		},
+		{
+			key: "transfer",
+			icon: "M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z",
+		},
+	];
+---
+
+<section class="facilities">
+	<div class="facilities__inner">
+		<SectionHead title={t("facilities.title")} lead={t("facilities.lead")} />
+		<ul class="facilities__grid">
+			{items.map(({ icon, key }) => (
+				<li>
+					<span class="facilities__icon">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.8"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							aria-hidden="true"
+						>
+							<path d={icon} />
+						</svg>
+					</span>
+					<div>
+						<h3>{t(`facilities.${key}.title` as UiKey)}</h3>
+						<p>
+							<span class="facilities__long">{t(`facilities.${key}.text` as UiKey)}</span>
+							<span class="facilities__short">{t(`facilities.${key}.short` as UiKey)}</span>
+						</p>
+					</div>
+				</li>
+			))}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.facilities {
+		--head-gap: 36px;
+		padding: 48px var(--page-pad) 52px;
+		background: var(--sand);
+	}
+	.facilities__inner {
+		max-width: var(--content-max);
+		margin-inline: auto;
+	}
+	.facilities__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 34px 16px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		text-align: center;
+	}
+	li {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 18px;
+	}
+	.facilities__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 60px;
+		height: 60px;
+		border-radius: var(--radius-full);
+		background: var(--tan);
+		color: var(--espresso);
+		box-shadow: var(--ring);
+	}
+	.facilities__icon :global(svg) {
+		width: 28px;
+		height: 28px;
+	}
+	h3 {
+		margin: 0 0 2px;
+		font-size: 17px;
+		line-height: 1.3;
+		font-weight: 700;
+	}
+	p {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.45;
+		color: var(--ink-soft);
+	}
+	.facilities__long {
+		display: none;
+	}
+
+	@media (min-width: 900px) {
+		.facilities {
+			--head-gap: 72px;
+			padding: 96px var(--page-pad) 104px;
+			background: none;
+		}
+		.facilities__grid {
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 72px 48px;
+		}
+		li {
+			gap: 30px;
+		}
+		.facilities__icon {
+			width: 104px;
+			height: 104px;
+			box-shadow:
+				0 0 0 8px rgb(194 146 109 / 0.28),
+				0 0 0 16px rgb(194 146 109 / 0.12);
+		}
+		.facilities__icon :global(svg) {
+			width: 42px;
+			height: 42px;
+			stroke-width: 1.6;
+		}
+		h3 {
+			margin-bottom: 6px;
+			font-size: 24px;
+		}
+		p {
+			font-size: 16px;
+			line-height: inherit;
+		}
+		.facilities__long {
+			display: inline;
+		}
+		.facilities__short {
+			display: none;
+		}
+	}
+</style>

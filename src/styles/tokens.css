@@ -1,41 +1,40 @@
 /*
- * Sunrise Villa design tokens.
- * Source of truth: the "Sunrise Villa" design system artifact (project/tokens.json).
- * Keep names identical to the design system so designs and code stay in sync.
+ * Sunrise Villa design tokens: the "port design" (look of the old WordPress site, redesigned).
+ * Source of truth: docs/sunrise-villa.md, section "Port design (current look, in use)".
  */
 :root {
 	/* Colour */
-	--surface: #f7f3ee; /* default page background */
-	--surface-raised: #fdfbf8; /* form fields, cards that must lift off surface */
-	--sand: #e8e1d7; /* alternate section background */
-	--espresso: #2d2926; /* dark sections, primary button on light */
-	--espresso-hover: #1f1c1a;
-	--espresso-raised: #3a3531; /* panels inside espresso sections */
-	--ink: #2f2f2d; /* text on light grounds */
-	--ink-muted: #645e59; /* secondary text, 4.9:1 on sand */
-	--tan: #c2926d; /* brand: fills, curves, accents. Never text on light grounds */
-	--tan-hover: #d2a783;
-	--tan-deep: #8b5e3c; /* links and labels on light grounds */
-	--on-dark: #f7f3ee;
-	--on-dark-muted: #b8aea3;
-	--line: #d4c9bc;
-	--line-strong: #8f806d; /* input and ghost button borders */
-	--line-dark: #4a433d; /* hairlines on espresso */
-	--photo-placeholder: #d9cfc2;
-	--success: #4f6b51;
-	--error: #a0522d;
+	--background: #f5f5f5; /* page */
+	--sand: #e8e1d7; /* cards (rooms, spaces, reviews), facilities ground */
+	--espresso: #2d2926; /* header, dark sections, footer */
+	--ink: #2f2f2d; /* body text */
+	--ink-soft: #4a4642; /* secondary text on light */
+	--ink-muted: #5e5852; /* small print on light, 5.6:1 on #f5f5f5 */
+	--tan: #c2926d; /* buttons, icon circles, headings on dark. Never small text on light */
+	--tan-hover: #b07f5b;
+	--tan-deep: #8b5e3c; /* links and small labels on light */
+	--border: #d4c9bc; /* card and input borders */
+	--border-strong: #a89880;
+	--on-dark: #d8d1c7; /* body text on espresso */
+	--on-dark-strong: #e8e1d7; /* links and card text on espresso */
+	--on-dark-muted: #bdb4a8; /* small print on espresso */
+	--line-dark: #4a443f; /* hairlines on espresso */
+	--white: #fff;
 
-	/* Type */
-	/* Font faces and size-matched fallbacks come from the fonts config in astro.config.mjs */
-	--font-display: var(--font-fraunces);
-	--font-sans: var(--font-instrument-sans);
+	/* Brand colours of the floating contact buttons */
+	--call: #2fa84f;
+	--whatsapp: #25d366;
+	--mail: #d9473f;
 
-	--text-display-xl: 96px;
-	--text-display-l: 64px;
-	--text-h2: 60px;
-	--text-h3: 34px;
+	/* Type: system font stack, bold 700 headings */
+	--font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	--font-display: var(--font-sans);
+
+	--text-h1: 40px;
+	--text-h2: 30px;
+	--text-h3: 22px;
 	--text-body-l: 19px;
-	--text-body: 17px; /* deliberate for a 30+ audience: never smaller for reading text */
+	--text-body: 17px; /* never smaller for reading text (30+ audience) */
 	--text-small: 15px;
 	--text-label: 14px;
 
@@ -51,25 +50,51 @@
 	--space-24: 96px;
 	--space-32: 128px;
 
-	/* Radius: the system is square */
-	--radius-none: 0;
-	--radius-sm: 2px;
+	/* Radius */
+	--radius-sm: 4px; /* buttons, inputs */
+	--radius-md: 12px; /* small cards, tiles */
+	--radius-lg: 16px; /* photos and cards */
 	--radius-full: 9999px;
 
+	/* Shadow: soft, only on overlapping cards, header tab and floating buttons */
+	--shadow-card: 0 6px 18px rgb(45 41 38 / 0.1);
+	--shadow-card-lg: 0 8px 24px rgb(45 41 38 / 0.12);
+	--shadow-float: 0 3px 10px rgb(0 0 0 / 0.25);
+	--ring: 0 0 0 6px rgb(194 146 109 / 0.28), 0 0 0 12px rgb(194 146 109 / 0.12);
+
 	/* Layout */
-	--content-max: 1240px;
+	--content-max: 1200px;
+	--wide-max: 1320px;
+	--page-pad: 24px;
 	--gutter: var(--space-8);
-	--page-pad: var(--space-8);
+	--header-h: 64px;
 
 	/* Motion */
 	--ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
+
+	/*
+	 * Legacy aliases for pages that still use the rejected design's token names.
+	 * They resolve to port values. Remove each one when the last page using it is ported.
+	 */
+	--surface: var(--background);
+	--surface-raised: var(--white);
+	--espresso-hover: #1f1c1a;
+	--espresso-raised: #3a3531;
+	--line: var(--border);
+	--line-strong: var(--border-strong);
+	--photo-placeholder: #d9cfc2;
+	--text-display-xl: 40px;
+	--success: #4f6b51;
+	--error: #a0522d;
 }
 
-@media (max-width: 720px) {
+@media (min-width: 900px) {
 	:root {
-		--text-display-xl: 50px;
-		--text-h2: 38px;
-		--text-h3: 28px;
-		--page-pad: 20px;
+		--text-h1: 64px;
+		--text-h2: 36px;
+		--text-h3: 26px;
+		--page-pad: 32px;
+		--header-h: 72px;
+		--text-display-xl: 64px;
 	}
 }

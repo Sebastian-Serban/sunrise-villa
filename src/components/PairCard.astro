@@ -1,0 +1,141 @@
+---
+/**
+ * Photo with an overlapping sand card (rooms, common spaces).
+ * Phone: photo on top, card overlapping its lower edge (flat: card inside one sand tile).
+ * Desktop: photo left, card overlapping its right edge.
+ * Use as a direct child of <Carousel>. The slot holds the actions under the text.
+ */
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+	image: ImageMetadata;
+	alt: string;
+	title: string;
+	text: string;
+	/** Phone: render as one flat sand tile (photo + text) instead of an overlapping card. */
+	flat?: boolean;
+	/** `sizes` attribute of the photo. */
+	sizes: string;
+}
+
+const { image, alt, title, text, flat = false, sizes } = Astro.props;
+---
+
+<article class:list={["pair", { "pair--flat": flat }]}>
+	<Image
+		class="pair__img"
+		src={image}
+		alt={alt}
+		widths={[400, 640, 900, 1200]}
+		sizes={sizes}
+		loading="lazy"
+	/>
+	<div class="pair__card">
+		<h3>{title}</h3>
+		<p>{text}</p>
+		<slot />
+	</div>
+</article>
+
+<style>
+	.pair {
+		display: block;
+		min-width: 0;
+	}
+	.pair__img {
+		display: block;
+		width: 100%;
+		height: 240px;
+		object-fit: cover;
+		border-radius: var(--radius-lg);
+	}
+	.pair__card {
+		position: relative;
+		margin: -36px 14px 0;
+		padding: 20px 20px 22px;
+		border-radius: var(--radius-md);
+		background: var(--sand);
+		box-shadow: var(--shadow-card);
+	}
+	h3 {
+		margin: 0 0 6px;
+		font-size: 22px;
+		line-height: 1.3;
+		font-weight: 700;
+	}
+	p {
+		margin: 0 0 16px;
+	}
+
+	p:last-child {
+		margin-bottom: 0;
+	}
+
+	/* Flat: one sand tile, smaller type (phone swipe rows) */
+	.pair--flat {
+		overflow: hidden;
+		border-radius: var(--radius-lg);
+		background: var(--sand);
+	}
+	.pair--flat .pair__img {
+		height: 190px;
+		border-radius: 0;
+	}
+	.pair--flat .pair__card {
+		margin: 0;
+		padding: 16px 18px 20px;
+		border-radius: 0;
+		background: none;
+		box-shadow: none;
+	}
+	.pair--flat h3 {
+		font-size: 20px;
+	}
+	.pair--flat p {
+		margin: 0;
+		font-size: 16px;
+	}
+
+	@media (min-width: 900px) {
+		.pair,
+		.pair--flat {
+			display: flex;
+			align-items: center;
+			overflow: visible;
+			border-radius: 0;
+			background: none;
+		}
+		.pair__img,
+		.pair--flat .pair__img {
+			flex: none;
+			width: 60%;
+			height: 340px;
+			border-radius: var(--radius-lg);
+		}
+		.pair__card,
+		.pair--flat .pair__card {
+			width: 48%;
+			margin: 0 0 0 -8%;
+			padding: 28px 26px;
+			border-radius: var(--radius-lg);
+			background: var(--sand);
+			box-shadow: var(--shadow-card-lg);
+		}
+		h3,
+		.pair--flat h3 {
+			margin-bottom: 8px;
+			font-size: 26px;
+			line-height: 1.2;
+		}
+		p,
+		.pair--flat p {
+			margin: 0 0 18px;
+			font-size: 16px;
+		}
+		p:last-child,
+		.pair--flat p:last-child {
+			margin-bottom: 0;
+		}
+	}
+</style>

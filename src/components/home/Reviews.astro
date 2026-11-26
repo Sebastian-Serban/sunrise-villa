@@ -1,0 +1,221 @@
+---
+import { getCollection } from "astro:content";
+import Carousel from "../Carousel.astro";
+import SectionHead from "../SectionHead.astro";
+import { getLang, useTranslations } from "../../i18n/ui";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const reviews = (await getCollection("reviews")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="reviews">
+	<div class="wrap">
+		<SectionHead tone="dark" title={t("reviews.title")} lead={t("reviews.lead")} />
+
+		<!-- Phone: compact score boxes above the swipe row -->
+		<div class="scores scores--phone">
+			<div class="score">
+				<div class="score__value">
+					4.8{" "}
+					<span class="score__star" aria-hidden="true">
+						★
+					</span>
+				</div>
+				<div class="score__label">{t("reviews.google.short")}</div>
+			</div>
+			<div class="score">
+				<div class="score__value">9.9</div>
+				<div class="score__label">{t("reviews.booking.short")}</div>
+			</div>
+		</div>
+
+		<div class="bleed-phone">
+			<Carousel
+				label={t("reviews.title")}
+				prevLabel={t("reviews.prev")}
+				nextLabel={t("reviews.next")}
+				dotLabel={t("carousel.dot")}
+				cols={[2, 3]}
+				gap={24}
+				inset={64}
+				arrowOffset={0}
+			>
+				{reviews.map(({ data }) => (
+					<blockquote class="review">
+						<div class="review__stars" role="img" aria-label={t("reviews.stars")}>
+							★★★★★
+						</div>
+						<p>„{data.text}”</p>
+						<span class="review__avatar" aria-hidden="true">
+							{data.author.charAt(0).toUpperCase()}
+						</span>
+						<cite>{data.author}</cite>
+					</blockquote>
+				))}
+			</Carousel>
+		</div>
+
+		<!-- Desktop: white score boxes below the carousel -->
+		<div class="scores scores--desktop">
+			<div class="score">
+				<div class="score__label">{t("reviews.google.name")}</div>
+				<div class="score__value">
+					4.8{" "}
+					<span class="score__star" aria-hidden="true">
+						★★★★★
+					</span>
+				</div>
+				<div class="score__label">{t("reviews.google.count")}</div>
+			</div>
+			<div class="score">
+				<div class="score__label">{t("reviews.booking.name")}</div>
+				<div class="score__value">
+					9.9 <span class="score__badge">{t("reviews.booking.badge")}</span>
+				</div>
+				<div class="score__label">{t("reviews.booking.count")}</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.reviews {
+		--head-gap: 22px;
+		padding-block: 52px 48px;
+		background: var(--espresso);
+		color: var(--on-dark-strong);
+	}
+	.scores {
+		display: flex;
+		gap: 10px;
+		margin-bottom: 24px;
+	}
+	.score {
+		line-height: 1.3;
+	}
+	.score__value {
+		font-weight: 700;
+	}
+	.score__star {
+		color: var(--tan);
+	}
+
+	.scores--phone .score {
+		flex: 1;
+		padding: 10px 12px;
+		border: 1px solid #5a534d;
+		border-radius: 8px;
+	}
+	.scores--phone .score__value {
+		font-size: 22px;
+		color: var(--white);
+	}
+	.scores--phone .score__star {
+		font-size: 16px;
+	}
+	.scores--phone .score__label {
+		font-size: 13px;
+		color: #cfc7bc;
+	}
+	.scores--desktop {
+		display: none;
+	}
+
+	.review {
+		display: block;
+		margin: 0;
+		padding: 20px;
+		border-radius: var(--radius-md);
+		background: var(--sand);
+		color: var(--ink);
+	}
+	.review__stars {
+		color: var(--tan-deep);
+		letter-spacing: 2px;
+	}
+	.review p {
+		margin: 8px 0 12px;
+		font-size: 16px;
+	}
+	.review__avatar {
+		display: none;
+	}
+	cite {
+		font-style: normal;
+		font-weight: 700;
+		font-size: 15px;
+	}
+
+	@media (min-width: 900px) {
+		.reviews {
+			--head-gap: 48px;
+			padding-block: 96px 88px;
+		}
+		.scores--phone {
+			display: none;
+		}
+		.scores--desktop {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 16px;
+			margin: 48px 0 0;
+		}
+		.scores--desktop .score {
+			min-width: 170px;
+			padding: 12px 18px;
+			border-radius: 8px;
+			background: var(--white);
+			color: var(--ink);
+		}
+		.scores--desktop .score__value {
+			font-size: 24px;
+		}
+		.scores--desktop .score__star {
+			font-size: 16px;
+			letter-spacing: 1px;
+		}
+		.scores--desktop .score__label {
+			font-size: 13px;
+			color: var(--ink-muted);
+		}
+		.score__badge {
+			display: inline-block;
+			padding: 2px 6px;
+			border-radius: 4px;
+			background: #003580;
+			color: var(--white);
+			font-size: 14px;
+			font-weight: 600;
+			vertical-align: middle;
+		}
+		.review {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 14px;
+			padding: 32px 28px;
+			border-radius: var(--radius-lg);
+			text-align: center;
+		}
+		.review__stars {
+			letter-spacing: 3px;
+		}
+		.review p {
+			margin: 0;
+		}
+		.review__avatar {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 40px;
+			height: 40px;
+			margin-top: auto;
+			border-radius: var(--radius-full);
+			background: var(--tan);
+			color: var(--espresso);
+			font-weight: 700;
+		}
+	}
+</style>

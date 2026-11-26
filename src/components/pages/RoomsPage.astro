@@ -7,7 +7,6 @@ import Base from "../../layouts/Base.astro";
 import AppIcon, { type AppIconName } from "../AppIcon.astro";
 import Footer from "../Footer.astro";
 import Header from "../Header.astro";
-import MobileNav from "../MobileNav.astro";
 import RoomPhotos from "../RoomPhotos.astro";
 import Sweep from "../Sweep.astro";
 import heroImage from "../../assets/rooms/room-double.jpg";
@@ -30,7 +29,6 @@ const amenities: { icon: AppIconName; key: UiKey }[] = [
 
 <Base page="rooms" title={t("roomsPage.meta.title")} description={t("roomsPage.meta.description")}>
 	<Header page="rooms" />
-	<MobileNav page="rooms" />
 	<main>
 		<section class="rooms-hero">
 			<Image

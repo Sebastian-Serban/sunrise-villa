@@ -4,7 +4,6 @@ import { getEntry, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Footer from "../Footer.astro";
 import Header from "../Header.astro";
-import MobileNav from "../MobileNav.astro";
 import PageHead from "../PageHead.astro";
 import { getLang, useTranslations } from "../../i18n/ui";
 
@@ -26,8 +25,7 @@ const { Content } = await render(entry);
 	title={`${entry.data.title} | Sunrise Villa`}
 	description={entry.data.description}
 >
-	<Header page={page} overPhoto={false} />
-	<MobileNav page={page} />
+	<Header page={page} />
 	<main class="legal">
 		<PageHead titleBefore={entry.data.title} small>
 			<p class="muted legal__updated">

@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { Font } from "astro:assets";
+import FloatingContact from "../components/FloatingContact.astro";
 import { pageAbsoluteUrl, type Page } from "../i18n/routes";
 import { getLang, languages, useTranslations, type Lang } from "../i18n/ui";
 
@@ -44,12 +44,10 @@ const canonical = pageAbsoluteUrl(lang, page);
 		<meta property="og:description" content={pageDescription} />
 		<meta property="og:url" content={canonical} />
 		<meta name="theme-color" content="#2d2926" />
-		<!-- Preload the upright faces (latin + latin-ext, Romanian uses both); italics load on demand -->
-		<Font cssVariable="--font-fraunces" preload={[{ style: "normal" }]} />
-		<Font cssVariable="--font-instrument-sans" preload />
 	</head>
 	<body>
 		<slot />
+		<FloatingContact />
 		<script>
 			import "../scripts/draw-strokes";
 		</script>

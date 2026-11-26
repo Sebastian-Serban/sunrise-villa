@@ -1,0 +1,101 @@
+---
+/**
+ * Placeholder map that loads Google Maps only after a click: no request to Google, no cookies,
+ * no consent banner until the visitor asks for it. See the privacy policy.
+ */
+import AppIcon from "./AppIcon.astro";
+import Button from "./Button.astro";
+import { ADDRESS_SHORT, getLang, useTranslations } from "../i18n/ui";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const title = `Sunrise Villa, ${ADDRESS_SHORT}`;
+// Keyless embed URL; the map's labels follow the page language.
+const embedUrl = `https://www.google.com/maps?q=${encodeURIComponent(title)}&hl=${lang}&z=14&output=embed`;
+---
+
+<map-embed class="map" data-src={embedUrl} data-title={t("map.iframeTitle")}>
+	<div class="map__placeholder">
+		<AppIcon name="MapPin" class="map__pin" stroke-width={1.8} />
+		<p class="map__title">{title}</p>
+		<Button variant="primary" data-load>
+			{t("map.load")}
+		</Button>
+		<p class="map__note">{t("map.note")}</p>
+	</div>
+</map-embed>
+
+<script>
+	class MapEmbed extends HTMLElement {
+		connectedCallback() {
+			this.querySelector("[data-load]")?.addEventListener("click", () => {
+				const iframe = document.createElement("iframe");
+				iframe.src = this.dataset.src ?? "";
+				iframe.title = this.dataset.title ?? "";
+				iframe.loading = "lazy";
+				iframe.referrerPolicy = "no-referrer-when-downgrade";
+				iframe.allowFullscreen = true;
+				this.replaceChildren(iframe);
+			});
+		}
+	}
+	customElements.define("map-embed", MapEmbed);
+</script>
+
+<style>
+	.map {
+		display: block;
+		height: 300px;
+		background: #e2dace;
+		border-top: 1px solid var(--border);
+	}
+	.map :global(iframe) {
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+	.map__placeholder {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+		height: 100%;
+		padding: 0 32px;
+		text-align: center;
+	}
+	.map__placeholder :global(.map__pin) {
+		width: 34px;
+		height: 34px;
+		color: var(--tan-deep);
+	}
+	.map__placeholder p {
+		margin: 0;
+	}
+	.map__title {
+		font-weight: 700;
+		line-height: 1.4;
+	}
+	.map__note {
+		font-size: 14px;
+		line-height: 1.45;
+		color: var(--ink-muted);
+	}
+	@media (min-width: 900px) {
+		.map {
+			height: 420px;
+			border-top: 0;
+		}
+		.map__placeholder :global(.map__pin) {
+			width: 38px;
+			height: 38px;
+		}
+		.map__title {
+			font-size: 19px;
+		}
+		.map__placeholder :global(.btn) {
+			min-height: 46px;
+			padding: 0 24px;
+		}
+	}
+</style>

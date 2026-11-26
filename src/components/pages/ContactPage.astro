@@ -5,7 +5,6 @@ import Base from "../../layouts/Base.astro";
 import AppIcon, { type AppIconName } from "../AppIcon.astro";
 import Footer from "../Footer.astro";
 import Header from "../Header.astro";
-import MobileNav from "../MobileNav.astro";
 import PageHead from "../PageHead.astro";
 import Sweep from "../Sweep.astro";
 import Contact from "../sections/Contact.astro";
@@ -27,8 +26,7 @@ const routes: { icon: AppIconName; key: "car" | "plane" | "resort" }[] = [
 	title={t("contactPage.meta.title")}
 	description={t("contactPage.meta.description")}
 >
-	<Header page="contact" overPhoto={false} />
-	<MobileNav page="contact" />
+	<Header page="contact" />
 	<main>
 		<PageHead
 			label={t("nav.contact")}

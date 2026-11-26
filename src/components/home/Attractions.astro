@@ -1,0 +1,156 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import SectionHead from "../SectionHead.astro";
+import { getLang, useTranslations } from "../../i18n/ui";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const tiles = (await getCollection("attractions"))
+	.filter((entry) => entry.data.kind === "attraction")
+	.sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="attractions" id="imprejurimi">
+	<div class="attractions__inner">
+		<SectionHead tone="dark" title={t("attractions.title")} lead={t("attractions.lead")} />
+		<ul class="tiles">
+			{tiles.map(({ data }, i) => {
+				const Tag = data.url ? "a" : "div";
+				return (
+					<li class:list={["tile", { "tile--first": i === 0, "tile--large": data.large }]}>
+						<Tag class="tile__link" href={data.url}>
+							<Image
+								class="tile__img"
+								src={data.image}
+								alt={data.imageAlt?.[lang] ?? ""}
+								widths={[480, 800, 1200]}
+								sizes={
+									data.large
+										? "(min-width: 900px) 600px, calc(100vw - 48px)"
+										: "(min-width: 900px) 400px, 50vw"
+								}
+								loading="lazy"
+							/>
+							<span class="tile__label">
+								{data.name[lang]}
+								{data.caption && <span class="tile__caption">{data.caption[lang]}</span>}
+							</span>
+						</Tag>
+					</li>
+				);
+			})}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.attractions {
+		--head-gap: 26px;
+		padding: 52px var(--page-pad) 56px;
+		background: var(--espresso);
+		color: var(--on-dark-strong);
+	}
+	.attractions__inner {
+		max-width: var(--content-max);
+		margin-inline: auto;
+	}
+	.tiles {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.tile {
+		grid-column: span 1;
+		min-width: 0;
+	}
+	.tile--first {
+		grid-column: span 2;
+	}
+	.tile__link {
+		position: relative;
+		display: block;
+		height: 170px;
+		overflow: hidden;
+		border-radius: var(--radius-md);
+		color: var(--white);
+		text-decoration: none;
+	}
+	.tile--first .tile__link {
+		height: 210px;
+	}
+	.tile__img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.tile__label {
+		position: absolute;
+		inset: auto 0 0;
+		padding: 24px 12px 10px;
+		background: linear-gradient(transparent, rgb(20 17 15 / 0.85));
+		font-size: 15px;
+		font-weight: 700;
+		line-height: 1.3;
+	}
+	.tile--first .tile__label {
+		padding: 28px 14px 12px;
+		font-size: 17px;
+	}
+	.tile__caption {
+		display: none;
+		font-size: 14px;
+		font-weight: 400;
+		color: var(--on-dark-strong);
+	}
+	.tile--first .tile__caption {
+		display: block;
+	}
+	.tile__link:focus-visible {
+		outline-color: var(--tan);
+	}
+
+	@media (min-width: 900px) {
+		.attractions {
+			--head-gap: 48px;
+			padding: 96px var(--page-pad) 104px;
+		}
+		.tiles {
+			grid-template-columns: repeat(6, minmax(0, 1fr));
+			gap: 20px;
+		}
+		.tile,
+		.tile--first {
+			grid-column: span 2;
+		}
+		.tile--large {
+			grid-column: span 3;
+		}
+		.tile__link,
+		.tile--first .tile__link {
+			height: 280px;
+			border-radius: var(--radius-lg);
+		}
+		.tile--large .tile__link {
+			height: 420px;
+		}
+		.tile__label,
+		.tile--first .tile__label {
+			padding: 44px 20px 16px;
+			font-size: 20px;
+		}
+		.tile--large .tile__label {
+			padding: 56px 26px 22px;
+			font-size: 24px;
+		}
+		.tile__caption,
+		.tile--first .tile__caption {
+			display: block;
+			font-size: 16px;
+		}
+	}
+</style>

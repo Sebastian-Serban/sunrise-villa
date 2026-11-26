@@ -1,5 +1,12 @@
 ---
+/**
+ * Site header, shared by every page.
+ * Phone: espresso bar with the logo tab hanging down and a hamburger that opens a menu
+ * panel (links, booking button, language switch). Desktop (>= 900px): centred nav, language
+ * switch and booking button.
+ */
 import Logo from "../assets/logo.svg";
+import Button from "./Button.astro";
 import AppIcon from "./AppIcon.astro";
 import { pageUrl, type Page } from "../i18n/routes";
 import { BOOKING_URL, getLang, languages, useTranslations, type Lang } from "../i18n/ui";
@@ -7,37 +14,38 @@ import { BOOKING_URL, getLang, languages, useTranslations, type Lang } from "../
 interface Props {
 	/** Current page: marks the active link and drives the language switch. */
 	page?: Page;
-	/** Light text over a photo (hero) vs dark text on a light ground. */
-	overPhoto?: boolean;
 }
 
-const { page = "home", overPhoto = true } = Astro.props;
+const { page = "home" } = Astro.props;
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 const home = pageUrl(lang, "home");
 const links = [
-	{ page: "rooms", href: pageUrl(lang, "rooms"), label: t("nav.rooms") },
-	{ page: "gallery", href: pageUrl(lang, "gallery"), label: t("nav.gallery") },
-	{ page: null, href: `${home}#imprejurimi`, label: t("nav.area") },
-	{ page: "contact", href: pageUrl(lang, "contact"), label: t("nav.contact") },
-];
+	{ page: "rooms", label: t("nav.rooms") },
+	{ page: "gallery", label: t("nav.gallery") },
+	{ page: "contact", label: t("nav.contact") },
+] as const satisfies readonly { page: Page; label: string }[];
+const phoneLinks = [{ page: "home", label: t("nav.home") } as const, ...links];
+const langs = Object.keys(languages) as Lang[];
 ---
 
-<header class:list={["header", { "header--over-photo": overPhoto }]}>
-	<div class="wrap header__inner">
-		<a href={home} class="header__logo" aria-label="Sunrise Villa">
-			<Logo width={96} height={96} aria-hidden="true" />
+<header class="header">
+	<div class="header__inner">
+		<a href={home} class="header__logo" aria-label={t("header.homeLabel")}>
+			<Logo width={62} height={62} aria-hidden="true" />
 		</a>
+
 		<nav class="header__nav" aria-label={t("nav.menu")}>
 			{links.map((link) => (
-				<a href={link.href} aria-current={link.page === page ? "page" : undefined}>
+				<a href={pageUrl(lang, link.page)} aria-current={link.page === page ? "page" : undefined}>
 					{link.label}
 				</a>
 			))}
 		</nav>
+
 		<div class="header__end">
-			<div class="header__lang">
-				{(Object.keys(languages) as Lang[]).map((l) => (
+			<div class="header__lang" role="group" aria-label={t("nav.language")}>
+				{langs.map((l) => (
 					<a
 						href={pageUrl(l, page)}
 						hreflang={l}
@@ -48,124 +56,265 @@ const links = [
 					</a>
 				))}
 			</div>
-			<a
-				class:list={["btn header__book", overPhoto ? "btn--tan" : "btn--primary"]}
-				href={BOOKING_URL}
+			<Button class="header__book" variant="outline-dark" href={BOOKING_URL}>
+				{t("header.book")}
+			</Button>
+			<button
+				class="header__burger"
+				type="button"
+				aria-expanded="false"
+				aria-controls="site-menu"
+				aria-label={t("nav.openMenu")}
+				data-open-label={t("nav.openMenu")}
+				data-close-label={t("nav.closeMenu")}
+				data-menu-button
 			>
-				{t("cta.book")}
-			</a>
-			<button class="header__menu" type="button" data-open-menu aria-controls="mobile-menu">
-				<AppIcon name="Menu" />
-				{t("nav.menu")}
+				<span class="header__burger-open">
+					<AppIcon name="Menu" stroke-width={2} />
+				</span>
+				<span class="header__burger-close">
+					<AppIcon name="X" stroke-width={2} />
+				</span>
 			</button>
+		</div>
+	</div>
+
+	<div class="menu" id="site-menu" hidden data-menu>
+		<nav class="menu__nav" aria-label={t("nav.menu")}>
+			{phoneLinks.map((link) => (
+				<a href={pageUrl(lang, link.page)} aria-current={link.page === page ? "page" : undefined}>
+					{link.label}
+				</a>
+			))}
+		</nav>
+		<Button href={BOOKING_URL} large block>
+			{t("header.book")}
+		</Button>
+		<div class="menu__lang" role="group" aria-label={t("nav.language")}>
+			{langs.map((l) => (
+				<a
+					href={pageUrl(l, page)}
+					hreflang={l}
+					lang={l}
+					aria-current={l === lang ? "true" : undefined}
+				>
+					{l.toUpperCase()}
+				</a>
+			))}
 		</div>
 	</div>
 </header>
 
+<script>
+	const button = document.querySelector<HTMLButtonElement>("[data-menu-button]");
+	const menu = document.querySelector<HTMLElement>("[data-menu]");
+	if (button && menu) {
+		const setOpen = (open: boolean, returnFocus = false) => {
+			menu.hidden = !open;
+			button.setAttribute("aria-expanded", String(open));
+			button.setAttribute(
+				"aria-label",
+				(open ? button.dataset.closeLabel : button.dataset.openLabel) ?? "",
+			);
+			if (!open && returnFocus) button.focus();
+		};
+		button.addEventListener("click", () => setOpen(menu.hidden !== false));
+		document.addEventListener("keydown", (event) => {
+			if (event.key === "Escape" && !menu.hidden) setOpen(false, true);
+		});
+		// Links to the same page (language switch, anchors) shouldn't leave the panel open
+		menu.addEventListener("click", (event) => {
+			if ((event.target as HTMLElement).closest("a")) setOpen(false);
+		});
+		matchMedia("(min-width: 900px)").addEventListener("change", (event) => {
+			if (event.matches) setOpen(false);
+		});
+	}
+</script>
+
 <style>
 	.header {
-		position: absolute;
-		inset: 0 0 auto;
-		z-index: 10;
-		color: var(--ink);
-	}
-	.header--over-photo {
-		color: var(--on-dark);
+		position: relative;
+		z-index: 20;
+		background: var(--espresso);
+		color: var(--on-dark-strong);
 	}
 	.header__inner {
+		position: relative;
+		z-index: 2;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: var(--space-6);
-		height: 140px;
+		gap: 24px;
+		height: var(--header-h);
+		max-width: var(--wide-max);
+		margin-inline: auto;
+		padding: 0 16px 0 20px;
 	}
+	/* Logo badge in a tan tab that hangs down from the bar */
 	.header__logo {
-		color: inherit;
+		align-self: flex-start;
+		padding: 8px 10px 10px;
+		border-radius: 0 0 12px 12px;
+		background: var(--tan);
+		color: var(--espresso);
 		line-height: 0;
+		box-shadow: 0 4px 10px rgb(0 0 0 / 0.18);
 	}
-	.header__nav {
-		display: flex;
-		gap: 36px;
+	.header__logo :global(svg) {
+		width: 62px;
+		height: 62px;
 	}
-	.header__nav a,
-	.header__lang a {
-		color: inherit;
-		text-decoration: none;
-		font-weight: 500;
-	}
-	.header__nav a:hover {
-		color: var(--tan);
-	}
-	.header:not(.header--over-photo) .header__nav a:hover {
-		color: var(--tan-deep);
-	}
-	.header__nav a[aria-current] {
-		padding-bottom: 4px;
-		border-bottom: 2px solid var(--tan);
+	.header__nav,
+	.header__lang,
+	.header__end :global(.header__book) {
+		display: none;
 	}
 	.header__end {
 		display: flex;
 		align-items: center;
 		gap: 20px;
 	}
-	.header__lang {
+
+	.header__burger {
 		display: flex;
-		gap: 4px;
-		font-size: var(--text-label);
-		font-weight: 600;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		color: var(--on-dark-strong);
+		cursor: pointer;
 	}
-	.header__lang a {
-		padding: 6px 8px;
-		opacity: 0.8;
+	.header__burger:focus-visible,
+	.header a:focus-visible {
+		outline-color: var(--tan);
 	}
-	.header__lang a[aria-current] {
-		opacity: 1;
-		border-bottom: 1px solid currentColor;
+	.header__burger :global(svg) {
+		width: 26px;
+		height: 26px;
 	}
-	.header__book {
-		min-height: 44px;
-		padding-inline: 18px;
-		font-size: 15px;
-	}
-	.header__menu {
+	.header__burger-close,
+	.header__burger[aria-expanded="true"] .header__burger-open {
 		display: none;
 	}
-	@media (max-width: 900px) {
-		.header__nav,
-		.header__lang {
-			display: none;
-		}
+	.header__burger[aria-expanded="true"] .header__burger-close {
+		display: block;
+	}
+
+	/* Phone menu panel */
+	.menu {
+		position: absolute;
+		inset: 100% 0 auto;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		padding: 32px 24px 28px;
+		background: var(--espresso);
+		border-top: 1px solid var(--line-dark);
+		box-shadow: 0 14px 24px rgb(0 0 0 / 0.25);
+	}
+	.menu[hidden] {
+		display: none;
+	}
+	.menu__nav {
+		display: flex;
+		flex-direction: column;
+	}
+	.menu__nav a {
+		padding: 12px 0;
+		border-bottom: 1px solid var(--line-dark);
+		color: var(--on-dark-strong);
+		font-size: 20px;
+		font-weight: 600;
+		text-decoration: none;
+	}
+	.menu__nav a[aria-current],
+	.menu__nav a:hover {
+		color: var(--tan);
+	}
+	.menu__lang {
+		display: flex;
+		gap: 8px;
+	}
+	.menu__lang a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 52px;
+		height: 44px;
+		border: 1px solid var(--line-dark);
+		border-radius: var(--radius-sm);
+		color: var(--on-dark-strong);
+		font-size: 15px;
+		font-weight: 600;
+		text-decoration: none;
+	}
+	.menu__lang a[aria-current] {
+		border-color: var(--tan);
+		color: var(--tan);
+	}
+	.menu a:focus-visible {
+		outline-color: var(--tan);
+	}
+
+	@media (min-width: 900px) {
 		.header__inner {
-			height: 96px;
+			padding: 0 var(--page-pad);
+		}
+		.header__logo {
+			padding: 10px 12px 12px;
+			border-radius: 0 0 14px 14px;
+			box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
 		}
 		.header__logo :global(svg) {
-			width: 64px;
-			height: 64px;
+			width: 84px;
+			height: 84px;
 		}
-	}
-	@media (max-width: 720px) {
-		.header__book {
-			display: none;
-		}
-		.header__menu {
-			display: inline-flex;
-			align-items: center;
-			gap: var(--space-2);
-			height: 44px;
-			padding: 0 14px;
-			border: 1px solid rgb(247 243 238 / 0.5);
-			border-radius: var(--radius-sm);
-			background: rgb(45 41 38 / 0.55);
-			color: var(--on-dark);
-			font: inherit;
-			font-size: var(--text-small);
+		.header__nav {
+			display: flex;
+			gap: 40px;
+			font-size: 16px;
 			font-weight: 600;
-			cursor: pointer;
 		}
-		.header:not(.header--over-photo) .header__menu {
-			border-color: var(--line-strong);
-			background: transparent;
-			color: var(--ink);
+		.header__nav a {
+			color: var(--on-dark-strong);
+			text-decoration: none;
+		}
+		.header__nav a:hover,
+		.header__nav a[aria-current] {
+			color: var(--tan);
+		}
+		.header__lang {
+			display: flex;
+			gap: 2px;
+			font-size: 14px;
+			font-weight: 600;
+		}
+		.header__lang a {
+			padding: 8px 7px;
+			color: var(--on-dark);
+			text-decoration: none;
+		}
+		.header__lang a:hover {
+			color: var(--tan);
+		}
+		.header__lang a[aria-current] {
+			color: var(--tan);
+			text-decoration: underline;
+			text-underline-offset: 4px;
+		}
+		.header__end :global(.header__book) {
+			display: inline-flex;
+			min-height: 40px;
+			padding: 0 18px;
+		}
+		.header__burger,
+		.menu {
+			display: none;
 		}
 	}
 </style>
