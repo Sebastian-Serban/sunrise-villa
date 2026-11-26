@@ -12,9 +12,9 @@
 		"de": "Doppelbett"
 	},
 	"description": {
-		"ro": "Pentru cupluri sau pentru cei care călătoresc singuri și vor spațiu. Aer condiționat, TV, frigider, birou.",
-		"en": "For couples, or solo travellers who want space. Air conditioning, TV, fridge, desk.",
-		"de": "Für Paare oder Alleinreisende, die Platz möchten. Klimaanlage, TV, Kühlschrank, Schreibtisch."
+		"ro": "Pat matrimonial, aer condiționat, TV, baie privată cu duș. Ideală pentru cupluri sau călători singuri care caută confort și intimitate.",
+		"en": "Double bed, air conditioning, TV, private bathroom with shower. Ideal for couples or solo travellers looking for comfort and privacy.",
+		"de": "Doppelbett, Klimaanlage, TV, eigenes Bad mit Dusche. Ideal für Paare oder Alleinreisende, die Komfort und Privatsphäre suchen."
 	},
 	"intro": {
 		"ro": "Pentru cupluri sau pentru cei care călătoresc singuri și vor spațiu. Pat matrimonial, lumină naturală și liniște după o zi la băi.",
@@ -35,6 +35,14 @@
 	"maxPersons": 2,
 	"extraBed": true,
 	"photos": [
+		{
+			"image": "../../assets/rooms/double-bed.jpg",
+			"alt": {
+				"ro": "Cameră dublă cu pat matrimonial",
+				"en": "Double room with a double bed",
+				"de": "Doppelzimmer mit Doppelbett"
+			}
+		},
 		{
 			"image": "../../assets/rooms/room-double.jpg",
 			"alt": {

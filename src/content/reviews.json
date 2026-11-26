@@ -3,7 +3,6 @@
 		"id": "popoiu-ionel",
 		"order": 1,
 		"author": "Popoiu Ionel",
-		"featured": true,
 		"source": "booking",
 		"text": "O pensiune construită și mobilată cu gust. Nu kitsch. Curățenie exemplară."
 	},
@@ -27,5 +26,17 @@
 		"author": "R. Petru Varga",
 		"source": "booking",
 		"text": "Un loc extraordinar, foarte foarte curat și îngrijit. Proprietarii sunt oameni fantastici, mereu dispuși să ajute."
+	},
+	{
+		"id": "tuzik2010",
+		"order": 5,
+		"author": "tuzik2010",
+		"text": "Locul acesta seamănă cu o vilă la țară, dar se află la doar 7 minute de băile termale."
+	},
+	{
+		"id": "alexandra-madalina-popa",
+		"order": 6,
+		"author": "Alexandra Madalina Popa",
+		"text": "O cazare de nota 20! Camerele mari, frumoase, spațioase, confortabile și foarte curate."
 	}
 ]

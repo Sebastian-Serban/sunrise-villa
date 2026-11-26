@@ -1,0 +1,25 @@
+{
+	"kind": "aquapark",
+	"order": 2,
+	"name": {
+		"ro": "Complex Apollo-Felix",
+		"en": "Apollo-Felix Complex",
+		"de": "Komplex Apollo-Felix"
+	},
+	"summary": {
+		"ro": "Deschis pe tot parcursul anului, Complexul Apollo-Felix este una dintre cele mai îndrăgite destinații din stațiune, cu piscine termale și zone dedicate copiilor.",
+		"en": "Open all year round, the Apollo-Felix Complex is one of the most popular destinations in the resort, with thermal pools and areas for children.",
+		"de": "Das ganze Jahr geöffnet, ist der Komplex Apollo-Felix eines der beliebtesten Ziele im Kurort, mit Thermalbecken und Bereichen für Kinder."
+	},
+	"summaryShort": {
+		"ro": "Deschis tot anul, una dintre cele mai îndrăgite destinații din stațiune.",
+		"en": "Open all year, one of the resort's most popular destinations.",
+		"de": "Ganzjährig geöffnet, eines der beliebtesten Ziele im Kurort."
+	},
+	"image": "../../assets/attractions/apollo.jpg",
+	"imageAlt": {
+		"ro": "Piscină termală exterioară, cu abur",
+		"en": "Outdoor thermal pool with steam",
+		"de": "Dampfendes Thermalbecken im Freien"
+	}
+}

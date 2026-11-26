@@ -1,0 +1,82 @@
+[
+	{
+		"id": "dining",
+		"order": 1,
+		"name": {
+			"ro": "Sala de mese",
+			"en": "Dining room",
+			"de": "Speisesaal"
+		},
+		"text": {
+			"ro": "Savurează micul dejun sau o cafea proaspătă într-un ambient spațios și ordonat.",
+			"en": "Enjoy breakfast or a fresh coffee in a spacious, tidy room.",
+			"de": "Geniessen Sie Frühstück oder einen frischen Kaffee in einem geräumigen, gepflegten Raum."
+		},
+		"image": "../assets/spaces/dining.jpg",
+		"alt": {
+			"ro": "Sala de mese",
+			"en": "The dining room",
+			"de": "Der Speisesaal"
+		}
+	},
+	{
+		"id": "courtyard",
+		"order": 2,
+		"name": {
+			"ro": "Curtea",
+			"en": "The courtyard",
+			"de": "Der Hof"
+		},
+		"text": {
+			"ro": "Evadează din cotidian în zona noastră exterioară, dotată cu o piscină răcoritoare și șezlonguri confortabile, ideală pentru relaxare.",
+			"en": "Escape the everyday in our outdoor area, with a refreshing pool and comfortable loungers, ideal for relaxing.",
+			"de": "Entfliehen Sie dem Alltag in unserem Aussenbereich mit erfrischendem Pool und bequemen Liegen, ideal zum Entspannen."
+		},
+		"image": "../assets/gallery/pool-gazebo.jpg",
+		"alt": {
+			"ro": "Curtea cu piscină",
+			"en": "The courtyard with the pool",
+			"de": "Der Hof mit Pool"
+		}
+	},
+	{
+		"id": "gazebo",
+		"order": 3,
+		"name": {
+			"ro": "Foișorul",
+			"en": "The gazebo",
+			"de": "Der Pavillon"
+		},
+		"text": {
+			"ro": "Foișorul nostru generos, echipat cu grătar și mese spațioase, este inima distracției în serile de vară.",
+			"en": "Our generous gazebo, with a barbecue and spacious tables, is the heart of the fun on summer evenings.",
+			"de": "Unser grosszügiger Pavillon mit Grill und geräumigen Tischen ist das Herz der Sommerabende."
+		},
+		"image": "../assets/spaces/gazebo.jpg",
+		"alt": {
+			"ro": "Foișorul",
+			"en": "The gazebo",
+			"de": "Der Pavillon"
+		}
+	},
+	{
+		"id": "buffet",
+		"order": 4,
+		"name": {
+			"ro": "Bufet",
+			"en": "Buffet",
+			"de": "Buffet"
+		},
+		"text": {
+			"ro": "Un colț special echipat cu espressor, cuptor cu microunde și prăjitor de pâine.",
+			"en": "A dedicated corner with an espresso machine, microwave and toaster.",
+			"de": "Eine eigene Ecke mit Espressomaschine, Mikrowelle und Toaster."
+		},
+		"image": "../assets/gallery/attic-lounge.jpg",
+		"alt": {
+			"ro": "Colțul cu bufet",
+			"en": "The buffet corner",
+			"de": "Die Buffetecke"
+		}
+	}
+]

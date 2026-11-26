@@ -1,0 +1,11 @@
+{
+	"kind": "attraction",
+	"order": 4,
+	"name": {
+		"ro": "Cetatea Oradea",
+		"en": "Oradea Fortress",
+		"de": "Festung Oradea"
+	},
+	"large": false,
+	"image": "../../assets/attractions/cetatea.jpg"
+}

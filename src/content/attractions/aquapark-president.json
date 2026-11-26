@@ -1,15 +1,20 @@
 {
-	"order": 2,
-	"name": "Aquapark President",
-	"distance": {
-		"ro": "4,2 km",
-		"en": "4.2 km",
-		"de": "4,2 km"
+	"kind": "aquapark",
+	"order": 1,
+	"name": {
+		"ro": "Aquapark President",
+		"en": "Aquapark President",
+		"de": "Aquapark President"
 	},
 	"summary": {
-		"ro": "Piscine interioare și exterioare",
-		"en": "Indoor and outdoor pools",
-		"de": "Innen- und Aussenbecken"
+		"ro": "Aflat la doar câteva minute de Sunrise Villa, Aquapark President vă întâmpină cu piscine interioare și exterioare cu apă termală, zone de relaxare și facilități pentru întreaga familie.",
+		"en": "Just a few minutes from Sunrise Villa, Aquapark President welcomes you with indoor and outdoor thermal pools, relaxation areas and facilities for the whole family.",
+		"de": "Nur wenige Minuten von der Sunrise Villa entfernt empfängt Sie der Aquapark President mit Innen- und Aussenbecken mit Thermalwasser, Ruhezonen und Angeboten für die ganze Familie."
+	},
+	"summaryShort": {
+		"ro": "La doar câteva minute de vilă, cu piscine interioare și exterioare.",
+		"en": "A few minutes from the villa, with indoor and outdoor pools.",
+		"de": "Nur wenige Minuten von der Villa, mit Innen- und Aussenbecken."
 	},
 	"image": "../../assets/attractions/president.jpg",
 	"imageAlt": {

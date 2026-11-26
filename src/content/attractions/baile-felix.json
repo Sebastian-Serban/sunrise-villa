@@ -1,0 +1,11 @@
+{
+	"kind": "attraction",
+	"order": 5,
+	"name": {
+		"ro": "Băile Felix",
+		"en": "Băile Felix",
+		"de": "Băile Felix"
+	},
+	"large": false,
+	"image": "../../assets/spaces/pool-aerial.jpg"
+}

@@ -1,0 +1,16 @@
+{
+	"kind": "attraction",
+	"order": 2,
+	"name": {
+		"ro": "Centrul istoric Oradea",
+		"en": "Historic centre of Oradea",
+		"de": "Historisches Zentrum von Oradea"
+	},
+	"caption": {
+		"ro": "Art Nouveau și Pasajul Vulturul Negru.",
+		"en": "Art Nouveau and the Black Eagle Passage.",
+		"de": "Jugendstil und die Schwarzer-Adler-Passage."
+	},
+	"large": true,
+	"image": "../../assets/attractions/oradea.jpg"
+}

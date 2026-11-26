@@ -22,7 +22,7 @@ const rooms = defineCollection({
 			anchor: z.string().regex(/^[a-z]+$/),
 			name: localized,
 			beds: localized,
-			/** Short text for the homepage card. */
+			/** Text of the homepage card. */
 			description: localized,
 			/** Longer text for the rooms page. */
 			intro: localized,
@@ -39,19 +39,44 @@ const rooms = defineCollection({
 		}),
 });
 
-/** Nearby attractions for the "Împrejurimi" section. */
+/**
+ * Things around the villa, shown on the homepage in two places:
+ * - kind "aquapark": the discount cards ("Reduceri la aquaparkuri")
+ * - kind "attraction": the photo tiles ("Relaxare la Felix, aventură în Oradea")
+ */
 const attractions = defineCollection({
 	loader: glob({ pattern: "*.json", base: "./src/content/attractions" }),
 	schema: ({ image }) =>
 		z.object({
+			kind: z.enum(["aquapark", "attraction"]),
 			order: z.number().int(),
-			name: z.string(),
-			/** Shown large, e.g. "4,2 km". Localised because "nearby" is a word. */
-			distance: localized,
-			summary: localized,
+			name: localized,
+			/** Aquapark cards: the text on desktop. */
+			summary: localized.optional(),
+			/** Aquapark cards: the shorter text on phones. */
+			summaryShort: localized.optional(),
+			/** Attraction tiles: the line under the name (only shown on the large tiles). */
+			caption: localized.optional(),
+			/** Attraction tiles: large (tall) tile on desktop. */
+			large: z.boolean().default(false),
+			/** Link to the place. Cards and tiles are plain (not clickable) until it is set. */
 			url: z.url().optional(),
 			image: image(),
-			imageAlt: localized,
+			/** Cards need it; tiles have their name as a visible label, so they leave it empty. */
+			imageAlt: localized.optional(),
+		}),
+});
+
+/** Common spaces on the homepage (Spații comune). */
+const spaces = defineCollection({
+	loader: file("./src/content/spaces.json"),
+	schema: ({ image }) =>
+		z.object({
+			order: z.number().int(),
+			name: localized,
+			text: localized,
+			image: image(),
+			alt: localized,
 		}),
 });
 
@@ -65,9 +90,8 @@ const reviews = defineCollection({
 		order: z.number().int(),
 		author: z.string(),
 		text: z.string(),
-		/** The big quote next to the score. Exactly one review should have it. */
-		featured: z.boolean().default(false),
-		source: z.enum(["booking", "google"]),
+		/** Where it was posted, when known. */
+		source: z.enum(["booking", "google"]).optional(),
 	}),
 });
 
@@ -105,4 +129,4 @@ const legal = defineCollection({
 	}),
 });
 
-export const collections = { rooms, attractions, reviews, faq, gallery, legal };
+export const collections = { rooms, attractions, spaces, reviews, faq, gallery, legal };

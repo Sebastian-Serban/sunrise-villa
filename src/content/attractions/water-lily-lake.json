@@ -1,0 +1,11 @@
+{
+	"kind": "attraction",
+	"order": 3,
+	"name": {
+		"ro": "Lacul cu Nuferi",
+		"en": "Water Lily Lake",
+		"de": "Seerosensee"
+	},
+	"large": false,
+	"image": "../../assets/lake.jpg"
+}
