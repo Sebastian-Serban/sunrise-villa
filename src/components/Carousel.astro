@@ -50,6 +50,8 @@ const style = `--cols-mid:${cols[0]};--cols-wide:${cols[1]};--gap:${gap}px;--ins
 
 <sv-carousel class="carousel" data-mobile={mobile} data-dot-label={dotLabel} style={style}>
 	<div class="carousel__stage">
+		{/* Scrollable regions must be focusable so keyboard users can scroll them (WCAG 2.1.1). */}
+		{/* eslint-disable-next-line astro/jsx-a11y/no-noninteractive-tabindex */}
 		<div class="carousel__viewport" tabindex="0" role="region" aria-label={label} data-viewport>
 			<div class="carousel__track" data-track>
 				<slot />
