@@ -128,20 +128,18 @@ export const ui = {
 		"galleryPage.meta.title": "Galerie foto | Sunrise Villa ★★★ Băile Felix",
 		"galleryPage.meta.description":
 			"Sunrise Villa în imagini: camerele, piscina, grădina cu foișor și vila văzută din dronă.",
-		"galleryPage.title.before": "Vila, de",
-		"galleryPage.title.accent": "aproape.",
-		"galleryPage.lead":
-			"Camerele, grădina, piscina și spațiile comune, așa cum le găsești când ajungi.",
+		// gallery page
+		"galleryPage.title": "Galerie foto",
 		"galleryPage.filter": "Filtrează fotografiile",
 		"galleryPage.cat.toate": "Toate",
 		"galleryPage.cat.camere": "Camere",
-		"galleryPage.cat.gradina": "Grădina și piscina",
+		"galleryPage.cat.gradina": "Grădină",
 		"galleryPage.cat.interior": "Interior",
 		"galleryPage.cat.drona": "Din dronă",
-		"galleryPage.hint":
-			"Apasă pe o fotografie ca s-o vezi mare. Pe tastatură: săgețile stânga și dreapta, Esc pentru închidere.",
-		"galleryPage.open": "Deschide:",
-		"lightbox.label": "Galerie foto",
+		"galleryPage.hint": "Atinge o fotografie pentru a o vedea mare.",
+		"galleryPage.viewer.hint": "Glisează stânga sau dreapta",
+		"galleryPage.viewer.label": "Vizualizare fotografie",
+		"galleryPage.open": "Deschide fotografia:",
 		"lightbox.close": "Închide galeria",
 		"contactPage.meta.title": "Contact | Sunrise Villa ★★★ Băile Felix",
 		"contactPage.meta.description":
@@ -175,11 +173,12 @@ export const ui = {
 		"contact.reception": "Recepție",
 		"contact.reception.value": `Zilnic, ${RECEPTION_HOURS}`,
 		"form.privacyLink": "Confidențialitate",
+		// legal page
 		"privacy.updated": "Ultima actualizare:",
 		"notFound.meta.title": "Pagina nu există | Sunrise Villa",
-		"notFound.title.before": "Pagina asta a plecat",
-		"notFound.title.accent": "la băi.",
-		"notFound.lead": "Linkul e vechi sau a fost scris greșit. Restul site-ului e aici, neschimbat.",
+		// 404
+		"notFound.title": "Pagina nu a fost găsită",
+		"notFound.lead": "Se pare că adresa nu mai există sau a fost mutată.",
 		"notFound.home": "Înapoi acasă",
 		"nav.openMenu": "Deschide meniul",
 		"nav.closeMenu": "Închide meniul",
@@ -326,20 +325,18 @@ export const ui = {
 		"galleryPage.meta.title": "Photo gallery | Sunrise Villa ★★★ Băile Felix",
 		"galleryPage.meta.description":
 			"Sunrise Villa in pictures: the rooms, the pool, the garden with its gazebo and the villa from above.",
-		"galleryPage.title.before": "The villa,",
-		"galleryPage.title.accent": "up close.",
-		"galleryPage.lead":
-			"The rooms, garden, pool and shared spaces, just as you'll find them when you arrive.",
+		// gallery page
+		"galleryPage.title": "Photo gallery",
 		"galleryPage.filter": "Filter photos",
 		"galleryPage.cat.toate": "All",
 		"galleryPage.cat.camere": "Rooms",
-		"galleryPage.cat.gradina": "Garden and pool",
+		"galleryPage.cat.gradina": "Garden",
 		"galleryPage.cat.interior": "Indoors",
 		"galleryPage.cat.drona": "From above",
-		"galleryPage.hint":
-			"Tap a photo to see it large. On a keyboard: left and right arrows, Esc to close.",
-		"galleryPage.open": "Open:",
-		"lightbox.label": "Photo gallery",
+		"galleryPage.hint": "Tap a photo to see it larger.",
+		"galleryPage.viewer.hint": "Swipe left or right",
+		"galleryPage.viewer.label": "Photo viewer",
+		"galleryPage.open": "Open photo:",
 		"lightbox.close": "Close gallery",
 		"contactPage.meta.title": "Contact | Sunrise Villa ★★★ Băile Felix",
 		"contactPage.meta.description":
@@ -373,11 +370,12 @@ export const ui = {
 		"contact.reception": "Reception",
 		"contact.reception.value": `Daily, ${RECEPTION_HOURS}`,
 		"form.privacyLink": "Privacy",
+		// legal page
 		"privacy.updated": "Last updated:",
 		"notFound.meta.title": "Page not found | Sunrise Villa",
-		"notFound.title.before": "This page has gone",
-		"notFound.title.accent": "to the baths.",
-		"notFound.lead": "The link is old or mistyped. The rest of the site is right here.",
+		// 404
+		"notFound.title": "Page not found",
+		"notFound.lead": "It looks like this address no longer exists or has moved.",
 		"notFound.home": "Back home",
 		"nav.openMenu": "Open menu",
 		"nav.closeMenu": "Close menu",
@@ -526,20 +524,18 @@ export const ui = {
 		"galleryPage.meta.title": "Fotogalerie | Sunrise Villa ★★★ Băile Felix",
 		"galleryPage.meta.description":
 			"Sunrise Villa in Bildern: Zimmer, Pool, Garten mit Pavillon und die Villa von oben.",
-		"galleryPage.title.before": "Die Villa,",
-		"galleryPage.title.accent": "aus der Nähe.",
-		"galleryPage.lead":
-			"Zimmer, Garten, Pool und Gemeinschaftsräume, so wie Sie sie bei Ihrer Ankunft vorfinden.",
+		// gallery page
+		"galleryPage.title": "Fotogalerie",
 		"galleryPage.filter": "Fotos filtern",
 		"galleryPage.cat.toate": "Alle",
 		"galleryPage.cat.camere": "Zimmer",
-		"galleryPage.cat.gradina": "Garten und Pool",
+		"galleryPage.cat.gradina": "Garten",
 		"galleryPage.cat.interior": "Innen",
 		"galleryPage.cat.drona": "Von oben",
-		"galleryPage.hint":
-			"Tippen Sie auf ein Foto, um es gross zu sehen. Auf der Tastatur: Pfeiltasten links und rechts, Esc zum Schliessen.",
-		"galleryPage.open": "Öffnen:",
-		"lightbox.label": "Fotogalerie",
+		"galleryPage.hint": "Tippen Sie auf ein Foto, um es gross zu sehen.",
+		"galleryPage.viewer.hint": "Nach links oder rechts wischen",
+		"galleryPage.viewer.label": "Fotoansicht",
+		"galleryPage.open": "Foto öffnen:",
 		"lightbox.close": "Galerie schliessen",
 		"contactPage.meta.title": "Kontakt | Sunrise Villa ★★★ Băile Felix",
 		"contactPage.meta.description":
@@ -573,12 +569,12 @@ export const ui = {
 		"contact.reception": "Rezeption",
 		"contact.reception.value": `Täglich, ${RECEPTION_HOURS}`,
 		"form.privacyLink": "Datenschutz",
+		// legal page
 		"privacy.updated": "Zuletzt aktualisiert:",
 		"notFound.meta.title": "Seite nicht gefunden | Sunrise Villa",
-		"notFound.title.before": "Diese Seite ist",
-		"notFound.title.accent": "baden gegangen.",
-		"notFound.lead":
-			"Der Link ist veraltet oder falsch geschrieben. Der Rest der Website ist unverändert da.",
+		// 404
+		"notFound.title": "Seite nicht gefunden",
+		"notFound.lead": "Diese Adresse existiert nicht mehr oder wurde verschoben.",
 		"notFound.home": "Zur Startseite",
 		"nav.openMenu": "Menü öffnen",
 		"nav.closeMenu": "Menü schliessen",
