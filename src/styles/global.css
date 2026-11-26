@@ -237,31 +237,6 @@ a:hover {
 	color: var(--on-dark-strong);
 }
 
-/*
- * Hand-drawn line. Shown fully drawn by default (no JS, reduced motion).
- * src/scripts/draw-strokes.ts measures each line, sets --len and adds .is-armed,
- * then .is-drawn when it scrolls into view, and .is-done once the animation ends.
- */
-.ink-line {
-	fill: none;
-	stroke-width: 3;
-	stroke-linecap: round;
-	stroke-linejoin: round;
-	vector-effect: non-scaling-stroke;
-}
-.is-armed .ink-line {
-	stroke-dasharray: var(--len);
-	stroke-dashoffset: var(--len);
-}
-/* The transition lives here, not on .is-armed, so hiding the line never animates */
-.is-armed.is-drawn .ink-line {
-	stroke-dashoffset: 0;
-	transition: stroke-dashoffset 900ms var(--ease-draw);
-}
-.is-armed.is-done .ink-line {
-	stroke-dasharray: none;
-	transition: none;
-}
 @media (prefers-reduced-motion: reduce) {
 	html {
 		scroll-behavior: auto;
