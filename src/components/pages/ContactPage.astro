@@ -1,0 +1,204 @@
+---
+/** Contact page: practical notes, how to get here, then the contact block with the form. */
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import AppIcon, { type AppIconName } from "../AppIcon.astro";
+import Footer from "../Footer.astro";
+import Header from "../Header.astro";
+import MobileNav from "../MobileNav.astro";
+import PageHead from "../PageHead.astro";
+import Sweep from "../Sweep.astro";
+import Contact from "../sections/Contact.astro";
+import aerial from "../../assets/spaces/pool-aerial.jpg";
+import { DIRECTIONS_URL, MAPS_URL, getLang, useTranslations } from "../../i18n/ui";
+
+const t = useTranslations(getLang(Astro.currentLocale));
+
+const notes = ["extraBed", "single", "payment"] as const;
+const routes: { icon: AppIconName; key: "car" | "plane" | "resort" }[] = [
+	{ icon: "Car", key: "car" },
+	{ icon: "Plane", key: "plane" },
+	{ icon: "MapPin", key: "resort" },
+];
+---
+
+<Base
+	page="contact"
+	title={t("contactPage.meta.title")}
+	description={t("contactPage.meta.description")}
+>
+	<Header page="contact" overPhoto={false} />
+	<MobileNav page="contact" />
+	<main>
+		<PageHead
+			label={t("nav.contact")}
+			titleBefore={t("contactPage.title.before")}
+			titleAccent={t("contactPage.title.accent")}
+			lead={t("contactPage.lead")}
+		/>
+		<Sweep from="surface" to="sand" shape="rise" line />
+
+		<section class="bg-sand notes">
+			<div class="wrap">
+				<p class="label">{t("contactPage.notes.label")}</p>
+				<h2 class="serif h2">{t("contactPage.notes.title")}</h2>
+				<ul class="notes__list">
+					{notes.map((key) => (
+						<li>
+							<strong class="serif">{t(`contactPage.notes.${key}.title`)}</strong>
+							<span class="muted">{t(`contactPage.notes.${key}.text`)}</span>
+						</li>
+					))}
+				</ul>
+			</div>
+		</section>
+		<Sweep from="sand" to="surface" />
+
+		<section class="reach">
+			<div class="wrap reach__layout">
+				<Image
+					class="reach__img"
+					src={aerial}
+					alt={t("contactPage.reach.alt")}
+					widths={[600, 900, 1200]}
+					sizes="(max-width: 1000px) 100vw, 58vw"
+				/>
+				<div class="reach__text">
+					<div>
+						<p class="label">{t("contactPage.reach.label")}</p>
+						<h2 class="serif h2 reach__title">{t("contactPage.reach.title")}</h2>
+					</div>
+					<ul class="reach__list">
+						{routes.map(({ icon, key }) => (
+							<li>
+								<AppIcon name={icon} />
+								<div>
+									<strong class="serif">{t(`contactPage.reach.${key}.title`)}</strong>
+									<span>{t(`contactPage.reach.${key}.text`)}</span>
+								</div>
+							</li>
+						))}
+					</ul>
+					<div class="reach__actions">
+						<a class="btn btn--primary" href={DIRECTIONS_URL}>
+							{t("footer.map.directions")}
+						</a>
+						<a class="btn btn--ghost" href={MAPS_URL}>
+							Google Maps
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<Contact page="contact" reception />
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.notes {
+		padding-bottom: var(--space-12);
+	}
+	.notes__list {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--space-6);
+		margin: var(--space-12) 0 0;
+		padding: 0;
+		list-style: none;
+	}
+	.notes__list li {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding: var(--space-6);
+		background: var(--surface-raised);
+		font-size: 16px;
+		line-height: 24px;
+	}
+	.notes__list strong {
+		font-size: 24px;
+		line-height: 30px;
+	}
+
+	.reach {
+		padding-top: var(--space-12);
+	}
+	.reach__layout {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		column-gap: var(--gutter);
+		row-gap: 40px;
+		align-items: center;
+	}
+	:global(.reach__img) {
+		grid-column: 1 / span 7;
+		width: 100%;
+		aspect-ratio: 16 / 10;
+		object-fit: cover;
+	}
+	.reach__text {
+		grid-column: 9 / span 4;
+		display: flex;
+		flex-direction: column;
+		gap: 28px;
+	}
+	.reach__title {
+		font-size: 48px;
+	}
+	.reach__list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-6);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.reach__list li {
+		display: flex;
+		gap: var(--space-4);
+		align-items: flex-start;
+	}
+	.reach__list :global(.app-icon) {
+		margin-top: 6px;
+		color: var(--tan-deep);
+	}
+	.reach__list strong {
+		display: block;
+		font-size: 24px;
+		line-height: 30px;
+	}
+	.reach__list span {
+		font-size: 16px;
+		line-height: 24px;
+		color: var(--ink-muted);
+	}
+	.reach__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+	}
+
+	@media (max-width: 1000px) {
+		.reach__layout {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		:global(.reach__img),
+		.reach__text {
+			grid-column: 1 / -1;
+		}
+	}
+	@media (max-width: 720px) {
+		.notes__list {
+			grid-template-columns: 1fr;
+			gap: var(--space-3);
+		}
+		.reach__title {
+			font-size: var(--text-h2);
+		}
+		.reach {
+			padding-block: var(--space-12);
+		}
+	}
+</style>

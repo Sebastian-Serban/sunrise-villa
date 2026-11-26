@@ -1,0 +1,75 @@
+/*
+ * Sunrise Villa design tokens.
+ * Source of truth: the "Sunrise Villa" design system artifact (project/tokens.json).
+ * Keep names identical to the design system so designs and code stay in sync.
+ */
+:root {
+	/* Colour */
+	--surface: #f7f3ee; /* default page background */
+	--surface-raised: #fdfbf8; /* form fields, cards that must lift off surface */
+	--sand: #e8e1d7; /* alternate section background */
+	--espresso: #2d2926; /* dark sections, primary button on light */
+	--espresso-hover: #1f1c1a;
+	--espresso-raised: #3a3531; /* panels inside espresso sections */
+	--ink: #2f2f2d; /* text on light grounds */
+	--ink-muted: #645e59; /* secondary text, 4.9:1 on sand */
+	--tan: #c2926d; /* brand: fills, curves, accents. Never text on light grounds */
+	--tan-hover: #d2a783;
+	--tan-deep: #8b5e3c; /* links and labels on light grounds */
+	--on-dark: #f7f3ee;
+	--on-dark-muted: #b8aea3;
+	--line: #d4c9bc;
+	--line-strong: #8f806d; /* input and ghost button borders */
+	--line-dark: #4a433d; /* hairlines on espresso */
+	--photo-placeholder: #d9cfc2;
+	--success: #4f6b51;
+	--error: #a0522d;
+
+	/* Type */
+	/* Font faces and size-matched fallbacks come from the fonts config in astro.config.mjs */
+	--font-display: var(--font-fraunces);
+	--font-sans: var(--font-instrument-sans);
+
+	--text-display-xl: 96px;
+	--text-display-l: 64px;
+	--text-h2: 60px;
+	--text-h3: 34px;
+	--text-body-l: 19px;
+	--text-body: 17px; /* deliberate for a 30+ audience: never smaller for reading text */
+	--text-small: 15px;
+	--text-label: 14px;
+
+	/* Spacing */
+	--space-1: 4px;
+	--space-2: 8px;
+	--space-3: 12px;
+	--space-4: 16px;
+	--space-6: 24px;
+	--space-8: 32px;
+	--space-12: 48px;
+	--space-16: 64px;
+	--space-24: 96px;
+	--space-32: 128px;
+
+	/* Radius: the system is square */
+	--radius-none: 0;
+	--radius-sm: 2px;
+	--radius-full: 9999px;
+
+	/* Layout */
+	--content-max: 1240px;
+	--gutter: var(--space-8);
+	--page-pad: var(--space-8);
+
+	/* Motion */
+	--ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (max-width: 720px) {
+	:root {
+		--text-display-xl: 50px;
+		--text-h2: 38px;
+		--text-h3: 28px;
+		--page-pad: 20px;
+	}
+}

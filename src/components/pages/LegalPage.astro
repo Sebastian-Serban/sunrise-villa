@@ -1,0 +1,71 @@
+---
+/** A legal text from the `legal` collection in the current language, e.g. the privacy policy. */
+import { getEntry, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Footer from "../Footer.astro";
+import Header from "../Header.astro";
+import MobileNav from "../MobileNav.astro";
+import PageHead from "../PageHead.astro";
+import { getLang, useTranslations } from "../../i18n/ui";
+
+interface Props {
+	/** Page key; also the folder name in src/content/legal/. */
+	page: "privacy";
+}
+
+const { page } = Astro.props;
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const entry = await getEntry("legal", `${page}/${lang}`);
+if (!entry) throw new Error(`Missing legal text: ${page}/${lang}.md`);
+const { Content } = await render(entry);
+---
+
+<Base
+	page={page}
+	title={`${entry.data.title} | Sunrise Villa`}
+	description={entry.data.description}
+>
+	<Header page={page} overPhoto={false} />
+	<MobileNav page={page} />
+	<main class="legal">
+		<PageHead titleBefore={entry.data.title} small>
+			<p class="muted legal__updated">
+				{t("privacy.updated")} {entry.data.updated}
+			</p>
+		</PageHead>
+		<div class="wrap">
+			<div class="legal__body">
+				<Content />
+			</div>
+		</div>
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.legal {
+		padding-bottom: var(--space-24);
+	}
+	.legal__updated {
+		margin: var(--space-3) 0 0;
+	}
+	.legal__body {
+		max-width: 44em;
+	}
+	.legal__body :global(h2) {
+		margin: var(--space-12) 0 var(--space-3);
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: 28px;
+		line-height: 36px;
+	}
+	.legal__body :global(p) {
+		margin: 0 0 14px;
+	}
+	@media (max-width: 720px) {
+		.legal {
+			padding-bottom: var(--space-16);
+		}
+	}
+</style>

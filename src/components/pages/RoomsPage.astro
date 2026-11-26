@@ -1,0 +1,337 @@
+---
+/** Rooms page: every room type with its photos, then what all rooms share. */
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import { pageUrl } from "../../i18n/routes";
+import Base from "../../layouts/Base.astro";
+import AppIcon, { type AppIconName } from "../AppIcon.astro";
+import Footer from "../Footer.astro";
+import Header from "../Header.astro";
+import MobileNav from "../MobileNav.astro";
+import RoomPhotos from "../RoomPhotos.astro";
+import Sweep from "../Sweep.astro";
+import heroImage from "../../assets/rooms/room-double.jpg";
+import { getLang, useTranslations, type UiKey } from "../../i18n/ui";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const rooms = (await getCollection("rooms")).sort((a, b) => a.data.order - b.data.order);
+const contact = pageUrl(lang, "contact");
+
+const amenities: { icon: AppIconName; key: UiKey }[] = [
+	{ icon: "Snowflake", key: "amenity.ac" },
+	{ icon: "Tv", key: "amenity.tv" },
+	{ icon: "Refrigerator", key: "amenity.minibar" },
+	{ icon: "LampDesk", key: "amenity.desk" },
+	{ icon: "ShowerHead", key: "amenity.bath" },
+	{ icon: "Wifi", key: "amenity.wifi" },
+];
+---
+
+<Base page="rooms" title={t("roomsPage.meta.title")} description={t("roomsPage.meta.description")}>
+	<Header page="rooms" />
+	<MobileNav page="rooms" />
+	<main>
+		<section class="rooms-hero">
+			<Image
+				class="rooms-hero__img"
+				src={heroImage}
+				alt=""
+				widths={[800, 1280, 1920]}
+				sizes="100vw"
+				loading="eager"
+				fetchpriority="high"
+			/>
+			<div class="rooms-hero__scrim"></div>
+			<div class="wrap rooms-hero__content">
+				<p class="label rooms-hero__kicker">{t("nav.rooms")}</p>
+				<h1 class="serif h1 rooms-hero__title">
+					{t("roomsPage.title.before")} <em>{t("roomsPage.title.accent")}</em>
+				</h1>
+				<p class="lead rooms-hero__lead">{t("roomsPage.lead")}</p>
+			</div>
+			<div class="rooms-hero__sweep">
+				<Sweep from="transparent" to="surface" line />
+			</div>
+		</section>
+
+		<section class="section rooms-list">
+			<div class="wrap">
+				{rooms.map(({ data }, i) => (
+					<article id={data.anchor} class:list={["room", { "room--flip": i % 2 === 1 }]}>
+						<div class="room__photos">
+							<RoomPhotos photos={data.photos.map((p) => ({ image: p.image, alt: p.alt[lang] }))} />
+						</div>
+						<div class="room__info">
+							<span class="serif room__no">{String(i + 1).padStart(2, "0")}</span>
+							<h2 class="serif h2 room__name">{data.name[lang]}</h2>
+							<ul class="room__chips">
+								<li>
+									<AppIcon name="BedDouble" />
+									{data.beds[lang]}
+								</li>
+								<li>
+									<AppIcon name="Users" />
+									{data.maxPersons} {t("rooms.persons")}
+									{data.extraBed && `, ${t("roomsPage.extraBed")}`}
+								</li>
+								<li>
+									<AppIcon name="Ruler" />
+									{data.sizeM2} m²
+								</li>
+							</ul>
+							<p class="muted room__intro">{data.intro[lang]}</p>
+							<ul class="room__amenities">
+								{amenities.map(({ key }) => (
+									<li>
+										<AppIcon name="Check" />
+										{t(key)}
+									</li>
+								))}
+							</ul>
+							<a class="btn btn--ghost room__ask" href={`${contact}?camera=${data.anchor}#contact`}>
+								{data.ask[lang]}
+								<AppIcon name="ArrowRight" />
+							</a>
+						</div>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<Sweep from="surface" to="tan" shape="rise" line />
+		<section class="section bg-tan all-rooms">
+			<div class="wrap all-rooms__layout">
+				<div class="all-rooms__head">
+					<p class="label">{t("roomsPage.allin.label")}</p>
+					<h2 class="serif h2">{t("roomsPage.allin.title")}</h2>
+				</div>
+				<ul class="all-rooms__list">
+					{amenities.map(({ icon, key }) => (
+						<li>
+							<AppIcon name={icon} size="lg" />
+							<strong class="serif">{t(key)}</strong>
+						</li>
+					))}
+				</ul>
+			</div>
+		</section>
+		<Sweep from="tan" to="espresso" shape="rise" />
+	</main>
+	<Footer />
+</Base>
+
+<style>
+	.rooms-hero {
+		position: relative;
+		min-height: 640px;
+		display: flex;
+		align-items: flex-end;
+		color: var(--on-dark);
+		background: var(--espresso);
+	}
+	.rooms-hero__img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center 60%;
+	}
+	.rooms-hero__scrim {
+		position: absolute;
+		inset: 0;
+		background: rgb(45 41 38 / 0.5);
+	}
+	.rooms-hero__content {
+		position: relative;
+		z-index: 2;
+		width: 100%;
+		padding-top: 160px;
+		padding-bottom: 190px;
+	}
+	.rooms-hero__kicker {
+		color: var(--sand);
+	}
+	.rooms-hero__title {
+		max-width: 820px;
+	}
+	.rooms-hero__lead {
+		margin-top: var(--space-6);
+	}
+	.rooms-hero__sweep {
+		position: absolute;
+		inset: auto 0 -1px;
+		z-index: 1;
+	}
+
+	.rooms-list {
+		padding-top: var(--space-16);
+	}
+	.room {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		column-gap: var(--gutter);
+		row-gap: 40px;
+		align-items: start;
+	}
+	.room + .room {
+		margin-top: 104px;
+		padding-top: 104px;
+		border-top: 1px solid var(--line);
+	}
+	.room__photos {
+		grid-column: 1 / span 7;
+	}
+	.room__info {
+		grid-column: 9 / span 4;
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+		padding-top: var(--space-2);
+	}
+	.room--flip .room__photos {
+		grid-column: 6 / span 7;
+		grid-row: 1;
+	}
+	.room--flip .room__info {
+		grid-column: 1 / span 4;
+		grid-row: 1;
+	}
+	.room__no {
+		font-size: 20px;
+		line-height: 24px;
+		font-style: italic;
+		color: var(--tan-deep);
+	}
+	.room__name {
+		font-size: 52px;
+	}
+	.room__chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.room__chips li {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 8px 12px;
+		background: var(--sand);
+		border-radius: var(--radius-sm);
+		font-size: var(--text-small);
+		line-height: 20px;
+	}
+	.room__intro {
+		margin: 0;
+	}
+	.room__amenities {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 10px 20px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-size: 16px;
+		line-height: 24px;
+	}
+	.room__amenities li {
+		display: flex;
+		gap: 10px;
+		align-items: flex-start;
+	}
+	.room__amenities :global(.app-icon) {
+		width: 18px;
+		height: 18px;
+		margin-top: 3px;
+		color: var(--tan-deep);
+	}
+	.room__ask {
+		align-self: flex-start;
+	}
+
+	.all-rooms {
+		padding-top: var(--space-12);
+	}
+	.all-rooms__layout {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		column-gap: var(--gutter);
+		align-items: start;
+	}
+	.all-rooms__head {
+		grid-column: 1 / span 4;
+	}
+	.all-rooms__list {
+		grid-column: 6 / span 7;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 40px var(--gutter);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.all-rooms__list li {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+	}
+	.all-rooms__list strong {
+		font-size: 24px;
+		line-height: 30px;
+	}
+
+	@media (max-width: 1000px) {
+		.room,
+		.all-rooms__layout {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		.room__photos,
+		.room--flip .room__photos,
+		.room__info,
+		.room--flip .room__info {
+			grid-column: 1 / -1;
+			grid-row: auto;
+		}
+		.all-rooms__head,
+		.all-rooms__list {
+			grid-column: 1 / -1;
+		}
+		.all-rooms__head {
+			margin-bottom: var(--space-12);
+		}
+	}
+	@media (max-width: 720px) {
+		.rooms-hero {
+			min-height: 560px;
+		}
+		.rooms-hero__content {
+			padding-top: 130px;
+			padding-bottom: 120px;
+		}
+		.room + .room {
+			margin-top: var(--space-16);
+			padding-top: var(--space-16);
+		}
+		.room__info {
+			gap: 18px;
+		}
+		.room__name {
+			font-size: var(--text-h2);
+		}
+		.room__amenities {
+			grid-template-columns: 1fr;
+		}
+		.all-rooms__list {
+			grid-template-columns: 1fr 1fr;
+			gap: 28px 20px;
+		}
+		.all-rooms__list strong {
+			font-size: 20px;
+			line-height: 26px;
+		}
+	}
+</style>

@@ -1,0 +1,176 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Home-desktop.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 8400,
+      "title": "Acasă · desktop",
+      "page": "desktop",
+      "expand": "fill"
+    },
+    "Main.dc.html": {
+      "h": 7996,
+      "title": "Acasă · telefon",
+      "w": 390,
+      "x": 0,
+      "y": 0,
+      "page": "telefon"
+    },
+    "Rooms-phone.dc.html": {
+      "x": 470,
+      "y": 0,
+      "w": 390,
+      "h": 5000,
+      "title": "Camere · telefon",
+      "page": "telefon"
+    },
+    "Gallery-phone.dc.html": {
+      "x": 940,
+      "y": 0,
+      "w": 390,
+      "h": 2950,
+      "title": "Galerie · telefon",
+      "page": "telefon"
+    },
+    "Gallery-viewer-phone.dc.html": {
+      "x": 1410,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Galerie, foto deschisă · telefon",
+      "page": "telefon"
+    },
+    "Contact-phone.dc.html": {
+      "x": 1880,
+      "y": 0,
+      "w": 390,
+      "h": 2900,
+      "title": "Contact · telefon",
+      "page": "telefon"
+    },
+    "Privacy-phone.dc.html": {
+      "x": 2350,
+      "y": 0,
+      "w": 390,
+      "h": 3600,
+      "title": "Confidențialitate · telefon",
+      "page": "telefon"
+    },
+    "NotFound-phone.dc.html": {
+      "x": 2820,
+      "y": 0,
+      "w": 390,
+      "h": 1500,
+      "title": "404 · telefon",
+      "page": "telefon"
+    },
+    "Rooms-desktop.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 4800,
+      "title": "Camere · desktop",
+      "page": "desktop",
+      "expand": "fill"
+    },
+    "Gallery-desktop.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 3050,
+      "title": "Galerie · desktop",
+      "page": "desktop",
+      "expand": "fill"
+    },
+    "Gallery-viewer-desktop.dc.html": {
+      "x": 4560,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Galerie, foto deschisă · desktop",
+      "page": "desktop"
+    },
+    "Contact-desktop.dc.html": {
+      "x": 6080,
+      "y": 0,
+      "w": 1440,
+      "h": 3000,
+      "title": "Contact · desktop",
+      "page": "desktop",
+      "expand": "fill"
+    },
+    "Privacy-desktop.dc.html": {
+      "x": 7600,
+      "y": 0,
+      "w": 1440,
+      "h": 2800,
+      "title": "Confidențialitate · desktop",
+      "page": "desktop",
+      "expand": "fill"
+    },
+    "NotFound-desktop.dc.html": {
+      "x": 9120,
+      "y": 0,
+      "w": 1440,
+      "h": 1600,
+      "title": "404 · desktop",
+      "page": "desktop",
+      "expand": "fill"
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-11-25T21:00:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas",
+    "page": "telefon"
+  },
+  "notes": {
+    "n1": {
+      "text": "Port al designului actual. Telefon întâi. Schimbări discrete: contrast, text 17px, camera triplă, facilități 2 coloane, aquaparkuri și recenzii cu swipe, etichete vizibile la atracții, butoane flotante mai mici, harta la click.",
+      "w": 620,
+      "x": 0,
+      "y": -480,
+      "page": "telefon"
+    },
+    "n2": {
+      "x": 0,
+      "y": -480,
+      "w": 900,
+      "page": "desktop",
+      "text": "Desktop refăcut după site-ul actual pe desktop: hero cu textul în stânga, camere și spații comune ca foto + card nisip suprapus în carusel, „Acasă, departe de casă” peste foto, facilități pe fundal deschis, contact și formular pe fundal închis."
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Rooms-phone.dc.html",
+    "Gallery-phone.dc.html",
+    "Gallery-viewer-phone.dc.html",
+    "Contact-phone.dc.html",
+    "Privacy-phone.dc.html",
+    "NotFound-phone.dc.html",
+    "Home-desktop.dc.html",
+    "Rooms-desktop.dc.html",
+    "Gallery-desktop.dc.html",
+    "Gallery-viewer-desktop.dc.html",
+    "Contact-desktop.dc.html",
+    "Privacy-desktop.dc.html",
+    "NotFound-desktop.dc.html"
+  ],
+  "pages": [
+    {
+      "id": "telefon",
+      "name": "Telefon"
+    },
+    {
+      "id": "desktop",
+      "name": "Desktop"
+    }
+  ],
+  "title": "Sunrise Villa · port design actual"
+}

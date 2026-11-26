@@ -1,0 +1,26 @@
+---
+/**
+ * Lucide icon with the design system's two sizes.
+ * Icons are rendered to inline SVG at build time; nothing ships to the browser.
+ */
+import { icons, type LucideProps } from "@lucide/astro";
+
+export type AppIconName = keyof typeof icons;
+type AppIconSize = "md" | "lg";
+
+interface Props extends Omit<LucideProps, "size"> {
+	name: AppIconName;
+	/** md: 20px inline with text. lg: 34px, for feature lists. */
+	size?: AppIconSize;
+}
+
+const sizes = {
+	md: { size: 20, "stroke-width": 1.5 },
+	lg: { size: 34, "stroke-width": 1.25 },
+} as const satisfies Record<AppIconSize, LucideProps>;
+
+const { name, size = "md", class: className, ...rest } = Astro.props;
+const Icon = icons[name];
+---
+
+<Icon {...sizes[size]} class:list={["app-icon", className]} aria-hidden="true" {...rest} />

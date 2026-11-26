@@ -1,0 +1,63 @@
+{
+	"order": 1,
+	"anchor": "dubla",
+	"name": {
+		"ro": "Cameră dublă",
+		"en": "Double room",
+		"de": "Doppelzimmer"
+	},
+	"beds": {
+		"ro": "Pat matrimonial",
+		"en": "Double bed",
+		"de": "Doppelbett"
+	},
+	"description": {
+		"ro": "Pentru cupluri sau pentru cei care călătoresc singuri și vor spațiu. Aer condiționat, TV, frigider, birou.",
+		"en": "For couples, or solo travellers who want space. Air conditioning, TV, fridge, desk.",
+		"de": "Für Paare oder Alleinreisende, die Platz möchten. Klimaanlage, TV, Kühlschrank, Schreibtisch."
+	},
+	"intro": {
+		"ro": "Pentru cupluri sau pentru cei care călătoresc singuri și vor spațiu. Pat matrimonial, lumină naturală și liniște după o zi la băi.",
+		"en": "For couples, or solo travellers who want space. A double bed, natural light and quiet after a day at the baths.",
+		"de": "Für Paare oder Alleinreisende, die Platz möchten. Doppelbett, Tageslicht und Ruhe nach einem Tag in den Bädern."
+	},
+	"ask": {
+		"ro": "Întreabă de camera dublă",
+		"en": "Ask about the double room",
+		"de": "Doppelzimmer anfragen"
+	},
+	"enquiry": {
+		"ro": "Bună ziua, aș dori informații despre camera dublă.",
+		"en": "Hello, I would like information about the double room.",
+		"de": "Guten Tag, ich hätte gerne Informationen zum Doppelzimmer."
+	},
+	"sizeM2": 20,
+	"maxPersons": 2,
+	"extraBed": true,
+	"photos": [
+		{
+			"image": "../../assets/rooms/room-double.jpg",
+			"alt": {
+				"ro": "Cameră dublă cu pat matrimonial și fereastră mare",
+				"en": "Double room with a double bed and a large window",
+				"de": "Doppelzimmer mit Doppelbett und grossem Fenster"
+			}
+		},
+		{
+			"image": "../../assets/rooms/double-attic.jpg",
+			"alt": {
+				"ro": "Cameră dublă la mansardă, cu ferestre în acoperiș",
+				"en": "Attic double room with roof windows",
+				"de": "Doppelzimmer im Dachgeschoss mit Dachfenstern"
+			}
+		},
+		{
+			"image": "../../assets/rooms/double-hall.jpg",
+			"alt": {
+				"ro": "Cameră dublă văzută din hol, cu baia proprie",
+				"en": "Double room seen from the hallway, with its own bathroom",
+				"de": "Doppelzimmer vom Flur aus, mit eigenem Bad"
+			}
+		}
+	]
+}

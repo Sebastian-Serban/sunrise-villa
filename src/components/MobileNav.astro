@@ -1,0 +1,225 @@
+---
+/**
+ * Phone-only navigation: a full-screen menu (native <dialog>, so focus trapping
+ * and Escape come for free) and the sticky contact dock at the bottom.
+ * The menu is opened by the "Meniu" button in Header.astro.
+ */
+import { pageUrl, type Page } from "../i18n/routes";
+import AppIcon from "./AppIcon.astro";
+import Logo from "../assets/logo.svg";
+import {
+	BOOKING_URL,
+	EMAIL,
+	PHONE,
+	PHONE_HREF,
+	WHATSAPP_HREF,
+	getLang,
+	languages,
+	useTranslations,
+	type Lang,
+} from "../i18n/ui";
+
+interface Props {
+	page?: Page;
+}
+
+const { page = "home" } = Astro.props;
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const home = pageUrl(lang, "home");
+const links = [
+	{ href: home, label: t("nav.home") },
+	{ href: pageUrl(lang, "rooms"), label: t("nav.rooms") },
+	{ href: pageUrl(lang, "gallery"), label: t("nav.gallery") },
+	{ href: `${home}#imprejurimi`, label: t("nav.area") },
+	{ href: pageUrl(lang, "contact"), label: t("nav.contact") },
+];
+---
+
+<dialog id="mobile-menu" class="menu bg-espresso" aria-label={t("nav.menu")}>
+	<div class="menu__top">
+		<span class="menu__logo">
+			<Logo width={60} height={60} aria-hidden="true" />
+		</span>
+		<button class="menu__close" type="button" data-close>
+			<AppIcon name="X" />
+			{t("nav.close")}
+		</button>
+	</div>
+	<nav class="menu__links">
+		{links.map((link) => (
+			<a class="serif" href={link.href} data-close>
+				{link.label}
+			</a>
+		))}
+	</nav>
+	<div class="menu__lang" aria-label={t("nav.language")}>
+		{(Object.keys(languages) as Lang[]).map((l) => (
+			<a
+				href={pageUrl(l, page)}
+				hreflang={l}
+				lang={l}
+				aria-current={l === lang ? "true" : undefined}
+			>
+				{l.toUpperCase()}
+			</a>
+		))}
+	</div>
+	<p class="menu__contact">
+		<a href={PHONE_HREF}>{PHONE}</a> · WhatsApp
+		<br />
+		<a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+	</p>
+	<a class="btn btn--tan menu__book" href={BOOKING_URL}>
+		{t("cta.bookOnBooking")}
+	</a>
+</dialog>
+
+<nav class="dock" aria-label={t("nav.contact")}>
+	<a class="dock__ghost" href={PHONE_HREF}>
+		<AppIcon name="Phone" />
+		{t("dock.call")}
+	</a>
+	<a class="dock__ghost" href={WHATSAPP_HREF}>
+		<AppIcon name="MessageCircle" />
+		{t("dock.whatsapp")}
+	</a>
+	<a class="dock__book" href={BOOKING_URL}>
+		{t("cta.book")}
+	</a>
+</nav>
+
+<script>
+	const menu = document.querySelector<HTMLDialogElement>("#mobile-menu");
+	document
+		.querySelectorAll("[data-open-menu]")
+		.forEach((button) => button.addEventListener("click", () => menu?.showModal()));
+	menu
+		?.querySelectorAll("[data-close]")
+		.forEach((el) => el.addEventListener("click", () => menu.close()));
+</script>
+
+<style>
+	.menu {
+		width: 100%;
+		max-width: none;
+		height: 100%;
+		max-height: none;
+		margin: 0;
+		padding: 14px var(--page-pad) 28px;
+		border: 0;
+		flex-direction: column;
+	}
+	.menu[open] {
+		display: flex;
+	}
+	.menu::backdrop {
+		background: var(--espresso);
+	}
+	.menu__top {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.menu__logo {
+		color: var(--tan);
+		line-height: 0;
+	}
+	.menu__close {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		height: 44px;
+		padding: 0 14px;
+		border: 1px solid var(--ink-muted);
+		border-radius: var(--radius-sm);
+		background: none;
+		color: var(--on-dark);
+		font: inherit;
+		font-size: var(--text-small);
+		font-weight: 600;
+		cursor: pointer;
+	}
+	.menu__links {
+		display: flex;
+		flex-direction: column;
+		margin-top: var(--space-6);
+	}
+	.menu__links a {
+		padding: 14px 0;
+		border-bottom: 1px solid var(--line-dark);
+		color: var(--on-dark);
+		text-decoration: none;
+		font-size: 30px;
+		line-height: 36px;
+	}
+	.menu__lang {
+		display: flex;
+		gap: var(--space-2);
+		margin-top: 28px;
+	}
+	.menu__lang a {
+		padding: 8px 12px;
+		border: 1px solid var(--line-dark);
+		border-radius: var(--radius-sm);
+		color: var(--on-dark-muted);
+		text-decoration: none;
+		font-size: var(--text-small);
+		font-weight: 600;
+	}
+	.menu__lang a[aria-current] {
+		background: var(--tan);
+		border-color: var(--tan);
+		color: var(--espresso);
+	}
+	.menu__contact {
+		margin: var(--space-6) 0 28px;
+		font-size: var(--text-small);
+		line-height: 24px;
+		color: var(--on-dark-muted);
+	}
+	.menu__contact a {
+		color: inherit;
+	}
+	.menu__book {
+		width: 100%;
+		min-height: 56px;
+		margin-top: auto;
+	}
+
+	.dock {
+		display: none;
+	}
+	@media (max-width: 720px) {
+		.dock {
+			position: fixed;
+			inset: auto 0 0;
+			z-index: 50;
+			display: grid;
+			grid-template-columns: 1fr 1fr 1.4fr;
+			gap: var(--space-2);
+			padding: 10px 12px calc(12px + env(safe-area-inset-bottom));
+			background: var(--surface);
+			border-top: 1px solid var(--line);
+		}
+		.dock a {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: var(--space-2);
+			height: 50px;
+			border-radius: var(--radius-sm);
+			font-size: var(--text-small);
+			font-weight: 600;
+			text-decoration: none;
+		}
+		.dock__ghost {
+			border: 1px solid var(--line-strong);
+			color: var(--ink);
+		}
+		.dock__book {
+			background: var(--espresso);
+			color: var(--on-dark);
+		}
+	}
+</style>

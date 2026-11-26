@@ -1,0 +1,5 @@
+dist
+.astro
+legacy
+docs
+package-lock.json

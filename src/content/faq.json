@@ -1,0 +1,86 @@
+[
+	{
+		"id": "check-in",
+		"order": 1,
+		"question": {
+			"ro": "La ce oră este check-in-ul?",
+			"en": "What time is check-in?",
+			"de": "Wann ist Check-in?"
+		},
+		"answer": {
+			"ro": "Check-in între 14:00 și 22:00. Te rugăm să ne anunți ora aproximativă a sosirii. Check-out până la 11:00.",
+			"en": "Check-in is between 14:00 and 22:00. Please let us know roughly when you'll arrive. Check-out is by 11:00.",
+			"de": "Check-in zwischen 14:00 und 22:00 Uhr. Bitte teilen Sie uns Ihre ungefähre Ankunftszeit mit. Check-out bis 11:00 Uhr."
+		}
+	},
+	{
+		"id": "payment",
+		"order": 2,
+		"question": {
+			"ro": "Cum se face plata?",
+			"en": "How do I pay?",
+			"de": "Wie bezahle ich?"
+		},
+		"answer": {
+			"ro": "Prin transfer bancar: un avans de 50% confirmă rezervarea, restul se achită până în ziua sosirii. Emitem factură și chitanță. Rezervările făcute pe Booking.com urmează condițiile de acolo.",
+			"en": "By bank transfer: a 50% deposit confirms the booking, the rest is due by the day you arrive. We issue an invoice and a receipt. Bookings made on Booking.com follow Booking.com's terms.",
+			"de": "Per Banküberweisung: Eine Anzahlung von 50 % bestätigt die Buchung, der Rest ist bis zum Anreisetag fällig. Wir stellen Rechnung und Quittung aus. Buchungen über Booking.com richten sich nach deren Bedingungen."
+		}
+	},
+	{
+		"id": "cancellation",
+		"order": 3,
+		"question": {
+			"ro": "Care este politica de anulare?",
+			"en": "What is the cancellation policy?",
+			"de": "Wie sind die Stornobedingungen?"
+		},
+		"answer": {
+			"ro": "Anularea este gratuită cu până la 14 zile înainte de sosire. Între 14 și 7 zile returnăm 50% din avans. Cu mai puțin de 7 zile înainte, avansul nu se mai returnează.",
+			"en": "Cancellation is free up to 14 days before arrival. Between 14 and 7 days before, we refund 50% of the deposit. Less than 7 days before, the deposit is not refunded.",
+			"de": "Bis 14 Tage vor der Anreise ist die Stornierung kostenlos. Zwischen 14 und 7 Tagen erstatten wir 50 % der Anzahlung. Weniger als 7 Tage vorher wird die Anzahlung nicht erstattet."
+		}
+	},
+	{
+		"id": "children",
+		"order": 4,
+		"question": {
+			"ro": "Sunt bineveniți copiii?",
+			"en": "Are children welcome?",
+			"de": "Sind Kinder willkommen?"
+		},
+		"answer": {
+			"ro": "Da, copiii de orice vârstă sunt bineveniți. La cerere avem pat suplimentar și scaun înalt.",
+			"en": "Yes, children of all ages are welcome. An extra bed and a high chair are available on request.",
+			"de": "Ja, Kinder jeden Alters sind willkommen. Zustellbett und Hochstuhl auf Anfrage."
+		}
+	},
+	{
+		"id": "pets",
+		"order": 5,
+		"question": {
+			"ro": "Pot veni cu animalul de companie?",
+			"en": "Can I bring my pet?",
+			"de": "Darf ich mein Haustier mitbringen?"
+		},
+		"answer": {
+			"ro": "Din păcate, nu acceptăm animale de companie.",
+			"en": "Unfortunately, we don't accept pets.",
+			"de": "Leider sind Haustiere nicht erlaubt."
+		}
+	},
+	{
+		"id": "parking",
+		"order": 6,
+		"question": {
+			"ro": "Aveți parcare?",
+			"en": "Is there parking?",
+			"de": "Gibt es Parkplätze?"
+		},
+		"answer": {
+			"ro": "Da, parcare privată gratuită în curtea pensiunii.",
+			"en": "Yes, free private parking in the guesthouse courtyard.",
+			"de": "Ja, kostenlose Privatparkplätze im Hof der Pension."
+		}
+	}
+]

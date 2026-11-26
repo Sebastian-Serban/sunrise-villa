@@ -1,0 +1,168 @@
+---
+/**
+ * Horizontal carousel: native scroll-snap track (swipe works on touch), hidden
+ * scrollbar, prev/next buttons and a position counter. No library.
+ *
+ * Pass <li> elements as children. Slide width is set with --slide-width.
+ */
+import AppIcon from "./AppIcon.astro";
+import { getLang, useTranslations } from "../i18n/ui";
+
+interface Props {
+	/** Visible label shown left of the controls, e.g. "Galerie". */
+	heading: string;
+	/** Number of slides, for the "1 / 6" counter. */
+	count: number;
+}
+
+const { heading, count } = Astro.props;
+const t = useTranslations(getLang(Astro.currentLocale));
+---
+
+<app-carousel class="carousel">
+	<div class="wrap carousel__head">
+		<p class="label carousel__heading">{heading}</p>
+		<div class="carousel__nav">
+			<span class="carousel__count" aria-hidden="true">
+				<span data-position>1</span> / {count}
+			</span>
+			<button
+				class="carousel__btn"
+				type="button"
+				data-prev
+				aria-label={t("carousel.prev")}
+				disabled
+			>
+				<AppIcon name="ChevronLeft" />
+			</button>
+			<button class="carousel__btn" type="button" data-next aria-label={t("carousel.next")}>
+				<AppIcon name="ChevronRight" />
+			</button>
+		</div>
+	</div>
+	<ul class="carousel__track" data-track aria-label={heading}>
+		<slot />
+	</ul>
+</app-carousel>
+
+<script>
+	class AppCarousel extends HTMLElement {
+		connectedCallback() {
+			const track = this.querySelector<HTMLElement>("[data-track]")!;
+			const prev = this.querySelector<HTMLButtonElement>("[data-prev]")!;
+			const next = this.querySelector<HTMLButtonElement>("[data-next]")!;
+			const position = this.querySelector<HTMLElement>("[data-position]")!;
+			const slides = [...track.children] as HTMLElement[];
+			if (slides.length < 2) return;
+
+			// Distance between two slides, so one click moves exactly one photo
+			const step = () => slides[1]!.offsetLeft - slides[0]!.offsetLeft;
+
+			const update = () => {
+				const max = track.scrollWidth - track.clientWidth - 2;
+				const atEnd = track.scrollLeft >= max;
+				const index = Math.round(track.scrollLeft / step());
+				// At the end several slides are visible at once; show the last one as current
+				position.textContent = String(atEnd ? slides.length : Math.min(index + 1, slides.length));
+				prev.disabled = track.scrollLeft <= 2;
+				next.disabled = atEnd;
+			};
+
+			prev.addEventListener("click", () => track.scrollBy({ left: -step() }));
+			next.addEventListener("click", () => track.scrollBy({ left: step() }));
+			track.addEventListener("scroll", () => requestAnimationFrame(update), { passive: true });
+			window.addEventListener("resize", update);
+			update();
+		}
+	}
+	customElements.define("app-carousel", AppCarousel);
+</script>
+
+<style>
+	.carousel {
+		--slide-width: 340px;
+		--slide-gap: var(--space-4);
+		/* Left edge of the content column, so the first slide lines up with the text */
+		--track-inset: max(var(--page-pad), calc((100vw - var(--content-max)) / 2));
+		display: block;
+	}
+	.carousel__head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: var(--space-4);
+		margin-bottom: var(--space-6);
+	}
+	.carousel__heading {
+		margin: 0;
+	}
+	.carousel__nav {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+	.carousel__count {
+		margin-right: var(--space-2);
+		font-size: var(--text-small);
+		line-height: 20px;
+		color: var(--ink-muted);
+		font-variant-numeric: tabular-nums;
+	}
+	.carousel__btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 48px;
+		height: 48px;
+		padding: 0;
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius-sm);
+		background: transparent;
+		color: var(--ink);
+		cursor: pointer;
+	}
+	.carousel__btn:hover:not(:disabled) {
+		background: var(--espresso);
+		border-color: var(--espresso);
+		color: var(--on-dark);
+	}
+	.carousel__btn:disabled {
+		opacity: 0.35;
+		cursor: default;
+	}
+	.carousel__track {
+		display: flex;
+		gap: var(--slide-gap);
+		margin: 0;
+		padding: 0 var(--track-inset);
+		list-style: none;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: var(--track-inset);
+		scroll-behavior: smooth;
+		scrollbar-width: none;
+	}
+	.carousel__track::-webkit-scrollbar {
+		display: none;
+	}
+	.carousel__track > :global(li) {
+		flex: none;
+		width: var(--slide-width);
+		scroll-snap-align: start;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.carousel__track {
+			scroll-behavior: auto;
+		}
+	}
+	@media (max-width: 720px) {
+		.carousel {
+			--slide-width: 280px;
+			--slide-gap: var(--space-3);
+		}
+		.carousel__btn {
+			width: 44px;
+			height: 44px;
+		}
+	}
+</style>
