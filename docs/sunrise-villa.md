@@ -31,7 +31,8 @@ feedback before touching Astro.
 **26 Nov 2026:** no client feedback yet; Sebastian decided to start the Astro port anyway. Homepage
 ported on branch `astro` (phone + desktop, RO/EN/DE) with the shared components the other pages
 reuse (header with phone menu, footer with click-to-load map, floating contact buttons, button,
-carousel, pair card, section head). Remaining pages next.
+carousel, pair card, section head). Later the same day: Rooms, Gallery (+ viewer), Contact, Privacy
+and 404 ported too. The whole site is in the port design on `astro`.
 
 ### Pages (new site)
 
@@ -50,7 +51,7 @@ site → Astro again in the old look.
 | Port design | Canvas | Preview site | Astro |
 |-------------|--------|--------------|-------|
 | Homepage | done | done | done (26 Nov) |
-| Rooms, Gallery (+ viewer), Contact, Privacy, 404 | done | done | todo |
+| Rooms, Gallery (+ viewer), Contact, Privacy, 404 | done | done | done (26 Nov) |
 
 Slugs are translated and defined once in `src/i18n/routes.ts`. EN/DE copy is a draft until reviewed.
 
@@ -389,6 +390,16 @@ Mobile: sticky bottom dock (Sună · WhatsApp · Rezervă), full-screen menu.
 
 ## Subpages
 
+### Port design (current)
+
+- **Camere:** photo banner "Spații de cazare", intro, an "În fiecare cameră" box with the shared amenities, then each room type with three photos, the canvas copy and one "Întreabă de camera …" button (contact form pre-filled via `?camera=dubla|twin|tripla`). Then facilities, CTA over photo, map, footer.
+- **Galerie:** photo banner, filters (Toate, Camere, Grădină, Interior, Din dronă). Phone: two-column grid with tall portrait tiles and every seventh landscape photo across both columns. Desktop: uniform 4:3 grid. All 32 photos. Full-screen viewer (native dialog) with thumbnails, arrows, Esc, swipe on phone, focus kept inside while open.
+- **Contact:** photo banner "Contact & rezervări", dark contact block (phone, WhatsApp, email, reception hours, Booking button), form "Trimite-ne un mesaj" (keeps "Perioada dorită", no country prefix select because `contact.php` has no such field), map, footer. "Bine de știut" and "Cum ajungi" are gone (not in the canvas).
+- **Politica de confidențialitate:** plain single column, texts unchanged from the legal collection.
+- **404:** "404 · Pagina nu a fost găsită" with "Înapoi acasă" and "Vezi camerele"; over a photo on desktop.
+
+### Rejected new design (archived)
+
 - **Camere:** photo hero, then each room type with a 3-photo switcher, chips and amenities, ending in one "Întreabă de camera …" button that opens the contact form with the message pre-filled (`?camera=dubla|twin|tripla`). Tan "În toate camerele" strip, then straight into the footer. No prices, no repeated Call/WhatsApp block (the footer and mobile dock cover that).
 - **Galerie:** masonry grid of 33 photos with filters (Camere, Grădina și piscina, Interior, Din dronă) and a full-screen viewer with thumbnails. No CTA band before the footer. Final version gets the full ~50 photos.
 - **Contact:** "Bine de știut" cards (extra bed, single occupancy, payment and cancellation), "Cum ajungi" with drone photo, then the contact block (with reception hours) + form directly before the footer, like on the homepage.
@@ -463,7 +474,7 @@ Mobile: sticky bottom dock (Sună · WhatsApp · Rezervă), full-screen menu.
 | Images | `astro:assets` (`<Image>`, `getImage`), constrained layout |
 | Fonts | Port design uses the system font stack. The Fraunces/Instrument Sans woff2 files of the rejected design stay in `src/assets/fonts/` but are no longer loaded |
 | Icons | `@lucide/astro` via `AppIcon` |
-| Interactivity | Small custom elements (carousel, phone menu, click-to-load map); no UI framework |
+| Interactivity | Small custom elements (carousel, phone menu, click-to-load map, gallery viewer); no UI framework |
 | Lint/format | ESLint (typescript-eslint, astro, jsx-a11y-x) + Prettier; CI runs lint + build |
 | Hosting | Undecided: ClausWeb (FTP) or Cloudflare Pages. contact.php needs PHP, so ClausWeb unless the form moves. |
 
@@ -509,10 +520,10 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 5. German spelling: site DE copy uses Swiss spelling (ss); most guests are from Germany/Austria where ß is standard. Decide before DE goes live.
 6. Deployment target: ClausWeb vs. Cloudflare Pages
 7. Original photos and video files from the client
-8. Triple room beds: old site says "trei paturi", our data says double + single. Ask the client.
+8. Triple room beds: old site says "trei paturi", our data says double + single. The ported rooms page uses the canvas copy ("trei paturi"). Ask the client.
 9. Parking: old rooms page says "în apropierea pensiunii", homepage says "în incinta pensiunii". Port uses "în incinta" for now.
 10. Which photo is the real "Bufet" photo (port uses a placeholder)
-11. Phone vs old site: gallery uses mixed tile sizes and the phone contact form/section is light, while the old site uses equal tiles and dark. Align if the client notices.
+11. Phone vs old site: gallery uses mixed tile sizes on phone (equal tiles on desktop) and the phone contact form is on a light ground, while the old site uses equal tiles and dark. Implemented as in the canvas; align if the client notices.
 
 ---
 
@@ -527,7 +538,7 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 - [x] Preview site of the port
 - [ ] Share the preview with the client, collect feedback
 - [x] Port the homepage to Astro (started before client feedback, Sebastian's call)
-- [ ] Port Rooms, Gallery, Contact, Privacy, 404 to Astro
+- [x] Port Rooms, Gallery, Contact, Privacy, 404 to Astro
 - [ ] Review EN/DE copy
 - [ ] Structured data (LodgingBusiness) + per-page meta
 - [ ] 301 redirects for old WordPress URLs
@@ -580,3 +591,5 @@ Backups: BackupPly Pro → Google Drive, daily, files + DB.
 | 39 | Small RO/EN/DE switch next to "Rezervare acum" on desktop (not in the canvas) | The site has three languages; desktop needs a way to switch | 2026-11-26 |
 | 40 | Aquapark cards and attraction tiles link to the same pages as the old site | Keep what the client already had; links live in the content files | 2026-11-26 |
 | 41 | No Claude attribution in commits or PRs; commits authored as Sebastian | Claude should not show up as author or contributor in the repo (history rewritten 26 Nov) | 2026-11-26 |
+| 42 | Contact form keeps "Perioada dorită" and has no country prefix select, unlike the canvas | `contact.php` and the privacy text expect the dates field and have no prefix field | 2026-11-26 |
+| 43 | Contact page drops "Bine de știut" and "Cum ajungi" | Not in the port canvas | 2026-11-26 |
